@@ -3,18 +3,18 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Encuesta;
+use App\Models\Cuestionario;
 
-class Encuestas extends Component
+class Cuestionarios extends Component
 {
-    public $encuestas;
-    public $titulo, $descripcion, $version, $encuesta_id;
+    public $cuestionarios;
+    public $titulo, $descripcion, $version, $cuestionario_id;
     public $isModalOpen = 0;
 
     public function render()
     {
-        $this->encuestas = Encuesta::all();
-        return view('livewire.encuestas.inicio');
+        $this->cuestionarios = Cuestionario::all();
+        return view('livewire.cuestionarios.inicio');
     }
 
     public function create()
@@ -44,31 +44,31 @@ class Encuestas extends Component
             'version' => 'required',
         ]);
 
-        Encuesta::updateOrCreate(['id' => $this->encuesta_id], [
+        Cuestionario::updateOrCreate(['id' => $this->cuestionario_id], [
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
             'version' => $this->version,
         ]);
 
-        session()->flash('message', $this->encuesta_id ? 'Encuesta actualizada.' : 'Encuesta creada.');
+        session()->flash('message', $this->cuestionario_id ? 'Cuestionario actualizada.' : 'Cuestionario creada.');
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
 
     public function edit($id)
     {
-        $encuesta = Encuesta::findOrFail($id);
-        $this->encuesta_id = $id;
-        $this->titulo = $encuesta->titulo;
-        $this->descripcion = $encuesta->descripcion;
-        $this->version = $encuesta->version;
+        $cuestionario = Cuestionario::findOrFail($id);
+        $this->cuestionario_id = $id;
+        $this->titulo = $cuestionario->titulo;
+        $this->descripcion = $cuestionario->descripcion;
+        $this->version = $cuestionario->version;
 
         $this->openModalPopover();
     }
 
     public function delete($id)
     {
-        Encuesta::find($id)->delete();
-        session()->flash('message', 'Encuesta borrada.');
+        Cuestionario::find($id)->delete();
+        session()->flash('message', 'Cuestionario borrada.');
     }
 }

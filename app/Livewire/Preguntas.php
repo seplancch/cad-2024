@@ -15,24 +15,24 @@ class Preguntas extends Component
     public $version;
     public $pregunta_id;
     public $isModalOpen = 0;
-    public $encuesta_id;
+    public $cuestionario_id;
     public $rubros;
     public $rubro_id;
 
 
     public function mount(Request $request)
     {
-        $this->encuesta_id = $request->route('id');
+        $this->cuestionario_id = $request->route('id');
     }
 
     public function render()
     {
-        //$this->preguntas = Pregunta::find($this->encuesta_id)->preguntas;
-        //$this->preguntas = Pregunta->encuesta;
-        $this->preguntas = Pregunta::where('encuesta_id', $this->encuesta_id)->get();
+        //$this->preguntas = Pregunta::find($this->cuestionario_id)->preguntas;
+        //$this->preguntas = Pregunta->cuestionario;
+        $this->preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)->get();
         $this->rubros = Rubro::all();
 
-        //$this->encuesta_id = (string) $this->encuesta_id;
+        //$this->cuestionario_id = (string) $this->cuestionario_id;
         return view('livewire.preguntas.inicio');
     }
 
@@ -69,7 +69,7 @@ class Preguntas extends Component
         ]);
 
         Pregunta::updateOrCreate(['id' => $this->pregunta_id], [
-            'encuesta_id' => $this->encuesta_id,
+            'cuestionario_id' => $this->cuestionario_id,
             'rubro_id' => $this->rubro_id,
             'titulo'   => $this->titulo,
             'opcion_1' => $this->opcion_1,
@@ -87,7 +87,7 @@ class Preguntas extends Component
     {
         $pregunta = Pregunta::findOrFail($id);
         $this->pregunta_id = $id;
-        $this->encuesta_id = $pregunta->encuesta_id;
+        $this->cuestionario_id = $pregunta->cuestionario_id;
         $this->rubro_id = $pregunta->rubro_id;
         $this->titulo = $pregunta->titulo;
         $this->opcion_1 = $pregunta->opcion_1;

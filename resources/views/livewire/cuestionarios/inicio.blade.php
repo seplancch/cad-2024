@@ -15,15 +15,15 @@
             <button wire:click="create()"
                 class="my-4 inline-flex justify-center  rounded-md border border-transparent px-4 py-2
                 bg-red-600 text-base font-bold text-white shadow-sm hover:bg-red-700">
-                Crear Encuesta
+                Crear Cuestionario
             </button>
 
             @if($isModalOpen)
-                @include('livewire.encuestas.nueva')
+                @include('livewire.cuestionarios.nueva')
 
             @endif
             <table class="table-auto w-full">
-                <caption>Listado de encuestas</caption>
+                <caption>Listado de cuestionarios</caption>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr class="bg-gray-100">
                         <th class="px-4 py-2 w-20">No.</th>
@@ -34,14 +34,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($encuestas as $index => $encuesta)
+                    @foreach($cuestionarios as $index => $cuestionario)
                         <tr>
-                            <td class="border px-4 py-2">{{ $encuesta->id }}</td>
-                            <td class="border px-4 py-2">{{ $encuesta->titulo }}</td>
-                            <td class="border px-4 py-2">{{ $encuesta->descripcion}}</td>
-                            <td class="border px-4 py-2">{{ $encuesta->version}}</td>
+                            <td class="border px-4 py-2">{{ $cuestionario->id }}</td>
+                            <td class="border px-4 py-2">{{ $cuestionario->titulo }}</td>
+                            <td class="border px-4 py-2">{{ $cuestionario->descripcion}}</td>
+                            <td class="border px-4 py-2">{{ $cuestionario->version}}</td>
                             <td class="border px-4 py-2">
-                                <button wire:click="edit({{ $encuesta->id }})"
+                                <button wire:click="edit({{ $cuestionario->id }})"
                                     class="relative align-right select-none font-sans font-medium text-center uppercase
                                         transition-all disabled:shadow-none disabled:pointer-events-none
                                         disabled:opacity-50 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs
@@ -53,7 +53,7 @@
                                       </svg>
                                     </span>
                                 </button>
-                                <button wire:click="delete({{ $encuesta->id }})"
+                                <button wire:click="delete({{ $cuestionario->id }})"
                                     class="relative align-right select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
                                     <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
@@ -61,7 +61,7 @@
                                       </svg>
                                     </span>
                                 </button>
-                                <a href="{{ route('preguntas', $encuesta->id) }}"
+                                <a href="{{ route('preguntas', $cuestionario->id) }}"
                                 class="relative align-right select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30">
                                     <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">

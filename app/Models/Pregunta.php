@@ -18,7 +18,7 @@ class Pregunta extends Model
         'opcion_5',
         'correct_answer_no',
         'rubro_id',
-        'encuesta_id',
+        'cuestionario_id',
     ];
 
     public function rubro()
@@ -26,8 +26,8 @@ class Pregunta extends Model
         return $this->belongsTo(Rubro::class);
     }
 
-    public function encuesta()
+    public function cuestionario()
     {
-        return $this->belongsTo(Encuesta::class);
+        return $this->belongsTo(Cuestionario::class);
     }
 }
