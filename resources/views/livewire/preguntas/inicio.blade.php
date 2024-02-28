@@ -12,14 +12,14 @@
                 </div>
 
             @endif
-            <button wire:click="create()"
+            <x-button wire:click="create()"
                 class="my-4 inline-flex justify-center  rounded-md border border-transparent px-4 py-2
-                bg-red-600 text-base font-bold text-white shadow-sm hover:bg-red-700">
+               font-bold text-white shadow-sm ">
                 Crear Pregunta
-            </button>
-            {{$encuesta_id}}
+            </x-button>
+
             @if($isModalOpen)
-                @include('livewire.preguntas.nueva', ['encuesta' => $encuesta_id])
+                @include('livewire.preguntas.nueva')
 
             @endif
             <table class="table-auto w-full">

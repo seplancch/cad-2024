@@ -38,22 +38,24 @@ class Preguntas extends Component
 
     public function create()
     {
-        $this->resetCreateForm();
+
         $this->openModalPopover();
     }
 
     public function openModalPopover()
     {
+        $this->resetCreateForm();
         $this->isModalOpen = true;
     }
 
     public function closeModalPopover()
     {
         $this->isModalOpen = false;
+        $this->resetCreateForm();
     }
 
     private function resetCreateForm(){
-        $this->reset();
+        $this->reset('titulo', 'opcion_1', 'opcion_2', 'opcion_3', 'opcion_4', 'opcion_5', 'rubro_id');
     }
 
     public function store()
