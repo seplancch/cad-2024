@@ -1,6 +1,8 @@
 <?php
 
-use App\Livewire\Encuestas;
+use App\Http\Controllers\CuestionarioController;
+use App\Http\Controllers\RubroController;
+use App\Http\Controllers\PreguntaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,18 +29,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/encuestas', function () {
-        return view('encuestas');
-    })->name('encuestas');
+    Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
 
-    Route::get('/rubros', function () {
-        return view('rubros');
-    })->name('rubros');
+    Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
 
-    Route::get('/preguntas/{id}', function ($id) {
-        return view('preguntas', compact('id'));
-    })->name('preguntas');
+    Route::get('/preguntas/{id}', [PreguntaController::class, 'index'])->name('preguntas');
 });
 
 
-//Route::get('encuestas', CrudEncuestas::class);
