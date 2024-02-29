@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('opcion_3')->nullable();
             $table->text('opcion_4')->nullable();
             $table->text('opcion_5')->nullable();
-            $table->tinyInteger('correct_answer_no');
             $table->timestamps();
         });
     }

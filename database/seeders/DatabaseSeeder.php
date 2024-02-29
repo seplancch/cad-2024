@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             Users::class,
             Cuestionario::class,
-            Rubro::class
+            Rubros::class,
+            Preguntas::class,
         ]);
     }
 }
