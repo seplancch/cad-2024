@@ -16,7 +16,6 @@ class Pregunta extends Model
         'opcion_3',
         'opcion_4',
         'opcion_5',
-        'correct_answer_no',
         'rubro_id',
         'cuestionario_id',
     ];

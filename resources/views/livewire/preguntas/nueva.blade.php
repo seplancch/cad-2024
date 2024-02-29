@@ -4,34 +4,50 @@
             <div class="">
                 <div class="mb-4">
                     <x-label for="exampleFormControlInput1">Pregunta</x-label>
-                    <x-textarea type="text"
+                    <x-textarea
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput1" placeholder="Titulo de la pregunta" wire:model="titulo" ></x-textarea>
+                        id="exampleFormControlInput1" placeholder="Titulo de la pregunta" wire:model="titulo" >{{$titulo}}</x-textarea>
                     @error('titulo') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
                     <x-label for="exampleFormControlInput2">Respuesta 1</x-label>
-                    <x-textarea
+                    <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="exampleFormControlInput2" wire:model="opcion_1"
-                        placeholder="Indica la respuesta a la pregunta"></x-textarea>
+                        placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_3') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
                     <x-label for="exampleFormControlInput2">Respuesta 2</x-label>
-                    <x-textarea
+                    <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="exampleFormControlInput2" wire:model="opcion_2"
-                        placeholder="Indica la respuesta a la pregunta"></x-textarea>
+                        placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_2') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
                     <x-label for="exampleFormControlInput2">Respuesta 3</x-label>
-                    <x-textarea
+                    <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="exampleFormControlInput2" wire:model="opcion_3"
-                        placeholder="Indica la respuesta a la pregunta"></x-textarea>
+                        placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_3') <span class="text-red-500">{{ $message }}</span>@enderror
+                </div>
+                <div class="mb-4">
+                    <x-label for="exampleFormControlInput2">Respuesta 4</x-label>
+                    <x-input type="text"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="exampleFormControlInput2" wire:model="opcion_4"
+                        placeholder="Indica la respuesta a la pregunta" />
+                    @error('opcion_4') <span class="text-red-500">{{ $message }}</span>@enderror
+                </div>
+                <div class="mb-4">
+                    <x-label for="exampleFormControlInput2">Respuesta 5</x-label>
+                    <x-input type="text"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="exampleFormControlInput2" wire:model="opcion_5"
+                        placeholder="Indica la respuesta a la pregunta" />
+                    @error('opcion_5') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="mb-4">

@@ -27,12 +27,9 @@ class Preguntas extends Component
 
     public function render()
     {
-        //$this->preguntas = Pregunta::find($this->cuestionario_id)->preguntas;
-        //$this->preguntas = Pregunta->cuestionario;
         $this->preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)->get();
         $this->rubros = Rubro::all();
 
-        //$this->cuestionario_id = (string) $this->cuestionario_id;
         return view('livewire.preguntas.inicio');
     }
 
@@ -44,7 +41,6 @@ class Preguntas extends Component
 
     public function openModalPopover()
     {
-        $this->resetCreateForm();
         $this->isModalOpen = true;
     }
 
@@ -75,7 +71,8 @@ class Preguntas extends Component
             'opcion_1' => $this->opcion_1,
             'opcion_2' => $this->opcion_2,
             'opcion_3' => $this->opcion_3,
-            'correct_answer_no' => '1',
+            'opcion_4' => $this->opcion_4,
+            'opcion_5' => $this->opcion_5,
         ]);
 
         session()->flash('message', $this->pregunta_id ? 'Pregunta actualizada.' : 'Pregunta creada.');
@@ -93,7 +90,8 @@ class Preguntas extends Component
         $this->opcion_1 = $pregunta->opcion_1;
         $this->opcion_2 = $pregunta->opcion_2;
         $this->opcion_3 = $pregunta->opcion_3;
-        $this->correct_answer_no = $pregunta->correct_answer_no;
+        $this->opcion_4 = $pregunta->opcion_4;
+        $this->opcion_5 = $pregunta->opcion_5;
 
         $this->openModalPopover();
     }
