@@ -19,7 +19,7 @@
             </x-button>
 
             @if($isModalOpen)
-                @include('livewire.preguntas.nueva')
+                @include('livewire.preguntas.create')
 
             @endif
             <table class="table-auto w-full">

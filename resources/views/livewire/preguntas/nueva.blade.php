@@ -13,7 +13,7 @@
                     <x-label for="exampleFormControlInput2">Respuesta 1</x-label>
                     <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput2" wire:model="opcion_1"
+                        id="exampleFormControlInput2" wire:model="respuestas.0"
                         placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_3') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
@@ -21,7 +21,7 @@
                     <x-label for="exampleFormControlInput2">Respuesta 2</x-label>
                     <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput2" wire:model="opcion_2"
+                        id="exampleFormControlInput2" wire:model="respuestas.1"
                         placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_2') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
@@ -29,7 +29,7 @@
                     <x-label for="exampleFormControlInput2">Respuesta 3</x-label>
                     <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput2" wire:model="opcion_3"
+                        id="exampleFormControlInput2" wire:model="respuestas.2"
                         placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_3') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
@@ -37,7 +37,7 @@
                     <x-label for="exampleFormControlInput2">Respuesta 4</x-label>
                     <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput2" wire:model="opcion_4"
+                        id="exampleFormControlInput2" wire:model="respuestas.3"
                         placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_4') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
@@ -45,7 +45,7 @@
                     <x-label for="exampleFormControlInput2">Respuesta 5</x-label>
                     <x-input type="text"
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="exampleFormControlInput2" wire:model="opcion_5"
+                        id="exampleFormControlInput2" wire:model="respuestas.4"
                         placeholder="Indica la respuesta a la pregunta" />
                     @error('opcion_5') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>

@@ -11,7 +11,8 @@ class Preguntas extends Component
 {
     public $preguntas;
     public $titulo;
-    public $opcion_1, $opcion_2, $opcion_3, $opcion_4, $opcion_5;
+    //public $opcion_1, $opcion_2, $opcion_3, $opcion_4, $opcion_5;
+    public $respuestas = [];
     public $version;
     public $pregunta_id;
     public $isModalOpen = 0;
@@ -51,30 +52,45 @@ class Preguntas extends Component
     }
 
     private function resetCreateForm(){
-        $this->reset('titulo', 'opcion_1', 'opcion_2', 'opcion_3', 'opcion_4', 'opcion_5', 'rubro_id');
+        $this->reset('titulo', 'respuestas', 'rubro_id');
+    }
+
+    public function agregarRespuesta()
+    {
+        $this->respuestas[] = '';
+    }
+
+    public function eliminarRespuesta($index)
+    {
+        unset($this->respuestas[$index]);
+        $this->respuestas = array_values($this->respuestas); // Reindexar
     }
 
     public function store()
     {
         $this->validate([
             'titulo' => 'required',
-            'opcion_1' => 'required',
-            'opcion_2' => 'required',
-            'opcion_3' => 'required',
             'rubro_id' => 'required',
         ]);
 
-        Pregunta::updateOrCreate(['id' => $this->pregunta_id], [
+        $pregunta = Pregunta::updateOrCreate([
+            'id' => $this->pregunta_id
+        ], [
             'cuestionario_id' => $this->cuestionario_id,
             'rubro_id' => $this->rubro_id,
             'titulo'   => $this->titulo,
-            'opcion_1' => $this->opcion_1,
-            'opcion_2' => $this->opcion_2,
-            'opcion_3' => $this->opcion_3,
-            'opcion_4' => $this->opcion_4,
-            'opcion_5' => $this->opcion_5,
         ]);
 
+        $pregunta->respuestas()->delete();
+
+        foreach ($this->respuestas as $respuesta) {
+            $pregunta->respuestas()->create([
+                'pregunta_id' => $pregunta->id,
+                'respuesta' => $respuesta,
+                'orden' => '1',
+                'puntos' => '1'
+            ]);
+        }
         session()->flash('message', $this->pregunta_id ? 'Pregunta actualizada.' : 'Pregunta creada.');
         $this->closeModalPopover();
         $this->resetCreateForm();
@@ -87,11 +103,8 @@ class Preguntas extends Component
         $this->cuestionario_id = $pregunta->cuestionario_id;
         $this->rubro_id = $pregunta->rubro_id;
         $this->titulo = $pregunta->titulo;
-        $this->opcion_1 = $pregunta->opcion_1;
-        $this->opcion_2 = $pregunta->opcion_2;
-        $this->opcion_3 = $pregunta->opcion_3;
-        $this->opcion_4 = $pregunta->opcion_4;
-        $this->opcion_5 = $pregunta->opcion_5;
+        $this->respuestas = $pregunta->respuestas->pluck('respuesta')->toArray();
+
 
         $this->openModalPopover();
     }
