@@ -11,15 +11,13 @@ class Preguntas extends Component
 {
     public $preguntas;
     public $titulo;
-    //public $opcion_1, $opcion_2, $opcion_3, $opcion_4, $opcion_5;
-    public $respuestas = [];
+    public $respuestas = [''];
     public $version;
     public $pregunta_id;
     public $isModalOpen = 0;
     public $cuestionario_id;
     public $rubros;
     public $rubro_id;
-
 
     public function mount(Request $request)
     {
@@ -51,7 +49,8 @@ class Preguntas extends Component
         $this->resetCreateForm();
     }
 
-    private function resetCreateForm(){
+    private function resetCreateForm()
+    {
         $this->reset('titulo', 'respuestas', 'rubro_id');
     }
 
@@ -63,7 +62,6 @@ class Preguntas extends Component
     public function eliminarRespuesta($index)
     {
         unset($this->respuestas[$index]);
-        $this->respuestas = array_values($this->respuestas); // Reindexar
     }
 
     public function store()
@@ -71,6 +69,7 @@ class Preguntas extends Component
         $this->validate([
             'titulo' => 'required',
             'rubro_id' => 'required',
+            'respuestas.*' => 'required'
         ]);
 
         $pregunta = Pregunta::updateOrCreate([
@@ -91,6 +90,7 @@ class Preguntas extends Component
                 'puntos' => '1'
             ]);
         }
+
         session()->flash('message', $this->pregunta_id ? 'Pregunta actualizada.' : 'Pregunta creada.');
         $this->closeModalPopover();
         $this->resetCreateForm();
