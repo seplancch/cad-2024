@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             Users::class,
             Cuestionario::class,
             Rubros::class,
+            PreguntasSeeder::class,
             //Preguntas::class,
         ]);
     }

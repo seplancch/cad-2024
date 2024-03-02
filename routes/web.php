@@ -35,7 +35,7 @@ Route::middleware([
 
     Route::get('/preguntas/{id}', [PreguntaController::class, 'index'])->name('preguntas');
 
-    Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('preguntas');
+    Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
 });
 
 

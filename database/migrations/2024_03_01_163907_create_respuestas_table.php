@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('respuestas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pregunta_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pregunta_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('respuesta');
             $table->integer('orden');
             $table->integer('puntos');
