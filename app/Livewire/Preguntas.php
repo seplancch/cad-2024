@@ -67,9 +67,19 @@ class Preguntas extends Component
     public function store()
     {
         $this->validate([
-            'titulo' => 'required',
-            'rubro_id' => 'required',
-            'respuestas.*' => 'required'
+            'titulo' => 'required|string|min:6|max:255',
+            'rubro_id' => 'required|numeric',
+            'respuestas.*' => 'required | min:1 | max:255 | string'
+        ], [
+            'titulo.required' => 'El título es requerido.',
+            'titulo.min' => 'El título debe tener al menos 6 caracteres.',
+            'titulo.max' => 'El título no debe tener más de 255 caracteres.',
+            'rubro_id.required' => 'El rubro es requerido.',
+            'rubro_id.numeric' => 'El rubro debe ser un número.',
+            'respuestas.*.required' => 'La respuesta es requerida.',
+            'respuestas.*.min' => 'La respuesta debe tener al menos 1 caracter.',
+            'respuestas.*.max' => 'La respuesta no debe tener más de 255 caracteres.',
+            'respuestas.*.string' => 'La respuesta debe ser un texto.'
         ]);
 
         $pregunta = Pregunta::updateOrCreate([
