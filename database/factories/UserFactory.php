@@ -28,6 +28,10 @@ class UserFactory extends Factory
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
+            'fnacimiento' => fake()->randomNumber(8, true),
+            'plantel' => fake()->randomNumber(4, true),
+            'semestre' => fake()->randomDigit(),
+            'sexo' => fake()->numberBetween(1, 2),
             'profile_photo_path' => null,
             'current_team_id' => null,
         ];

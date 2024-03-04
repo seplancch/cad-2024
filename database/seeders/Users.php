@@ -13,9 +13,14 @@ class Users extends Seeder
     public function run(): void
     {
         \App\Models\User::factory()->create([
+            'numero_cuenta' => '151788',
             'name' => 'Jonathan Bailon',
-            'email' => 'jonn59@gmail.com',
-            'password' => bcrypt('000000')
+            'email' => 'jonathan.bailon@cch.unam.mx',
+            'password' => bcrypt('000000'),
+            'fnacimiento' => '19991212',
+            'plantel' => 5,
+            'semestre' => 6,
+            'sexo' => 1,
         ]);
     }
 }
