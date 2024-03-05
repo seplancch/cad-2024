@@ -3,6 +3,7 @@
 use App\Http\Controllers\CuestionarioController;
 use App\Http\Controllers\RubroController;
 use App\Http\Controllers\PreguntaController;
+use App\Http\Controllers\PeriodoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,8 @@ Route::middleware([
     Route::get('/preguntas/{id}', [PreguntaController::class, 'index'])->name('preguntas');
 
     Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
+
+    Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
 });
 
 

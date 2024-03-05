@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('clave');
             $table->string('nombre');
             $table->timestamps();
+            $table->unique(['clave']);
         });
     }
 

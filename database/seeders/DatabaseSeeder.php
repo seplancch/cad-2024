@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             Cuestionario::class,
             Rubros::class,
             PreguntasSeeder::class,
+            PlantelSeeder::class,
             //Preguntas::class,
         ]);
     }

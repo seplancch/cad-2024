@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('periodos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cuestionario_id')->constrained('cuestionarios');
             $table->string('clave', 6)->unique();
-            $table->text('description');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }
