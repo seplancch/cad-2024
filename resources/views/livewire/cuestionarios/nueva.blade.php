@@ -1,4 +1,5 @@
 <form wire:submit.prevent="store()">
+    @csrf
     <x-dialog-modal>
         <x-slot name="title">
             Crear nuevo cuestionario
