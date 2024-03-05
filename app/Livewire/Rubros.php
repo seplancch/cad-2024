@@ -3,12 +3,21 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 use App\Models\Rubro;
 
 class Rubros extends Component
 {
     public $rubros;
-    public $titulo, $descripcion, $version, $rubro_id;
+
+    #[Validate('required|min:3|max:255')]
+    public $titulo;
+
+    #[Validate('required|min:3')]
+    public $descripcion;
+
+    public $version;
+    public $rubro_id;
     public $isModalOpen = 0;
 
     public function render()
@@ -39,10 +48,7 @@ class Rubros extends Component
 
     public function store()
     {
-        $this->validate([
-            'titulo' => 'required',
-            'descripcion' => 'required',
-        ]);
+        $this->validate();
 
         Rubro::updateOrCreate(['id' => $this->rubro_id], [
             'titulo' => $this->titulo,

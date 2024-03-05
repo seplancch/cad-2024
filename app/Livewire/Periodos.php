@@ -4,26 +4,29 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use App\Models\Periodo;
 use App\Models\Cuestionario;
 
-class Cuestionarios extends Component
+class Periodos extends Component
 {
+    public $periodos;
+    public $cuestionarios;
 
-    #[Validate('required|min:3|maax:255')]
-    public $titulo;
+    #[Validate('required|exists:cuestionarios,id', as: 'cuestionario')]
+    public $cuestionario_id;
 
     #[Validate('required|min:3')]
-    public $version;
+    public $clave;
 
-    public $cuestionarios;
     public $descripcion;
-    public $cuestionario_id;
+    public $periodo_id;
     public $isModalOpen = 0;
 
     public function render()
     {
+        $this->periodos = Periodo::all();
         $this->cuestionarios = Cuestionario::all();
-        return view('livewire.cuestionarios.inicio');
+        return view('livewire.periodos.inicio');
     }
 
     public function create()
@@ -50,31 +53,30 @@ class Cuestionarios extends Component
     {
         $this->validate();
 
-        Cuestionario::updateOrCreate(['id' => $this->cuestionario_id], [
-            'titulo' => $this->titulo,
+        Periodo::updateOrCreate(['id' => $this->periodo_id], [
+            'cuestionario_id' => $this->cuestionario_id, // 'cuestionario_id' => 'required|exists:cuestionarios,id
+            'clave' => $this->clave,
             'descripcion' => $this->descripcion,
-            'version' => $this->version,
         ]);
 
-        session()->flash('message', $this->cuestionario_id ? 'Cuestionario actualizada.' : 'Cuestionario creada.');
+        session()->flash('message', $this->periodo_id ? 'Periodo actualizada.' : 'Periodo creada.');
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
 
     public function edit($id)
     {
-        $cuestionario = Cuestionario::findOrFail($id);
-        $this->cuestionario_id = $id;
-        $this->titulo = $cuestionario->titulo;
-        $this->descripcion = $cuestionario->descripcion;
-        $this->version = $cuestionario->version;
+        $periodo = Periodo::findOrFail($id);
+        $this->cuestionario_id = $periodo->cuestionario_id;
+        $this->clave = $periodo->clave;
+        $this->descripcion = $periodo->descripcion;
 
         $this->openModalPopover();
     }
 
     public function delete($id)
     {
-        Cuestionario::find($id)->delete();
-        session()->flash('message', 'Cuestionario borrada.');
+        Periodo::find($id)->delete();
+        session()->flash('message', 'Periodo borrada.');
     }
 }

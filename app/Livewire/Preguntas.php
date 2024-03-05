@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 use Illuminate\Http\Request;
 use App\Models\Pregunta;
 use App\Models\Rubro;
@@ -10,14 +11,29 @@ use App\Models\Rubro;
 class Preguntas extends Component
 {
     public $preguntas;
+
+    #[Validate('required|min:3')]
     public $titulo;
+
+    #[Validate('required|exists:rubros,id', as: 'rubro')]
+    public $rubro_id;
+
+    #[Validate([
+        'respuestas' => 'required',
+        'respuestas.*' => 'required|min:5',
+    ], message: [
+        'respuestas.required' => 'Falta la :attribute .',
+    ], attribute: [
+        'respuestas.*' => 'respuesta',
+    ])]
     public $respuestas = [''];
+
     public $version;
     public $pregunta_id;
     public $isModalOpen = 0;
     public $cuestionario_id;
     public $rubros;
-    public $rubro_id;
+
 
     public function mount(Request $request)
     {
@@ -66,21 +82,7 @@ class Preguntas extends Component
 
     public function store()
     {
-        $this->validate([
-            'titulo' => 'required|string|min:6|max:255',
-            'rubro_id' => 'required|numeric',
-            'respuestas.*' => 'required | min:1 | max:255 | string'
-        ], [
-            'titulo.required' => 'El título es requerido.',
-            'titulo.min' => 'El título debe tener al menos 6 caracteres.',
-            'titulo.max' => 'El título no debe tener más de 255 caracteres.',
-            'rubro_id.required' => 'El rubro es requerido.',
-            'rubro_id.numeric' => 'El rubro debe ser un número.',
-            'respuestas.*.required' => 'La respuesta es requerida.',
-            'respuestas.*.min' => 'La respuesta debe tener al menos 1 caracter.',
-            'respuestas.*.max' => 'La respuesta no debe tener más de 255 caracteres.',
-            'respuestas.*.string' => 'La respuesta debe ser un texto.'
-        ]);
+        $this->validate();
 
         $pregunta = Pregunta::updateOrCreate([
             'id' => $this->pregunta_id
