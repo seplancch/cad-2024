@@ -42,7 +42,7 @@ class Preguntas extends Component
 
     public function render()
     {
-        $this->preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)->get();
+        $this->preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)->paginate(10);
         $this->rubros = Rubro::all();
 
         return view('livewire.preguntas.inicio');

@@ -21,23 +21,23 @@
         @include('livewire.preguntas.nueva')
 
     @endif
-    <table class="table-auto w-full">
+    <table class="table-auto w-full divide-gray-200">
         <caption>Listado de preguntas </caption>
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="bg-gray-100">
-                <th class="px-4 py-2 w-10">No.</th>
-                <th class="px-4 py-2">Pregunta</th>
-                <th class="px-4 py-2">rubro</th>
-                <th class="px-4 py-2">Acciones</th>
+                <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">No.</th>
+                <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Pregunta</th>
+                <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">rubro</th>
+                <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Acciones</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
             @foreach($preguntas as $index => $pregunta)
                 <tr>
-                    <td class="border px-4 py-2">{{ $pregunta->id }}</td>
-                    <td class="border px-4 py-2">{{ $pregunta->titulo }}</td>
-                    <td class="border px-4 py-2">{{ $pregunta->rubro->titulo}}</td>
-                    <td class="border px-4 py-2">
+                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->id }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->titulo }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->rubro->titulo}}</td>
+                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         <button wire:click="edit({{ $pregunta->id }})"
                             class="relative align-middle select-none font-sans font-medium text-center uppercase
                                 transition-all disabled:shadow-none disabled:pointer-events-none
@@ -63,4 +63,17 @@
             @endforeach
         </tbody>
     </table>
+    <div class="py-4 px-3">
+        <div class="flex">
+            <div class="flex space-x-4 items-center mb-3">
+                <label for="">Por Pagina</label>
+                <select name="" id="">
+                    <option value="">10</option>
+                    <option value="">20</option>
+                    <option value="">50</option>
+                </select>
+            </div>
+            {{ $preguntas->links() }}
+        </div>
+    </div>
 </div>

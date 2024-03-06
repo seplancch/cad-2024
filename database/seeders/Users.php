@@ -22,5 +22,7 @@ class Users extends Seeder
             'semestre' => 6,
             'sexo' => 1,
         ]);
+
+        \App\Models\User::factory(1000)->create();
     }
 }
