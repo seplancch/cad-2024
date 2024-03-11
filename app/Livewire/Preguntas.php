@@ -4,13 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
-use Illuminate\Http\Request;
 use App\Models\Pregunta;
 use App\Models\Rubro;
+use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class Preguntas extends Component
 {
-    public $preguntas;
+    use WithPagination;
 
     #[Validate('required|min:3')]
     public $titulo;
@@ -31,29 +32,30 @@ class Preguntas extends Component
     public $version;
     public $pregunta_id;
     public $isModalOpen = 0;
-    public $cuestionario_id;
+    public $cuestionario_id = 0;
     public $rubros;
+    public $numpreguntas = 10;
 
 
-    public function mount(Request $request)
+    public function mount()
     {
-        $this->cuestionario_id = $request->route('id');
+        $this->rubros = Rubro::all();
     }
 
-    public function render()
+    #[On('cuestionario_id')]
+    public function obtieneCuestionario($idcuestionario)
     {
-        $this->preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)->paginate(10);
-        $this->rubros = Rubro::all();
-
-        return view('livewire.preguntas.inicio');
+        $this->cuestionario_id = $idcuestionario;
     }
 
     public function create()
     {
-
         $this->openModalPopover();
     }
 
+    public function numeroPaginas($numero){
+        $this->numpreguntas = $numero;
+    }
     public function openModalPopover()
     {
         $this->isModalOpen = true;
@@ -67,7 +69,7 @@ class Preguntas extends Component
 
     private function resetCreateForm()
     {
-        $this->reset('titulo', 'respuestas', 'rubro_id');
+        $this->reset('titulo', 'respuestas', 'rubro_id', 'pregunta_id');
     }
 
     public function agregarRespuesta()
@@ -125,5 +127,13 @@ class Preguntas extends Component
     {
         Pregunta::find($id)->delete();
         session()->flash('message', 'Pregunta borrada.');
+    }
+
+
+    public function render()
+    {
+        return view('livewire.preguntas.inicio', [
+            'preguntas' => Pregunta::where('cuestionario_id', $this->cuestionario_id)->paginate($this->numpreguntas),
+        ]);
     }
 }

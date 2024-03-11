@@ -34,7 +34,7 @@ Route::middleware([
 
     Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
 
-    Route::get('/preguntas/{id}', [PreguntaController::class, 'index'])->name('preguntas');
+    Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
 
     Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
 
