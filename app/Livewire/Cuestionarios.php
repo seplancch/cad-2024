@@ -77,4 +77,8 @@ class Cuestionarios extends Component
         Cuestionario::find($id)->delete();
         session()->flash('message', 'Cuestionario borrada.');
     }
+
+    public function view($id){
+        redirect()->to('/cuestionarios/'.$id);
+    }
 }

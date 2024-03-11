@@ -21,23 +21,23 @@
         @include('livewire.rubros.nueva')
 
     @endif
-    <table class="table-auto w-full">
+    <table class="table-auto w-full divide-gray-200">
         <caption>Listado de rubros</caption>
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr class="bg-gray-100">
-                <th class="px-4 py-2 w-20">No.</th>
-                <th class="px-4 py-2">Titulo</th>
-                <th class="px-4 py-2">Descripción</th>
-                <th class="px-4 py-2">Acciones</th>
+        <thead class="text-xs text-gray-800  bg-gray-200 dark:bg-gray-700 dark:text-gray-500">
+            <tr>
+                <th class="py-3 px-4 text-left rtl:text-right">No.</th>
+                <th class="py-3 px-4 text-left rtl:text-right">Titulo</th>
+                <th class="py-3 px-4 text-left rtl:text-right">Descripción</th>
+                <th class="py-3 px-4 text-left rtl:text-right">Acciones</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
             @foreach($rubros as $index => $rubro)
                 <tr>
-                    <td class="border px-4 py-2">{{ $rubro->id }}</td>
-                    <td class="border px-4 py-2">{{ $rubro->titulo }}</td>
-                    <td class="border px-4 py-2">{{ $rubro->descripcion}}</td>
-                    <td class="border px-4 py-2">
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $rubro->id }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $rubro->titulo }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $rubro->descripcion}}</td>
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
                         <button wire:click="edit({{ $rubro->id }})"
                             class="relative align-middle select-none font-sans font-medium text-center uppercase
                                 transition-all disabled:shadow-none disabled:pointer-events-none

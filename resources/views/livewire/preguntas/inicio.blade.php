@@ -23,23 +23,23 @@
             @include('livewire.preguntas.nueva')
 
         @endif
-        <table class="table-auto w-full divide-gray-200">
+        <table class="table-auto w-full">
             <caption>Listado de preguntas </caption>
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr class="bg-gray-100">
-                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">No.</th>
-                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Pregunta</th>
-                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">rubro</th>
-                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Acciones</th>
+            <thead class="text-xs text-gray-800  bg-gray-200 dark:bg-gray-700 dark:text-gray-500">
+                <tr class="">
+                    <th class="py-3 px-4 text-left rtl:text-right">No.</th>
+                    <th class="py-3 px-4 text-left rtl:text-right">Pregunta</th>
+                    <th class="py-3 px-4 text-left rtl:text-right">rubro</th>
+                    <th class="py-3 px-4 text-left rtl:text-right">Acciones</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($preguntas as $index => $pregunta)
                     <tr>
-                        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->id }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->titulo }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{{ $pregunta->rubro->titulo}}</td>
-                        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $pregunta->id }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $pregunta->titulo }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $pregunta->rubro->titulo}}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 whitespace-nowrap">
                             <button wire:key="p-{{ $pregunta->id }}" wire:click="edit({{ $pregunta->id }})"
                                 class="relative align-middle select-none font-sans font-medium text-center uppercase
                                     transition-all disabled:shadow-none disabled:pointer-events-none
