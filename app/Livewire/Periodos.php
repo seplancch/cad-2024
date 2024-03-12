@@ -59,7 +59,7 @@ class Periodos extends Component
             'descripcion' => $this->descripcion,
         ]);
 
-        session()->flash('message', $this->periodo_id ? 'Periodo actualizada.' : 'Periodo creada.');
+        session()->flash('message', $this->periodo_id ? 'Periodo actualizado.' : 'Periodo creado.');
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
@@ -77,6 +77,6 @@ class Periodos extends Component
     public function delete($id)
     {
         Periodo::find($id)->delete();
-        session()->flash('message', 'Periodo borrada.');
+        session()->flash('message', 'Periodo borrado.');
     }
 }
