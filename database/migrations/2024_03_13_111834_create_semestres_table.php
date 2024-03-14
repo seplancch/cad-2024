@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cuestionarios', function (Blueprint $table) {
+        Schema::create('semestres', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('descripcion')->nullable();
-            $table->string('version');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('periodo_id')->constrained('periodos');
+            $table->unsignedTinyInteger('numero_semestre');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cuestionarios');
+        Schema::dropIfExists('semestres');
     }
 };
