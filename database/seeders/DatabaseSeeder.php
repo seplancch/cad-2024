@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PlantelSeeder::class,
             //Preguntas::class,
             PeriodoSeeder::class,
+            AsignaturaSeeder::class,
         ]);
     }
 }

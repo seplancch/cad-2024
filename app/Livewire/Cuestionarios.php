@@ -9,7 +9,7 @@ use App\Models\Cuestionario;
 class Cuestionarios extends Component
 {
 
-    #[Validate('required|min:3|maax:255')]
+    #[Validate('required|min:3|max:255')]
     public $titulo;
 
     #[Validate('required|min:3')]

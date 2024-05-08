@@ -17,15 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('asignatura_id')->unsigned();
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
-
-            $table->string('grupo', 5);
-            $table->string('seccion', 5);
-
-            $table->unsignedBigInteger('plantel_id')->unsigned();
-            $table->foreign('plantel_id')->references('id')->on('planteles');
-
             $table->unsignedSmallInteger('activa');
             $table->unsignedSmallInteger('autoinscripcion');
 
