@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PreguntasSeeder::class,
             PlantelSeeder::class,
             //Preguntas::class,
+            PeriodoSeeder::class,
         ]);
     }
 }
