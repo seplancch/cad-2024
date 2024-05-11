@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('numero_cuenta')->unique();
-            $table->string('fnacimiento', 100);
+            $table->string('fecha_nacimiento', 100);
             $table->foreignId('plantel_id')->constrained('planteles');
             $table->enum('sexo', ['M', 'F']);
             $table->timestamps();

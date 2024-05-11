@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
+            //$table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('alumno_id')->constrained();
+            $table->foreignId('grupo_id')->constrained('grupos');
             $table->unsignedSmallInteger('activa');
+            $table->unsignedSmallInteger('estado')->default('0');
             $table->unsignedSmallInteger('autoinscripcion');
 
             $table->timestamps();

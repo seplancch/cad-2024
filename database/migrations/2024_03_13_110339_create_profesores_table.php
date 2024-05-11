@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('paterno', 255);
             $table->string('materno', 255);*/
             $table->foreignId('plantel_id')->constrained('planteles');
-            $table->foreignId('asignatura_id')->constrained('asignaturas');
+            //$table->foreignId('asignatura_id')->constrained('asignaturas');
             $table->enum('turno', ['M', 'V']);
             $table->date('fecha_nacimiento');
             $table->unsignedSmallInteger('antiguedad');

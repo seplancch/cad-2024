@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
             //Preguntas::class,
             PeriodoSeeder::class,
             AsignaturaSeeder::class,
+            ProfesorSeeder::class,
+            GrupoSeeder::class,
+            AlumnoSeeder::class,
+            InscripcionSeeder::class,
         ]);
     }
 }
