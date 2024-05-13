@@ -30,14 +30,6 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    /*Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');*/
-
-    /*Route::get('/dashboard', function () {
-        return view('panel');
-    })->name('dashboard');*/
-
     Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/report', [PanelController::class, 'report'])->name('dashboard.report');
     Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
