@@ -21,4 +21,14 @@ class Periodo extends Model
     {
         return $this->belongsTo(Cuestionario::class);
     }
+
+    public function grupo()
+    {
+        return $this->hasMany(Grupo::class);
+    }
+
+    public function semestre()
+    {
+        return $this->hasMany(Semestre::class);
+    }
 }

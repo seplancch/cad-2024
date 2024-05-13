@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CsvImportController;
 use App\Http\Controllers\CuestionarioController;
 use App\Http\Controllers\PanelController;
 use App\Http\Controllers\RubroController;
@@ -42,6 +43,9 @@ Route::middleware([
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
+
+    Route::get('/import', [CsvImportController::class, 'index']);
+    Route::post('/importar', [CsvImportController::class, 'import'])->name('importar');
 });
 
 

@@ -11,6 +11,20 @@ class Profesor extends Model
 
     protected $table = 'profesores';
 
+    protected $fillable = [
+        'numero_trabajador',
+        'rfc',
+        'plantel_id',
+        'turno',
+        'fecha_nacimiento',
+        'antiguedad',
+        'sexo'
+    ];
+
+    protected $casts = [
+        'fecha_nacimiento' => 'date:Y/m/d', // Define format for parsing
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

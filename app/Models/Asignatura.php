@@ -14,4 +14,9 @@ class Asignatura extends Model
     {
         return $this->hasMany(Grupo::class);
     }
+
+    public static function getIdAsignatura($clave)
+    {
+        return Asignatura::where('clave', $clave)->first()->id;
+    }
 }

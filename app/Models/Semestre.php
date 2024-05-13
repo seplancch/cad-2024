@@ -13,4 +13,9 @@ class Semestre extends Model
     {
         return $this->belongsTo(Alumno::class);
     }
+
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class);
+    }
 }

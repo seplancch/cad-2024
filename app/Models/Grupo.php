@@ -9,6 +9,15 @@ class Grupo extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nombre',
+        'seccion',
+        'asignatura_id',
+        'profesor_id',
+        'plantel_id',
+        'periodo_id',
+    ];
+
     public function inscripcion()
     {
         return $this->hasMany(Inscripcion::class);
@@ -23,5 +32,16 @@ class Grupo extends Model
     {
         return $this->belongsTo(Asignatura::class);
     }
+
+    public function plantel()
+    {
+        return $this->belongsTo(Plantel::class);
+    }
+
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class);
+    }
+
 }
 

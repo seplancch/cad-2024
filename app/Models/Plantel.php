@@ -20,4 +20,14 @@ class Plantel extends Model
     {
         return $this->belongsTo(Alumno::class, 'plantel_id', 'id');
     }
+
+    public function grupo()
+    {
+        return $this->hasMany(Grupo::class);
+    }
+
+    public static function getIdPlantel($clave)
+    {
+        return Plantel::where('clave', $clave)->first()->id;
+    }
 }

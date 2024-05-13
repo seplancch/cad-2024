@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre', 5);
             $table->string('seccion', 5);
             $table->foreignId('asignatura_id')->constrained();
-            $table->foreignId('profesor_id')->constrained('profesores');
+            $table->foreignId('profesor_id')->constrained('profesores')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('plantel_id')->constrained('planteles');
             $table->foreignId('periodo_id')->constrained();
             $table->timestamps();
