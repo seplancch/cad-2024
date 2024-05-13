@@ -9,8 +9,15 @@ class Plantel extends Model
 {
     use HasFactory;
 
+    protected $table = 'planteles';
+
     protected $fillable = [
         'clave',
         'nombre',
     ];
+
+    public function alumno()
+    {
+        return $this->belongsTo(Alumno::class, 'plantel_id', 'id');
+    }
 }

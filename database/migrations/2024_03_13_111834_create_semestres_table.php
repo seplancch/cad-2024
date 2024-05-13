@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('semestres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('alumno_id')->constrained();
             $table->foreignId('periodo_id')->constrained('periodos');
             $table->unsignedTinyInteger('numero_semestre');
             $table->timestamps();

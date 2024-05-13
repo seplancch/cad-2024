@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Grupos;
+use App\Models\Grupo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class GrupoSeeder extends Seeder
      */
     public function run(): void
     {
-        Grupos::create([
+        Grupo::create([
             'nombre' => '404',
             'seccion' => 'A',
             'asignatura_id' => '1',
@@ -22,7 +22,7 @@ class GrupoSeeder extends Seeder
             'periodo_id' => '1',
         ]);
 
-        Grupos::create([
+        Grupo::create([
             'nombre' => '604',
             'seccion' => 'A',
             'asignatura_id' => '2',
