@@ -35,7 +35,29 @@
         </div>
 
     @endif
-    <div class="py-12">
+
+    <div class="flex items-center justify-center py-5">
+         <!-- CARD -->
+        <div class="max-w-[300px] p-8 rounded-xl text-gray-800 dark:text-gray-400 overflow-hidden group
+        hover:shadow-2xl hover:shadow-sky-500/50 motion-safe:transition-all motion-safe:duration-700">
+            <figure class="relative w-40 h-40 m-0 mx-auto rounded-full outline outline-offset-4 outline-sky-500
+                before:content-[''] before:absolute before:block before:pointer-events-none before:rounded-full before:h-full before:w-full before:bg-sky-500 before:-z-[1]
+                group-hover:before:scale-[2.5] motion-safe:before:transition-all
+                motion-safe:transform-gpu motion-safe:before:duration-500 before:origin-center group-hover:outline-sky-400">
+                <img class="rounded-full block max-w-full bg-sky-500 object-cover z-10 relative"
+                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+                    alt="Avatar" />
+            </figure>
+            <header class="motion-safe:translate-y-4 group-hover:translate-y-0 motion-safe:transition-transform motion-safe:transform-gpu motion-safe:duration-500">
+            <h3 class="font-semibold text-2xl text-center text-sky-500 mt-6 group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">Leonard Massey</h3>
+            <p class="text-center group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">Designer & Webdeveloper</p>
+            </header>
+        </div>
+    </div>
+
+
+
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <form action="{{ route('cuestionario.store', 1) }}" method="POST">
                 @csrf
@@ -56,9 +78,7 @@
                                             {{ $pregunta->id }}.- {{ $pregunta->titulo }}
                                         </div>
                                         <div class="mt-6 text-gray-500">
-                                            <select id="" name="respuesta_{{ $pregunta->id }}"
-                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                                                border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                            <select id="" name="respuesta_{{ $pregunta->id }}" class="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm @if($errors->has('respuesta_'.$pregunta->id)) border-red-500 @endif">
                                                 <option value="">Seleccione una respuesta</option>
                                                 @foreach ($pregunta->respuestas as $respuesta)
                                                 <option value="{{$respuesta->puntos}}" {{ old('respuesta_' . $pregunta->id) == $respuesta->puntos ? 'selected' : '' }}>{{ $respuesta->respuesta }}</option>

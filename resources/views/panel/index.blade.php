@@ -103,22 +103,35 @@
                 Haz clic en el nombre del profesor que aparece en la lista para realizar tu evaluación.</div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-6 py-4">
 
-                <table class="table-auto w-full divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 overflow-x-auto">
                     <caption>Profesores a evaluar: {{ count($inscripciones) }}</caption>
                     <thead class="text-xs text-gray-800  bg-gray-200 dark:bg-gray-700 dark:text-gray-500">
                         <tr class="">
-                            <th class="px-4 py-3 text-left rtl:text-right">Profesor</th>
-                            <th class="px-4 py-3 text-left rtl:text-right">Asignatura</th>
-                            <th class="px-4 py-3 text-left rtl:text-right">Grupo</th>
-                            <th class="px-4 py-3 text-left rtl:text-right">Sección</th>
-                            <th class="px-4 py-3 text-left rtl:text-right">Estado</th>
+                            <th class="px-4 py-3 text-left rtl:text-right tracking-wider">Profesor</th>
+                            <th class="px-4 py-3 text-left rtl:text-right tracking-wider">Asignatura</th>
+                            <th class="px-4 py-3 text-left rtl:text-right tracking-wider">Grupo</th>
+                            <th class="px-4 py-3 text-left rtl:text-right tracking-wider">Sección</th>
+                            <th class="px-4 py-3 text-left rtl:text-right tracking-wider">Estado</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($inscripciones as $inscripcion)
-
-                                <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300"><a href="{{ route('cuestionario', $inscripcion->id) }}">{{ $inscripcion->grupo->profesor->user->name }}</a></td>
-                                <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $inscripcion->grupo->asignatura->nombre }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <a href="{{ route('cuestionario', $inscripcion->id) }}"><img class="h-10 w-10 rounded-full shadow shadow-gray-400" src="https://cad.cch.unam.mx/foto_profesor.php?ntrabajador={{$inscripcion->grupo->profesor->numero_trabajador}}&key=KAEflb63ZA4B5me2Jf4bevsJnE3SSALe" alt=""></a>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                <a href="{{ route('cuestionario', $inscripcion->id) }}">{{ $inscripcion->grupo->profesor->user->name }}</a>
+                                            </div>
+                                            <!--<div class="text-sm text-gray-500">
+                                                jane.cooper@example.com
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300"><a href="{{ route('cuestionario', $inscripcion->id) }}">{{ $inscripcion->grupo->asignatura->nombre }}</a></td>
                                 <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $inscripcion->grupo->nombre }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $inscripcion->grupo->seccion }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
