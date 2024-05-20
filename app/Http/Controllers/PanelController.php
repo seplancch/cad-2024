@@ -14,13 +14,20 @@ class PanelController extends Controller
     {
         $userid = Auth::user()->id;
         $usuario = User::find($userid);
-        $inscripciones = $usuario->inscripcion;
 
-        $alm = new Alumno();
-        $alumno = $alm->getAlumnoId($userid);
-        $semestre = $alm->getSemestre($alumno->id, 1);
+        $roles = $usuario->getRoleNames(); // Returns a collection
 
-        return view('panel.index', compact('inscripciones', 'usuario', 'semestre'));
+        if ($roles->contains('Admin')) {
+            return view('panel.admin');
+        }else{
+            $inscripciones = $usuario->inscripcion;
+
+            $alm = new Alumno();
+            $alumno = $alm->getAlumnoId($userid);
+            $semestre = $alm->getSemestre($alumno->id, 1);
+
+            return view('panel.index', compact('inscripciones', 'usuario', 'semestre'));
+        }
     }
 
     public function report()

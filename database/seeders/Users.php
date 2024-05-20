@@ -52,6 +52,16 @@ class Users extends Seeder
             'tipo' => 'P'
         ]);
 
+        //$role = Role::create(['name' => 'Admin', 'name' => 'Alumno', 'name' => 'Profesor']);
+        $role = Role::create(['name' => 'Admin']);
+
+        $permissions = Permission::pluck('id', 'id')->all();
+
+        $role->syncPermissions($permissions);
+
+        $user->assignRole([$role->id]);
+
+
         $user = User::create([
             'username' => '885650',
             'name' => 'Jesus Daniel Bobadilla Calva',
@@ -59,12 +69,6 @@ class Users extends Seeder
             'password' => bcrypt('000000'),
             'tipo' => 'P',
         ]);
-
-        $role = Role::create(['name' => 'Admin']);
-
-        $permissions = Permission::pluck('id', 'id')->all();
-
-        $role->syncPermissions($permissions);
 
         $user->assignRole([$role->id]);
 

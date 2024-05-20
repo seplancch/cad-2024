@@ -34,18 +34,24 @@ Route::middleware([
     Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/report', [PanelController::class, 'report'])->name('dashboard.report');
     Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
-    Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
-    Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
     Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
     Route::post('/cuestionarios/{id}', [ResultadoController::class, 'store'])->name('cuestionario.store');
-    Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
 
-    Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class);
-    Route::resource('users', UserController::class);
 
-    Route::get('/import', [CsvImportController::class, 'index']);
-    Route::post('/importar', [CsvImportController::class, 'import'])->name('importar');
+
+
+    Route::middleware(['role:Admin'])->group(function () {
+        Route::resource('roles', RoleController::class);
+        Route::resource('permissions', PermissionController::class);
+        Route::resource('users', UserController::class);
+
+        Route::get('/import', [CsvImportController::class, 'index']);
+        Route::post('/importar', [CsvImportController::class, 'import'])->name('importar');
+
+        Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
+        Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
+        Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
+    });
 });
 
 
