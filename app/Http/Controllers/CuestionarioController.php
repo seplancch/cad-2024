@@ -30,7 +30,7 @@ class CuestionarioController extends Controller
             $preguntas = Cuestionario::find($periodo->cuestionario_id)->preguntas;
             $rubros = Rubro::all();
 
-            return view('show-cuestionario', compact('preguntas', 'rubros', 'id'));
+            return view('show-cuestionario', compact('preguntas', 'rubros', 'id', 'inscripcion'));
         }
 
     }

@@ -36,21 +36,21 @@
 
     @endif
 
-    <div class="flex items-center justify-center py-5">
+    <div class="flex items-center justify-center py-1">
          <!-- CARD -->
-        <div class="max-w-[300px] p-8 rounded-xl text-gray-800 dark:text-gray-400 overflow-hidden group
-        hover:shadow-2xl hover:shadow-sky-500/50 motion-safe:transition-all motion-safe:duration-700">
-            <figure class="relative w-40 h-40 m-0 mx-auto rounded-full outline outline-offset-4 outline-sky-500
-                before:content-[''] before:absolute before:block before:pointer-events-none before:rounded-full before:h-full before:w-full before:bg-sky-500 before:-z-[1]
+        <div class="max-w-[300px] p-8 rounded-xl text-gray-500 dark:text-gray-400 overflow-hidden group
+        hover:shadow-2xl hover:shadow-sky-500/50 motion-safe:transition-all motion-safe:duration-700 hover:border hover:bg-sky-700">
+            <figure class="flex items-center justify-center relative w-40 h-40 m-0 mx-auto rounded-full outline outline-offset-4 outline-sky-500
+                before:content-[''] before:absolute before:block before:pointer-events-none before:rounded-full before:h-full before:w-full before:bg-grey-200 before:-z-[1]
                 group-hover:before:scale-[2.5] motion-safe:before:transition-all
-                motion-safe:transform-gpu motion-safe:before:duration-500 before:origin-center group-hover:outline-sky-400">
-                <img class="rounded-full block max-w-full bg-sky-500 object-cover z-10 relative"
-                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
-                    alt="Avatar" />
+                motion-safe:transform-gpu motion-safe:before:duration-500 before:origin-center group-hover:outline-sky-400 overflow-hidden">
+                <img class="rounded-full   block max-w-full object-cover z-10 relative"
+                src="https://cad.cch.unam.mx/foto_profesor.php?ntrabajador={{$inscripcion->grupo->profesor->numero_trabajador}}&key=KAEflb63ZA4B5me2Jf4bevsJnE3SSALe"
+                    alt="{{ $inscripcion->grupo->profesor->user->name }}" />
             </figure>
             <header class="motion-safe:translate-y-4 group-hover:translate-y-0 motion-safe:transition-transform motion-safe:transform-gpu motion-safe:duration-500">
-            <h3 class="font-semibold text-2xl text-center text-sky-500 mt-6 group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">Leonard Massey</h3>
-            <p class="text-center group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">Designer & Webdeveloper</p>
+            <h3 class="font-semibold text-2xl text-center text-sky-500 mt-1 group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">{{ $inscripcion->grupo->profesor->user->name }}</h3>
+            <p class="text-center group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">{{$inscripcion->grupo->asignatura->nombre}} </p>
             </header>
         </div>
     </div>
