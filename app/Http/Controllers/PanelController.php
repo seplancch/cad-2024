@@ -49,12 +49,12 @@ class PanelController extends Controller
             $alumno = $alm->getAlumnoId($userid);
             $semestre = $alm->getSemestre($alumno->id, 1);
 
-            $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'usuario', 'semestre'));
+            $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'usuario', 'semestre', 'alumno'));
             $pdf->setEncryption('', 5678, ['modify', 'copy', 'add']);
 
 
-            //return $pdf->download('invoice.pdf');
-            return $pdf->stream('invoice.pdf');
+            //return $pdf->stream('invoice.pdf');
+            return $pdf->download('comprobante_cad_'.$alumno->numero_cuenta.'.pdf');
         }else{
             return redirect()->route('dashboard')->with('error', 'No se puede generar el reporte, por favor completa todas tus inscripciones');
         }
