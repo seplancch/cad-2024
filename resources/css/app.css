@@ -5,3 +5,10 @@
 [x-cloak] {
     display: none;
 }
+
+
+.remove-bg{
+    background-color: transparent;
+    filter: brightness(1.1);
+    mix-blend-mode: multiply;
+}
