@@ -35,7 +35,7 @@
     </div>
 
     <div>
-        <p>Alumno(a): <strong>{{$usuario->name}}</strong><br />
+        <p>Alumno(a): <strong>{{$alumno->user->name}}</strong><br />
         No. Cuenta: <strong>{{$alumno->numero_cuenta}}</strong><br />
         Plantel: <strong>{{$alumno->plantel[0]->nombre}}</strong>
     </p>

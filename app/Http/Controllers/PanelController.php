@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+use function App\Helpers\compruebaEstadoInscripciones;
+
 class PanelController extends Controller
 {
     public function index()
@@ -35,21 +37,13 @@ class PanelController extends Controller
         $userid = Auth::user()->id;
         $usuario = User::find($userid);
         $inscripciones = $usuario->inscripcion;
-        $numeroGrupos = count($inscripciones);
 
-        $completados = 0;
-        foreach ($inscripciones as $inscripcion) {
-            if ($inscripcion->estado == 1) {
-                $completados++;
-            }
-        }
-
-        if($completados == $numeroGrupos){
+        if(compruebaEstadoInscripciones($userid)->estado == 1){
             $alm = new Alumno();
             $alumno = $alm->getAlumnoId($userid);
             $semestre = $alm->getSemestre($alumno->id, 1);
 
-            $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'usuario', 'semestre', 'alumno'));
+            $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'semestre', 'alumno'));
             $pdf->setEncryption('', 5678, ['modify', 'copy', 'add']);
 
 
