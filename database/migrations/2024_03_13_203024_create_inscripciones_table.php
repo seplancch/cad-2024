@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('grupo_id')->constrained('grupos');
             $table->unsignedSmallInteger('activa');
             $table->unsignedSmallInteger('estado')->default('0');
+            $table->foreignId('periodo_id')->constrained();
             $table->unsignedSmallInteger('autoinscripcion');
 
             $table->timestamps();

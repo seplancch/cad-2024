@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Configuracion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PSpell\Config;
 
 use function App\Helpers\compruebaEstadoInscripciones;
 
@@ -14,34 +16,35 @@ class PanelController extends Controller
 {
     public function index()
     {
-        $userid = Auth::user()->id;
-        $usuario = User::find($userid);
+
+        $usuario = auth()->user();
+        $periodo = Configuracion::find(1)->periodo;
 
         $roles = $usuario->getRoleNames(); // Returns a collection
 
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         }else{
-            $inscripciones = $usuario->inscripcion;
+            $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
 
             $alm = new Alumno();
-            $alumno = $alm->getAlumnoId($userid);
-            $semestre = $alm->getSemestre($alumno->id, 1);
+            $alumno = $alm->getAlumnoId($usuario->id);
+            $semestre = $alm->getSemestre($alumno->id, $periodo->id);
 
-            return view('panel.index', compact('inscripciones', 'usuario', 'semestre'));
+            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodo'));
         }
     }
 
     public function report()
     {
-        $userid = Auth::user()->id;
-        $usuario = User::find($userid);
-        $inscripciones = $usuario->inscripcion;
+        $usuario = auth()->user();
+        $periodo = Configuracion::find(1)->periodo;
+        $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
 
-        if(compruebaEstadoInscripciones($userid)->estado == 1){
+        if(compruebaEstadoInscripciones($usuario->id)->estado == 1){
             $alm = new Alumno();
-            $alumno = $alm->getAlumnoId($userid);
-            $semestre = $alm->getSemestre($alumno->id, 1);
+            $alumno = $alm->getAlumnoId($usuario->id);
+            $semestre = $alm->getSemestre($alumno->id, $periodo->id);
 
             $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'semestre', 'alumno'));
             $pdf->setEncryption('', 5678, ['modify', 'copy', 'add']);

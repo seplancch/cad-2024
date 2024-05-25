@@ -2,13 +2,14 @@
 
 namespace App\Helpers;
 
+use App\Models\Configuracion;
 use App\Models\User;
 
 function compruebaEstadoInscripciones($userid)
 {
     $estadoInscripciones = [];
     $usuario = User::find($userid);
-    $inscripciones = $usuario->inscripcion;
+    $inscripciones = $usuario->inscripcion->where('periodo_id', Configuracion::find(1)->periodo->id);
     $estadoInscripciones['numeroGrupos'] = count($inscripciones);
     $estadoInscripciones['estado'] = 0;
 
