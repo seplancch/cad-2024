@@ -31,4 +31,9 @@ class Periodo extends Model
     {
         return $this->hasMany(Semestre::class);
     }
+
+    public function periodo()
+    {
+        return $this->hasOne(Configuracion::class);
+    }
 }
