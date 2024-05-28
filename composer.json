@@ -15,7 +15,6 @@
         "league/csv": "^9.15",
         "livewire/livewire": "^3.0",
         "openspout/openspout": "^4.23",
-        "power-components/livewire-powergrid": "^5.4",
         "spatie/laravel-permission": "^6.4"
     },
     "require-dev": {
