@@ -19,7 +19,7 @@
 
     <div class="text-center">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Escudo-UNAM-escalable.svg" alt="UNAM" width="50">&nbsp;&nbsp;
-        <img src="https://herramientastic.cch.unam.mx/img/logo-cch.svg" alt="" width="50"> &nbsp;&nbsp;
+        <img src="https://portalacademico.cch.unam.mx/themes/pacch/img/logo-cch-color.svg" alt="" width="50"> &nbsp;&nbsp;
         <img src="https://cad.cch.unam.mx/seplan_logo.png" alt="" width="50">
     </div>
     <div class="text-center">
@@ -30,8 +30,8 @@
     </div>
 
     <div class="text-center">
-        <h3>Cuestionario de Actividad Docente</h3>
-        <p>Periodo: 2024-2</p>
+        <h4>Cuestionario de Actividad Docente (CAD) {{$periodo->clave}}</h4>
+
     </div>
 
     <div>
@@ -78,9 +78,14 @@
             </div>
     <!--    </div>
     </div>-->
+
+
     <div class="alert alert-success text-center mt-4" role="alert">
         La Secretaría de Planeación agradece tu participación en esta evaluación institucional.
     </div>
+
+    <p class="text-center"><img src="{{$qrImagen}}" alt="" width="80" height="80"><br>
+    <i>Escanea este código QR para validar tu reporte de evaluación.</i><br/>{{$linkvalidacion}}</p>
 
     <p>Este reporte es generado automáticamente por el sistema. Si tienes alguna duda, por favor contacta a soporte: cad@cch.unam.mx<br />
     Fecha de generación: {{ now()->format('d-m-Y H:i:s') }}</p>
