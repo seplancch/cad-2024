@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pregunta extends Model
 {
@@ -20,17 +22,17 @@ class Pregunta extends Model
         'cuestionario_id',
     ];
 
-    public function rubro()
+    public function rubro(): BelongsTo
     {
         return $this->belongsTo(Rubro::class);
     }
 
-    public function cuestionario()
+    public function cuestionario(): BelongsTo
     {
         return $this->belongsTo(Cuestionario::class);
     }
 
-    public function respuestas()
+    public function respuestas(): HasMany
     {
         return $this->hasMany(Respuesta::class);
     }

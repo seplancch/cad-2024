@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plantel extends Model
 {
@@ -16,12 +18,12 @@ class Plantel extends Model
         'nombre',
     ];
 
-    public function alumno()
+    public function alumno(): BelongsTo
     {
         return $this->belongsTo(Alumno::class, 'plantel_id', 'id');
     }
 
-    public function grupo()
+    public function grupo(): HasMany
     {
         return $this->hasMany(Grupo::class);
     }

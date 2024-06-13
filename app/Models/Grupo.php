@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Grupo extends Model
 {
@@ -18,27 +20,27 @@ class Grupo extends Model
         'periodo_id',
     ];
 
-    public function inscripcion()
+    public function inscripcion(): HasMany
     {
         return $this->hasMany(Inscripcion::class);
     }
 
-    public function profesor()
+    public function profesor(): BelongsTo
     {
         return $this->belongsTo(Profesor::class);
     }
 
-    public function asignatura()
+    public function asignatura(): BelongsTo
     {
         return $this->belongsTo(Asignatura::class);
     }
 
-    public function plantel()
+    public function plantel(): BelongsTo
     {
         return $this->belongsTo(Plantel::class);
     }
 
-    public function periodo()
+    public function periodo(): BelongsTo
     {
         return $this->belongsTo(Periodo::class);
     }

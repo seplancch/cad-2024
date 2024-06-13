@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Configuracion extends Model
 {
@@ -16,7 +16,7 @@ class Configuracion extends Model
         'periodo_id'
     ];
 
-    public function periodo()
+    public function periodo(): BelongsTo
     {
         return $this->belongsTo(Periodo::class);
     }
