@@ -84,7 +84,7 @@
         La Secretaría de Planeación agradece tu participación en esta evaluación institucional.
     </div>
 
-    <p class="text-center"><img src="{{$qrImagen}}" alt="" width="80" height="80"><br>
+    <p class="text-center"><img src="{{$qrImagen}}" alt="" width="100" height="100"><br>
     <i>Escanea este código QR para validar tu reporte de evaluación.</i><br/>{{$linkvalidacion}}</p>
 
     <p>Este reporte es generado automáticamente por el sistema. Si tienes alguna duda, por favor contacta a soporte: cad@cch.unam.mx<br />

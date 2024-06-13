@@ -52,7 +52,7 @@ class PanelController extends Controller
             $linkvalidacion = 'https://cad.cch.unam.mx/validate/'.$alumno->numero_cuenta.'-'.$periodo->clave;
 
             $renderer = new ImageRenderer(
-                new RendererStyle(400),
+                new RendererStyle(200),
                 new ImagickImageBackEnd()
             );
 
