@@ -45,7 +45,7 @@ Route::middleware([
         Route::resource('permissions', PermissionController::class);
         Route::resource('users', UserController::class);
 
-        Route::get('/import', [CsvImportController::class, 'index']);
+        Route::get('/importar/profesores', [CsvImportController::class, 'index']);
         Route::post('/importar', [CsvImportController::class, 'import'])->name('importar');
 
         Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');

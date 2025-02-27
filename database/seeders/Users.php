@@ -45,7 +45,7 @@ class Users extends Seeder
         ]);*/
 
         $user = User::create([
-            'username' => '151788',
+            'username' => '851788',
             'name' => 'Jonathan Bailon',
             'email' => 'jonathan.bailon@cch.unam.mx',
             'password' => bcrypt('000000'),
