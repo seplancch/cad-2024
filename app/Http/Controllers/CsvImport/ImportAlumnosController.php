@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CsvImport;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use League\Csv\Reader;
 use App\Models\Asignatura;
 use App\Models\Grupo;
 use App\Models\Plantel;
-use App\Models\Profesor;
+use App\Models\Alumno;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use DB;
 
-class CsvImportController extends Controller
+class CsvImportAlumnosController extends Controller
 {
     public function index()
     {
@@ -29,7 +30,7 @@ class CsvImportController extends Controller
         $csv = Reader::createFromPath($request->file('csv_file')->getRealPath(), 'r');
         $csv->setHeaderOffset(0);
 
-       // ini_set('max_execution_time', 18000);
+        ini_set('max_execution_time', 18000);
 
         $startTime = time();
         $maxExecutionTime = ini_get('max_execution_time') - 5; // 5 segundos de margen
@@ -42,7 +43,7 @@ class CsvImportController extends Controller
             DB::beginTransaction();
 
             try {
-                $this->processRegistro($record);
+                $this->processRecord($record);
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -53,49 +54,45 @@ class CsvImportController extends Controller
         return back()->with('success', 'Los alumnos se han importado correctamente.');
     }
 
-    private function processRegistro($record)
+    private function processRecord($record)
     {
-        $profesorExists = Profesor::where('rfc', $record['rfc'])->exists();
+        $alumnoExists = Alumno::where('matricula', $record['matricula'])->exists();
 
-        if (!User::where('username', $record['rfc'])->exists()) {
+        if (!User::where('username', $record['matricula'])->exists()) {
             $usuario = $this->createUser($record);
-            $profesor = $this->createProfesor($usuario, $record);
-            $this->createGrupoIfNotExists($profesor, $record);
-        } elseif (!$profesorExists) {
-            $usuario = User::where('username', $record['rfc'])->first();
-            $profesor = $this->createProfesor($usuario, $record);
-            $this->createGrupoIfNotExists($profesor, $record);
+            $alumno = $this->createAlumno($usuario, $record);
+            $this->createGrupoIfNotExists($alumno, $record);
+        } elseif (!$alumnoExists) {
+            $usuario = User::where('username', $record['matricula'])->first();
+            $alumno = $this->createAlumno($usuario, $record);
+            $this->createGrupoIfNotExists($alumno, $record);
         } else {
-            $profesor = Profesor::where('rfc', $record['rfc'])->first();
-            $this->createGrupoIfNotExists($profesor, $record);
+            $alumno = Alumno::where('matricula', $record['matricula'])->first();
+            $this->createGrupoIfNotExists($alumno, $record);
         }
     }
 
     private function createUser($record)
     {
         return User::create([
-            'username' => $record['rfc'],
+            'username' => $record['matricula'],
             'name' => $record['nombre'] . ' ' . $record['paterno'] . ' ' . $record['materno'],
-            'email' => $record['rfc'] . '@example.com',
-            'password' => bcrypt($record['ntrabajador']), // O puedes usar 'password' => Hash::make($record['rfc']),
-            'tipo' => 'P'
+            'email' => $record['matricula'] . '@example.com',
+            'password' => bcrypt($record['matricula']), // O puedes usar 'password' => Hash::make($record['matricula']),
+            'tipo' => 'A'
         ]);
     }
 
-    private function createProfesor($usuario, $record)
+    private function createAlumno($usuario, $record)
     {
-        return $usuario->profesor()->create([
-            'numero_trabajador' => $record['ntrabajador'],
-            'rfc' => $record['rfc'],
-            'plantel_id' => 1,
-            'turno' => $record['turno'],
-            'fecha_nacimiento' => '1990-01-01',
-            'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
+        return $usuario->alumno()->create([
+            'matricula' => $record['matricula'],
+            'fecha_nacimiento' => $record['fecha_nacimiento'],
             'sexo' => !empty($record['sexo']) ? $record['sexo'] : 'M',
         ]);
     }
 
-    private function createGrupoIfNotExists($profesor, $record)
+    private function createGrupoIfNotExists($alumno, $record)
     {
         $grupoExists = Grupo::where([
             ['nombre', '=', $record['grupo']],
@@ -106,7 +103,7 @@ class CsvImportController extends Controller
         ])->exists();
 
         if (!$grupoExists) {
-            $profesor->grupo()->create([
+            $alumno->grupo()->create([
                 'nombre' => $record['grupo'],
                 'seccion' => $record['seccion'],
                 'plantel_id' => Plantel::getIdPlantel($record['plantel']),

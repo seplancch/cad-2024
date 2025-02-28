@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CsvImportController;
+use App\Http\Controllers\CsvImport\ImportProfesoresController;
 use App\Http\Controllers\CuestionarioController;
 use App\Http\Controllers\PanelController;
 use App\Http\Controllers\RubroController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +46,8 @@ Route::middleware([
         Route::resource('permissions', PermissionController::class);
         Route::resource('users', UserController::class);
 
-        Route::get('/importar/profesores', [CsvImportController::class, 'index']);
-        Route::post('/importar', [CsvImportController::class, 'import'])->name('importar');
+        Route::get('/importar/profesores', [ImportProfesoresController::class, 'index']);
+        Route::post('/importar', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
 
         Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
         Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
