@@ -10,6 +10,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfesorController;
+use App\Models\Profesor;
 use Illuminate\Support\Facades\Route;
 
 
@@ -52,6 +54,8 @@ Route::middleware([
         Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
         Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
         Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
+
+        Route::get('profesores', [ProfesorController::class, 'index'])->name('profesores.index');
     });
 });
 

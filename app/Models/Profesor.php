@@ -36,4 +36,9 @@ class Profesor extends Model
     {
         return $this->hasMany(Grupo::class);
     }
+
+    public function plantel(): BelongsTo
+    {
+        return $this->belongsTo(Plantel::class);
+    }
 }
