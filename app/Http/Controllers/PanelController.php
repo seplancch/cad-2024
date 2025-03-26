@@ -22,13 +22,14 @@ class PanelController extends Controller
     {
 
         $usuario = auth()->user();
-        $periodo = Configuracion::find(1)->periodo;
+
 
         $roles = $usuario->getRoleNames(); // Returns a collection
 
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         }else{
+            $periodo = Configuracion::find(1)->periodo;
             $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
 
             $alm = new Alumno();
