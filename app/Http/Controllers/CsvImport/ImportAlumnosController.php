@@ -8,7 +8,7 @@ use League\Csv\Reader;
 use App\Models\Asignatura;
 use App\Models\Grupo;
 use App\Models\Plantel;
-use App\Models\Profesor;
+use App\Models\Alumno;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Controller for importing profesores from a CSV file.
+ * Controller for importing alumnos from a CSV file.
  *
  * @category CSVImport
  * @package  App\Http\Controllers\CsvImport
@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\DB;
 class ImportAlumnosController extends Controller
 {
     /**
-     * Display the import profesores view.
+     * Display the import alumnos view.
      *
      * @return \Illuminate\View\View
      */
@@ -37,7 +37,7 @@ class ImportAlumnosController extends Controller
     }
 
     /**
-     * Import profesores from a CSV file.
+     * Import alumnos from a CSV file.
      *
      * @param \Illuminate\Http\Request $request The request object containing the CSV file.
      *
@@ -49,7 +49,7 @@ class ImportAlumnosController extends Controller
         $request->validate([
             'archivo_csv' => 'required|file|mimes:csv',
         ]);
-        Log::info('Inicia la importacion de profesores');
+        Log::info('Inicia la importacion de alumnos');
 
         $csv = Reader::createFromPath($request->file('archivo_csv')->getRealPath(), 'r');
         $csv->setHeaderOffset(0);
@@ -81,10 +81,10 @@ class ImportAlumnosController extends Controller
             $conteoCarga++;
         }
 
-        Log::info('Se han importado ' . $conteoCarga . ' registros de profesores correctamente.');
+        Log::info('Se han importado ' . $conteoCarga . ' registros de alumnos correctamente.');
         return back()->with(
             'success',
-            'Se han importado ' . $conteoCarga . ' registros de profesores correctamente.'
+            'Se han importado ' . $conteoCarga . ' registros de alumnos correctamente.'
         );
     }
 
@@ -97,19 +97,19 @@ class ImportAlumnosController extends Controller
      */
     private function processRegistro($record)
     {
-        $profesorExists = Profesor::where('rfc', $record['rfc'])->exists();
+        $alumnoExist = Alumno::where('numero_cuenta', $record['id_alumno'])->exists();
 
-        if (!User::where('username', $record['rfc'])->exists()) {
+        if (!User::where('username', $record['id_alumno'])->exists()) {
             $usuario = $this->createUser($record);
-            $profesor = $this->createProfesor($usuario, $record);
-            $this->_createGrupoIfNotExists($profesor, $record);
-        } elseif (!$profesorExists) {
+            $alumno = $this->createAlumno($usuario, $record);
+            $this->_createGrupoIfNotExists($alumno, $record);
+        } elseif (!$alumnoExist) {
             $usuario = User::where('username', $record['rfc'])->first();
-            $profesor = $this->createProfesor($usuario, $record);
-            $this->createGrupoIfNotExists($profesor, $record);
+            $alumno = $this->createAlumno($usuario, $record);
+            $this->createGrupoIfNotExists($alumno, $record);
         } else {
-            $profesor = Profesor::where('rfc', $record['rfc'])->first();
-            $this->createGrupoIfNotExists($profesor, $record);
+            $alumno = Alumno::where('rfc', $record['rfc'])->first();
+            $this->createGrupoIfNotExists($alumno, $record);
         }
     }
 
@@ -120,11 +120,11 @@ class ImportAlumnosController extends Controller
      *
      * @return \App\Models\User
      */
-    private function _createUser($record)
+    private function createUser($record)
     {
         return User::create(
             [
-                'username' => $record['rfc'],
+                'username' => $record['id_alumno'],
                 'name' => $record['nombre'] . ' ' . $record['paterno'] . ' ' . $record['materno'],
                 'email' => $record['rfc'] . '@example.com',
                 'password' => bcrypt($record['ntrabajador']), // O puedes usar 'password' => Hash::make($record['rfc']),
@@ -134,16 +134,16 @@ class ImportAlumnosController extends Controller
     }
 
     /**
-     * Create a new profesor from the given user and record.
+     * Create a new alumno from the given user and record.
      *
      * @param \App\Models\User $usuario The user model.
-     * @param array $record The record containing profesor information.
+     * @param array $record The record containing alumno information.
      *
-     * @return \App\Models\Profesor
+     * @return \App\Models\Alumno
      */
-    private function _createProfesor($usuario, $record)
+    private function createAlumno($usuario, $record)
     {
-        return $usuario->profesor()->create(
+        return $usuario->alumno()->create(
             [
                 'numero_trabajador' => $record['ntrabajador'],
                 'rfc' => $record['rfc'],
@@ -159,12 +159,12 @@ class ImportAlumnosController extends Controller
     /**
      * Create a new grupo if it does not exist.
      *
-     * @param \App\Models\Profesor $profesor The profesor model.
+     * @param \App\Models\Alumno $alumno The alumno model.
      * @param array $record The record containing grupo information.
      *
      * @return void
      */
-    private function _createGrupoIfNotExists($profesor, $record)
+    private function _createGrupoIfNotExists($alumno, $record)
     {
         $grupoExists = Grupo::where(
             [
@@ -177,7 +177,7 @@ class ImportAlumnosController extends Controller
         )->exists();
 
         if (!$grupoExists) {
-            $profesor->grupo()->create(
+            $alumno->grupo()->create(
                 [
                     'nombre' => $record['grupo'],
                     'seccion' => $record['seccion'],
