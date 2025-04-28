@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Importar profesores') }}
+            {{ __('Importar Alumnos') }}
         </h2>
     </x-slot>
 
@@ -63,7 +63,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-6 py-4">
 
                 <h2 class="font-semibold text-xl text-gray-600 leading-tight mb-4 text-center mb-2">Cargando alumnos del periodo 2025-2</h2>
-                <form id="upload-form" action="{{ route('importaProfesores') }}" method="post" enctype="multipart/form-data" class="w-full max-w-lg">
+                <form id="upload-form" action="{{ route('importaAlumnos') }}" method="post" enctype="multipart/form-data" class="w-full max-w-lg">
                     @csrf
                     <!-- file upload modal -->
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -75,7 +75,7 @@
                             <p class="text-blue-500 text-xs italic">seleccione archivo en extencion .csv.</p>
                         </div>
                     </div>
-                    <button type="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">Cargar Profesores</button>
+                    <button type="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">Cargar Alumnos</button>
                 </form>
             </div>
         </div>

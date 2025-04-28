@@ -102,7 +102,7 @@ class ImportProfesoresController extends Controller
         if (!User::where('username', $record['rfc'])->exists()) {
             $usuario = $this->createUser($record);
             $profesor = $this->createProfesor($usuario, $record);
-            $this->_createGrupoIfNotExists($profesor, $record);
+            $this->createGrupoIfNotExists($profesor, $record);
         } elseif (!$profesorExists) {
             $usuario = User::where('username', $record['rfc'])->first();
             $profesor = $this->createProfesor($usuario, $record);
@@ -120,7 +120,7 @@ class ImportProfesoresController extends Controller
      *
      * @return \App\Models\User
      */
-    private function _createUser($record)
+    private function createUser($record)
     {
         return User::create(
             [
@@ -141,7 +141,7 @@ class ImportProfesoresController extends Controller
      *
      * @return \App\Models\Profesor
      */
-    private function _createProfesor($usuario, $record)
+    private function createProfesor($usuario, $record)
     {
         return $usuario->profesor()->create(
             [
@@ -164,7 +164,7 @@ class ImportProfesoresController extends Controller
      *
      * @return void
      */
-    private function _createGrupoIfNotExists($profesor, $record)
+    private function createGrupoIfNotExists($profesor, $record)
     {
         $grupoExists = Grupo::where(
             [

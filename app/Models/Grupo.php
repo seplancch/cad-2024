@@ -46,14 +46,15 @@ class Grupo extends Model
     }
 
 
-    public function getGrupoId($nombre, $seccion, $asignatura, $plantel): int
+    public static function getGrupoId($nombre, $seccion, $asignatura, $plantel): ?int
     {
-        return Grupo::where('nombre', $nombre)
+        $grupo = Grupo::where('nombre', $nombre)
             ->where('seccion', $seccion)
             ->where('asignatura_id', $asignatura)
             ->where('plantel_id', $plantel)
-            ->first()
-            ->id;
+            ->first();
+
+        return $grupo ? $grupo->id : null;
     }
 }
 

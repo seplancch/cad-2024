@@ -30,36 +30,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/report', [PanelController::class, 'report'])->name('dashboard.report');
-    Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
-    Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
-    Route::post('/cuestionarios/{id}', [ResultadoController::class, 'store'])->name('cuestionario.store');
+Route::middleware(
+    [
+        'auth:sanctum',
+        config('jetstream.auth_session'),
+        'verified',
+    ]
+)->group(
+    function () {
+        Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/report', [PanelController::class, 'report'])->name('dashboard.report');
+        Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
+        Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
+        Route::post('/cuestionarios/{id}', [ResultadoController::class, 'store'])->name('cuestionario.store');
 
 
 
 
-    Route::middleware(['role:Admin'])->group(function () {
-        Route::resource('roles', RoleController::class);
-        Route::resource('permissions', PermissionController::class);
-        Route::resource('users', UserController::class);
+        Route::middleware(['role:Admin'])->group(
+            function () {
+                Route::resource('roles', RoleController::class);
+                Route::resource('permissions', PermissionController::class);
+                Route::resource('users', UserController::class);
 
-        Route::post('/importar', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
-        Route::get('/importar/profesores', [ImportProfesoresController::class, 'index']);
-        Route::get('/importar/alumnos', [ImportAlumnosController::class, 'index']);
+                //Route::post('/importar', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
+                Route::get('/importar/profesores', [ImportProfesoresController::class, 'index']);
+                Route::get('/importar/alumnos', [ImportAlumnosController::class, 'index']);
+                Route::post('/importar/profesores', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
+                Route::post('/importar/alumnos', [ImportAlumnosController::class, 'import'])->name('importaAlumnos');
 
-        Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
-        Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
-        Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
+                Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
+                Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
+                Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
 
-        Route::get('profesores', [ProfesorController::class, 'index'])->name('profesores.index');
-    });
-});
+                Route::get('profesores', [ProfesorController::class, 'index'])->name('profesores.index');
+            }
+        );
+    }
+);
 
 
 

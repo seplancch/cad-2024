@@ -11,6 +11,14 @@ class Alumno extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'plantel_id',
+        'numero_cuenta',
+        'fecha_nacimiento',
+        'sexo',
+    ];
+
     protected $table = 'alumnos';
 
     public function user(): BelongsTo

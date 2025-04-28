@@ -9,6 +9,7 @@ use App\Models\Asignatura;
 use App\Models\Grupo;
 use App\Models\Plantel;
 use App\Models\Alumno;
+use App\Models\Inscripcion;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
@@ -101,15 +102,22 @@ class ImportAlumnosController extends Controller
 
         if (!User::where('username', $record['id_alumno'])->exists()) {
             $usuario = $this->createUser($record);
-            $alumno = $this->createAlumno($usuario, $record);
-            $this->_createGrupoIfNotExists($alumno, $record);
+            // Verificar si el usuario se creó correctamente
+            if ($usuario) {
+                Log::info('Usuario creado con éxito: ' . $usuario->username);
+                $alumno = $this->createAlumno($usuario, $record);
+                $this->createInscripcionIfNotExists($alumno, $record);
+            } else {
+                Log::error('Error al crear el usuario para: ' . $record['id_alumno']);
+                throw new \Exception('Error al crear el usuario.');
+            }
         } elseif (!$alumnoExist) {
-            $usuario = User::where('username', $record['rfc'])->first();
+            $usuario = User::where('username', $record['id_alumno'])->first();
             $alumno = $this->createAlumno($usuario, $record);
-            $this->createGrupoIfNotExists($alumno, $record);
+            $this->createInscripcionIfNotExists($alumno, $record);
         } else {
-            $alumno = Alumno::where('rfc', $record['rfc'])->first();
-            $this->createGrupoIfNotExists($alumno, $record);
+            $alumno = Alumno::where('rfc', $record['id_alumno'])->first();
+            $this->createInscripcionIfNotExists($alumno, $record);
         }
     }
 
@@ -126,9 +134,9 @@ class ImportAlumnosController extends Controller
             [
                 'username' => $record['id_alumno'],
                 'name' => $record['nombre'] . ' ' . $record['paterno'] . ' ' . $record['materno'],
-                'email' => $record['rfc'] . '@example.com',
-                'password' => bcrypt($record['ntrabajador']), // O puedes usar 'password' => Hash::make($record['rfc']),
-                'tipo' => 'P'
+                'email' => $record['email'],
+                'password' => bcrypt($record['fecha_nacimiento']), // O puedes usar 'password' => Hash::make($record['rfc']),
+                'tipo' => 'A'
             ]
         );
     }
@@ -145,12 +153,9 @@ class ImportAlumnosController extends Controller
     {
         return $usuario->alumno()->create(
             [
-                'numero_trabajador' => $record['ntrabajador'],
-                'rfc' => $record['rfc'],
-                'plantel_id' => 1,
-                'turno' => $record['turno'],
-                'fecha_nacimiento' => '1990-01-01',
-                'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
+                'numero_cuenta' => $record['id_alumno'],
+                'plantel_id' => Plantel::getIdPlantel($record['plantel']),
+                'fecha_nacimiento' => $record['fecha_nacimiento'],
                 'sexo' => !empty($record['sexo']) ? $record['sexo'] : 'M',
             ]
         );
@@ -164,28 +169,37 @@ class ImportAlumnosController extends Controller
      *
      * @return void
      */
-    private function _createGrupoIfNotExists($alumno, $record)
+    private function createInscripcionIfNotExists($alumno, $record)
     {
-        $grupoExists = Grupo::where(
-            [
-                ['nombre', '=', $record['grupo']],
-                ['seccion', '=', $record['seccion']],
-                ['plantel_id', '=', Plantel::getIdPlantel($record['plantel'])],
-                ['asignatura_id', '=', Asignatura::getIdAsignatura($record['asignatura'])],
-                ['periodo_id', '=', 1]
-            ]
-        )->exists();
+        try{
+            $idGrupo = Grupo::getGrupoId($record['grupo'], $record['seccion'], $record['asignatura'], $record['plantel']);
 
-        if (!$grupoExists) {
-            $alumno->grupo()->create(
+            if ($record['grupo_id'] == 0) {
+                $record['grupo_id'] = $idGrupo;
+            }
+            $inscripcionExists = Inscripcion::where(
                 [
-                    'nombre' => $record['grupo'],
-                    'seccion' => $record['seccion'],
-                    'plantel_id' => Plantel::getIdPlantel($record['plantel']),
-                    'asignatura_id' => Asignatura::getIdAsignatura($record['asignatura']),
-                    'periodo_id' => 1,
+                    ['alumno_id', '=', $alumno->id],
+                    ['grupo_id', '=', $idGrupo],
+                    ['activa', '=', 1],
+                    ['periodo_id', '=', 1],
                 ]
-            );
+            )->exists();
+
+
+            if (!$inscripcionExists) {
+                $alumno->inscripcion()->create(
+                    [
+                        'alumno_id' => $alumno->id,
+                        'grupo_id' => $idGrupo,
+                        'activa' => 1,
+                        'periodo_id' => 1,
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            Log::error('Error al crear la inscripción para el alumno: ' . $alumno->numero_cuenta . ' - ' . $e->getMessage());
+            throw new \Exception('Error al crear la inscripción. No hay grupos disponibles.');
         }
     }
 }
