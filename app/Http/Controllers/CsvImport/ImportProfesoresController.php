@@ -147,7 +147,7 @@ class ImportProfesoresController extends Controller
             [
                 'numero_trabajador' => $record['ntrabajador'],
                 'rfc' => $record['rfc'],
-                'plantel_id' => 1,
+                'plantel_id' => $record['plantel'],
                 'turno' => $record['turno'],
                 'fecha_nacimiento' => '1990-01-01',
                 'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
@@ -170,8 +170,8 @@ class ImportProfesoresController extends Controller
             [
                 ['nombre', '=', $record['grupo']],
                 ['seccion', '=', $record['seccion']],
-                ['plantel_id', '=', Plantel::getIdPlantel($record['plantel'])],
-                ['asignatura_id', '=', Asignatura::getIdAsignatura($record['asignatura'])],
+                ['plantel_id', '=', $record['plantel']],
+                ['asignatura_id', '=', $record['asignatura']],
                 ['periodo_id', '=', 1]
             ]
         )->exists();
@@ -181,8 +181,8 @@ class ImportProfesoresController extends Controller
                 [
                     'nombre' => $record['grupo'],
                     'seccion' => $record['seccion'],
-                    'plantel_id' => Plantel::getIdPlantel($record['plantel']),
-                    'asignatura_id' => Asignatura::getIdAsignatura($record['asignatura']),
+                    'plantel_id' => $record['plantel'],
+                    'asignatura_id' => $record['asignatura'],
                     'periodo_id' => 1,
                 ]
             );

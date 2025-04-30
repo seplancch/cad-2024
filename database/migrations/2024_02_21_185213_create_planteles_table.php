@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('planteles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('clave');
+            //$table->unsignedSmallInteger('clave');
             $table->string('nombre');
             $table->timestamps();
-            $table->unique(['clave']);
+            //$table->unique(['clave']);
         });
     }
 

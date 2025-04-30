@@ -21,7 +21,7 @@ class AsignaturaSeeder extends Seeder
             [6, '1106', 'FRA-1', 'FRANCES I', 4, 'P', 5, 2, 1],
             [7, '1107', 'LEX-1', 'LENGUA EXTRANJERA I', 4, 'P', 5, 2, 1],
             [8, '1201', 'ALG-2', 'MATEMATICAS ALG. y GEOMETRIA II', 5, 'N', 1, 2, 2],
-            [9, '0002', 'COM-1', 'TALLER DE COMPUTO I', 4, 'N', 1, 2, 1],
+            [9, '2102', 'COM-1', 'TALLER DE COMPUTO I', 4, 'N', 1, 2, 1],
             [10, '1203', 'QUI-2', 'QUIMICA II', 5, 'N', 2, 2, 2],
             [11, '1204', 'HUN-2', 'HISTORIA UNIVERSAL MOD.y CONT. II', 4, 'N', 3, 2, 2],
             [12, '1205', 'TLR-2', 'TALLER DE LECTURA REDACCION II', 6, 'N', 4, 2, 2],
@@ -92,7 +92,7 @@ class AsignaturaSeeder extends Seeder
 
         foreach ($asignaturas as $item) {
             \App\Models\Asignatura::create([
-                'clave' => $item[1],
+                'id' => $item[1],
                 'orden' => $item[0],
                 'abreviatura' => $item[2],
                 'nombre' => $item[3],

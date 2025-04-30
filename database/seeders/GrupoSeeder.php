@@ -16,18 +16,18 @@ class GrupoSeeder extends Seeder
         Grupo::create([
             'nombre' => '404',
             'seccion' => 'A',
-            'asignatura_id' => '1',
+            'asignatura_id' => '1102',
             'profesor_id' => '1',
-            'plantel_id' => '1',
+            'plantel_id' => '47205',
             'periodo_id' => '1',
         ]);
 
         Grupo::create([
             'nombre' => '604',
             'seccion' => 'A',
-            'asignatura_id' => '2',
+            'asignatura_id' => '1504',
             'profesor_id' => '2',
-            'plantel_id' => '1',
+            'plantel_id' => '47205',
             'periodo_id' => '1',
         ]);
     }
