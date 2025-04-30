@@ -116,7 +116,7 @@ class ImportAlumnosController extends Controller
             $alumno = $this->createAlumno($usuario, $record);
             $this->createInscripcionIfNotExists($alumno, $record);
         } else {
-            $alumno = Alumno::where('rfc', $record['id_alumno'])->first();
+            $alumno = Alumno::where('numero_cuenta', $record['id_alumno'])->first();
             $this->createInscripcionIfNotExists($alumno, $record);
         }
     }
@@ -172,11 +172,13 @@ class ImportAlumnosController extends Controller
     private function createInscripcionIfNotExists($alumno, $record)
     {
         try{
-            $idGrupo = Grupo::getGrupoId($record['grupo'], $record['seccion'], $record['asignatura'], $record['plantel']);
+            $idGrupo = Grupo::getGrupoId(
+                $record['grupo'],
+                $record['seccion'],
+                Asignatura::getIdAsignatura($record['asignatura']),
+                Plantel::getIdPlantel($record['plantel'])
+            );
 
-            if ($record['grupo_id'] == 0) {
-                $record['grupo_id'] = $idGrupo;
-            }
             $inscripcionExists = Inscripcion::where(
                 [
                     ['alumno_id', '=', $alumno->id],
@@ -186,20 +188,20 @@ class ImportAlumnosController extends Controller
                 ]
             )->exists();
 
-
             if (!$inscripcionExists) {
-                $alumno->inscripcion()->create(
-                    [
-                        'alumno_id' => $alumno->id,
-                        'grupo_id' => $idGrupo,
-                        'activa' => 1,
-                        'periodo_id' => 1,
-                    ]
-                );
+                    $alumno->inscripcion()->create(
+                        [
+                            'alumno_id' => $alumno->id,
+                            'grupo_id' => $idGrupo,
+                            'activa' => 1,
+                            'periodo_id' => 1,
+                            'autoinscripcion' => 0,
+                        ]
+                    );
             }
         } catch (\Exception $e) {
             Log::error('Error al crear la inscripción para el alumno: ' . $alumno->numero_cuenta . ' - ' . $e->getMessage());
-            throw new \Exception('Error al crear la inscripción. No hay grupos disponibles.');
+            throw new \Exception('Error al crear la inscripción: '.$e->getMessage());
         }
     }
 }
