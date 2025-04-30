@@ -106,6 +106,7 @@ class ImportAlumnosController extends Controller
             if ($usuario) {
                 Log::info('Usuario creado con éxito: ' . $usuario->username);
                 $alumno = $this->createAlumno($usuario, $record);
+                $this->createSemestre($alumno, $record);
                 $this->createInscripcionIfNotExists($alumno, $record);
             } else {
                 Log::error('Error al crear el usuario para: ' . $record['id_alumno']);
@@ -114,6 +115,7 @@ class ImportAlumnosController extends Controller
         } elseif (!$alumnoExist) {
             $usuario = User::where('username', $record['id_alumno'])->first();
             $alumno = $this->createAlumno($usuario, $record);
+            $this->createSemestre($alumno, $record);
             $this->createInscripcionIfNotExists($alumno, $record);
         } else {
             $alumno = Alumno::where('numero_cuenta', $record['id_alumno'])->first();
@@ -203,5 +205,26 @@ class ImportAlumnosController extends Controller
             Log::error('Error al crear la inscripción para el alumno: ' . $alumno->numero_cuenta . ' - ' . $e->getMessage());
             throw new \Exception('Error al crear la inscripción: '.$e->getMessage());
         }
+    }
+
+    /**
+     * Create a new semestre if it does not exist.
+     *
+     * @param \App\Models\Alumno $alumno The alumno model.
+     * @param array $record The record containing grupo information.
+     *
+     * @return void
+     */
+    private function createSemestre($alumno, $record)
+    {
+        $semestre = $record['semestre'];
+
+        return $alumno->semestre()->create(
+            [
+                'alumno_id' => $alumno->id,
+                'periodo_id' => 1,
+                'numero_semestre' => $record['semestre'],
+            ]
+        );
     }
 }
