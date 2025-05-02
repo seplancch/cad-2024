@@ -89,6 +89,11 @@ class ImportAlumnosController extends Controller
         );
     }
 
+    private function isEmptyOrZero($value)
+    {
+        return $value === 0 || $value === null || $value === '';
+    }
+
     /**
      * Process a single record from the CSV file.
      *
@@ -100,26 +105,32 @@ class ImportAlumnosController extends Controller
     {
         $alumnoExist = Alumno::where('numero_cuenta', $record['id_alumno'])->exists();
 
-        if (!User::where('username', $record['id_alumno'])->exists()) {
-            $usuario = $this->createUser($record);
-            // Verificar si el usuario se creó correctamente
-            if ($usuario) {
-                Log::info('Usuario creado con éxito: ' . $usuario->username);
+        if ($this->isEmptyOrZero($record['plantel'])
+            || $this->isEmptyOrZero($record['asignatura'])
+            || $this->isEmptyOrZero($record['grupo'])
+        ) {
+                Log::error('Para el alumno ' . $record['id_alumno'] . ' no se han encontrado datos de plantel: ' . $record['plantel'] .', asignatura: ' . $record['asignatura'] .' o grupo:' . $record['asignatura'] .'.');
+        } else {
+            if (!User::where('username', $record['id_alumno'])->exists()) {
+                $usuario = $this->createUser($record);
+                if ($usuario) {
+                    Log::info('Usuario creado con éxito: ' . $usuario->username);
+                    $alumno = $this->createAlumno($usuario, $record);
+                    $this->createSemestre($alumno, $record);
+                    $this->createInscripcionIfNotExists($alumno, $record);
+                } else {
+                    Log::error('Error al crear el usuario para: ' . $record['id_alumno']);
+                    throw new \Exception('Error al crear el usuario para: ' . $record['id_alumno']);
+                }
+            } elseif (!$alumnoExist) {
+                $usuario = User::where('username', $record['id_alumno'])->first();
                 $alumno = $this->createAlumno($usuario, $record);
                 $this->createSemestre($alumno, $record);
                 $this->createInscripcionIfNotExists($alumno, $record);
             } else {
-                Log::error('Error al crear el usuario para: ' . $record['id_alumno']);
-                throw new \Exception('Error al crear el usuario.');
+                $alumno = Alumno::where('numero_cuenta', $record['id_alumno'])->first();
+                $this->createInscripcionIfNotExists($alumno, $record);
             }
-        } elseif (!$alumnoExist) {
-            $usuario = User::where('username', $record['id_alumno'])->first();
-            $alumno = $this->createAlumno($usuario, $record);
-            $this->createSemestre($alumno, $record);
-            $this->createInscripcionIfNotExists($alumno, $record);
-        } else {
-            $alumno = Alumno::where('numero_cuenta', $record['id_alumno'])->first();
-            $this->createInscripcionIfNotExists($alumno, $record);
         }
     }
 
@@ -156,7 +167,7 @@ class ImportAlumnosController extends Controller
         return $usuario->alumno()->create(
             [
                 'numero_cuenta' => $record['id_alumno'],
-                'plantel_id' => Plantel::getIdPlantel($record['plantel']),
+                'plantel_id' => $record['plantel'],
                 'fecha_nacimiento' => $record['fecha_nacimiento'],
                 'sexo' => !empty($record['sexo']) ? $record['sexo'] : 'M',
             ]
@@ -177,8 +188,8 @@ class ImportAlumnosController extends Controller
             $idGrupo = Grupo::getGrupoId(
                 $record['grupo'],
                 $record['seccion'],
-                Asignatura::getIdAsignatura($record['asignatura']),
-                Plantel::getIdPlantel($record['plantel'])
+                $record['asignatura'],
+                $record['plantel']
             );
 
             $inscripcionExists = Inscripcion::where(
@@ -191,6 +202,9 @@ class ImportAlumnosController extends Controller
             )->exists();
 
             if (!$inscripcionExists) {
+                if (!$idGrupo) {
+                    Log::error('Grupo no encontrado para el alumno: ' . $alumno->numero_cuenta);
+                } else {
                     $alumno->inscripcion()->create(
                         [
                             'alumno_id' => $alumno->id,
@@ -200,6 +214,7 @@ class ImportAlumnosController extends Controller
                             'autoinscripcion' => 0,
                         ]
                     );
+                }
             }
         } catch (\Exception $e) {
             Log::error('Error al crear la inscripción para el alumno: ' . $alumno->numero_cuenta . ' - ' . $e->getMessage());
