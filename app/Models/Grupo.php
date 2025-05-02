@@ -48,7 +48,6 @@ class Grupo extends Model
 
     public static function getGrupoId($nombre, $seccion, $asignatura, $plantel): ?int
     {
-        log:info([$nombre, $seccion, $asignatura, $plantel]);
         $grupo = Grupo::where('nombre', $nombre)
             ->where('seccion', $seccion)
             ->where('asignatura_id', $asignatura)
