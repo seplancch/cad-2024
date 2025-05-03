@@ -47,9 +47,12 @@ class ImportAlumnosController extends Controller
     public function import(Request $request)
     {
 
-        $request->validate([
-            'archivo_csv' => 'required|file|mimes:csv',
-        ]);
+        $request->validate(
+            [
+                'archivo_csv' => 'required|file|mimes:csv',
+            ]
+        );
+
         Log::info('Inicia la importacion de alumnos');
 
         $csv = Reader::createFromPath($request->file('archivo_csv')->getRealPath(), 'r');
@@ -64,6 +67,7 @@ class ImportAlumnosController extends Controller
         foreach ($csv as $record) {
             if ((time() - $startTime) > $maxExecutionTime) {
                 log::error('El tiempo máximo de ejecución se ha superado. <br />Solo se procesaron ' . $conteoCarga . ' registros.');
+
                 return back()->with(
                     'error',
                     'El tiempo máximo de ejecución se ha superado. Solo se procesaron ' . $conteoCarga . ' registros.'
