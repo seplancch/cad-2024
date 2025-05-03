@@ -203,7 +203,13 @@ class ImportAlumnosController extends Controller
 
             if (!$inscripcionExists) {
                 if (!$idGrupo) {
-                    Log::error('Grupo no encontrado para el alumno: ' . $alumno->numero_cuenta);
+                    Log::error(
+                        'Grupo: '. $record['grupo'] .'
+                        no encontrado para el alumno: ' . $alumno->numero_cuenta .'
+                        asignatura: ' . $record['asignatura'] .'
+                        plantel: ' . $record['plantel'] .'
+                        seccion: ' . $record['seccion'] .''
+                    );
                 } else {
                     $alumno->inscripcion()->create(
                         [
