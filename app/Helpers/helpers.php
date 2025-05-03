@@ -9,7 +9,8 @@ function compruebaEstadoInscripciones($userid)
 {
     $estadoInscripciones = [];
     $usuario = User::find($userid);
-    $inscripciones = $usuario->inscripcion->where('periodo_id', Configuracion::find(1)->periodo->id);
+    $periodoActual = obtienePeriodoActual();
+    $inscripciones = $usuario->inscripcion->where('periodo_id', $periodoActual);
     $estadoInscripciones['numeroGrupos'] = count($inscripciones);
     $estadoInscripciones['estado'] = 0;
 
@@ -22,9 +23,15 @@ function compruebaEstadoInscripciones($userid)
         }
     }
 
-    if($estadoInscripciones['completados'] ==  $estadoInscripciones['numeroGrupos']){
+    if ($estadoInscripciones['completados'] ==  $estadoInscripciones['numeroGrupos']) {
         $estadoInscripciones['estado'] = 1;
     }
 
-   return (object) $estadoInscripciones;
+    return (object) $estadoInscripciones;
+}
+
+
+function obtienePeriodoActual()
+{
+    return Configuracion::find(1)->periodo->id;
 }
