@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use function App\Helpers\obtieneIdPeriodoActual;
 
 /**
  * Controller for importing alumnos from a CSV file.
@@ -201,7 +202,7 @@ class ImportAlumnosController extends Controller
                     ['alumno_id', '=', $alumno->id],
                     ['grupo_id', '=', $idGrupo],
                     ['activa', '=', 1],
-                    ['periodo_id', '=', 1],
+                    ['periodo_id', '=', obtieneIdPeriodoActual()],
                 ]
             )->exists();
 
@@ -220,7 +221,7 @@ class ImportAlumnosController extends Controller
                             'alumno_id' => $alumno->id,
                             'grupo_id' => $idGrupo,
                             'activa' => 1,
-                            'periodo_id' => 1,
+                            'periodo_id' => obtieneIdPeriodoActual(),
                             'autoinscripcion' => 0,
                         ]
                     );
@@ -247,7 +248,7 @@ class ImportAlumnosController extends Controller
         return $alumno->semestre()->create(
             [
                 'alumno_id' => $alumno->id,
-                'periodo_id' => 1,
+                'periodo_id' => obtieneIdPeriodoActual(),
                 'numero_semestre' => $record['semestre'],
             ]
         );

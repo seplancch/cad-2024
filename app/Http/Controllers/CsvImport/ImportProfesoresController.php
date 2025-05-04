@@ -15,6 +15,8 @@ use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+use function App\Helpers\obtieneIdPeriodoActual;
+
 /**
  * Controller for importing profesores from a CSV file.
  *
@@ -172,7 +174,7 @@ class ImportProfesoresController extends Controller
                 ['seccion', '=', $record['seccion']],
                 ['plantel_id', '=', $record['plantel']],
                 ['asignatura_id', '=', $record['asignatura']],
-                ['periodo_id', '=', 1]
+                ['periodo_id', '=', obtieneIdPeriodoActual()]
             ]
         )->exists();
 
@@ -183,7 +185,7 @@ class ImportProfesoresController extends Controller
                     'seccion' => $record['seccion'],
                     'plantel_id' => $record['plantel'],
                     'asignatura_id' => $record['asignatura'],
-                    'periodo_id' => 1,
+                    'periodo_id' => obtieneIdPeriodoActual(),
                 ]
             );
         }
