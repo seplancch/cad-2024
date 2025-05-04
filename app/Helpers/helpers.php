@@ -11,7 +11,7 @@ if (! function_exists('compruebaEstadoInscripciones')) {
     {
         $estadoInscripciones = [];
         $usuario = User::find($userid);
-        $periodoActual = obtienePeriodoActual();
+        $periodoActual = obtieneidPeriodoActual();
         $inscripciones = $usuario->inscripcion->where('periodo_id', $periodoActual);
         $estadoInscripciones['numeroGrupos'] = count($inscripciones);
         $estadoInscripciones['estado'] = 0;
