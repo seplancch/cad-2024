@@ -16,6 +16,7 @@ use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use function App\Helpers\obtieneIdPeriodoActual;
+use function App\Helpers\obtienePeriodoActual;
 
 /**
  * Controller for importing alumnos from a CSV file.
@@ -35,7 +36,8 @@ class ImportAlumnosController extends Controller
      */
     public function index()
     {
-        return view('import.alumnos');
+        $periodoActual = obtienePeriodoActual();
+        return view('import.alumnos', compact('periodoActual'));
     }
 
     /**

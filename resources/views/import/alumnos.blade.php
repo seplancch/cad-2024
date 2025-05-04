@@ -62,7 +62,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-4">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-6 py-4">
 
-                <h2 class="font-semibold text-xl text-gray-600 leading-tight mb-4 text-center mb-2">Cargando alumnos del periodo 2025-2</h2>
+                <h2 class="font-semibold text-xl text-gray-600 leading-tight mb-4 text-center mb-2">Cargando alumnos del periodo {{ $periodoActual }}</h2>
                 <form id="upload-form" action="{{ route('importaAlumnos') }}" method="post" enctype="multipart/form-data" class="w-full max-w-lg">
                     @csrf
                     <!-- file upload modal -->
