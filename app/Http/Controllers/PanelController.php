@@ -15,6 +15,8 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 
 use function App\Helpers\compruebaEstadoInscripciones;
+use function App\Helpers\obtieneIdPeriodoActual;
+use function App\Helpers\obtienePeriodoActual;
 
 class PanelController extends Controller
 {
@@ -28,22 +30,25 @@ class PanelController extends Controller
 
         if ($roles->contains('Admin')) {
             return view('panel.admin');
-        }else{
-            $periodo = Configuracion::find(1)->periodo;
-            $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
+        } else {
+            $periodo = obtieneIdPeriodoActual();
+            $periodoActual = obtienePeriodoActual();
+            $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo);
 
             $alm = new Alumno();
             $alumno = $alm->getAlumnoId($usuario->id);
-            $semestre = $alm->getSemestre($alumno->id, $periodo->id);
+            $semestre = $alm->getSemestre($alumno->id, $periodo);
 
-            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodo'));
+            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodoActual'));
         }
     }
 
     public function report()
     {
         $usuario = auth()->user();
-        $periodo = Configuracion::find(1)->periodo;
+        $periodo = new \stdClass();
+        $periodo->clave = obtienePeriodoActual();
+        $periodo->id = obtieneIdPeriodoActual();
         $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
 
         if(compruebaEstadoInscripciones($usuario->id)->estado == 1){

@@ -46,9 +46,9 @@ class Alumno extends Model
         return $this->where('user_id', $id)->first();
     }
 
-    public function getSemestre($id, $periodo)
+    public function getSemestre($alumno, $periodo)
     {
-        return Semestre::where('alumno_id', $id)->where('periodo_id', $periodo)->first()->numero_semestre;
+        return Semestre::where('alumno_id', $alumno)->where('periodo_id', $periodo)->first()->numero_semestre;
     }
 
 }

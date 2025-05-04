@@ -8,6 +8,8 @@ use App\Models\Inscripcion;
 use App\Models\Periodo;
 use App\Models\Rubro;
 
+use function App\Helpers\obtieneIdPeriodoActual;
+
 class CuestionarioController extends Controller
 {
     public function index()
@@ -26,7 +28,7 @@ class CuestionarioController extends Controller
             ->with('error','¡Este profesor ya ha sido evaluado!.');
         }else{
 
-            $periodo = Periodo::where('clave', '2024-2')->first();
+            $periodo = Periodo::where('id', obtieneIdPeriodoActual())->first();
             $preguntas = Cuestionario::find($periodo->cuestionario_id)->preguntas;
             $rubros = Rubro::all();
 

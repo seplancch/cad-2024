@@ -60,7 +60,7 @@
                 <div class="flex justify-between mb-6">
                     <div>
                         <div class="flex items-center mb-1">
-                            <div class="text-2xl font-semibold">Cuestionario de Actividad Docente {{$periodo->clave}}</div>
+                            <div class="text-2xl font-semibold">Cuestionario de Actividad Docente {{$periodoActual}}</div>
                         </div>
                         <div class="text-sm font-medium text-gray-600"><strong>Nombre:</strong> {{$usuario->name}}</div>
                         <div class="text-sm font-medium text-gray-600"><strong>Cuenta:</strong> {{$usuario->alumno->numero_cuenta}}</div>

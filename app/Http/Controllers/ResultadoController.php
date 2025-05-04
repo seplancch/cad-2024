@@ -9,6 +9,8 @@ use App\Models\Resultado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function App\Helpers\obtieneIdPeriodoActual;
+
 class ResultadoController extends Controller
 {
     public function store(Request $request)
@@ -48,17 +50,21 @@ class ResultadoController extends Controller
 
         $alumno = new Alumno();
         $alumno_id = $alumno->getAlumnoId(Auth::user()->id);
+        $grupo = Inscripcion::where('id', $request->input("inscripcion_id"))->first()->grupo_id;
 
         $selectedValues = [];
         for ($i = 1; $i <= 29; $i++) {
             $selectedValues["respuesta_$i"] = $request->input("respuesta_$i");
 
-            Resultado::create([
-                'alumno_id' => $alumno_id['id'],
-                'pregunta_id' => $i,
-                'respuesta_id' => $request->input("respuesta_$i"),
-                'periodo_id' => 1,
-            ]);
+            Resultado::create(
+                [
+                    'alumno_id' => $alumno_id['id'],
+                    'grupo_id' => $grupo,
+                    'pregunta_id' => $i,
+                    'respuesta_id' => $request->input("respuesta_$i"),
+                    'periodo_id' => obtieneIdPeriodoActual(),
+                ]
+            );
         }
 
         Inscripcion::where('id', $request->input("inscripcion_id"))

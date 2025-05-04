@@ -11,6 +11,7 @@ class Resultado extends Model
 
     protected $fillable = [
         'alumno_id',
+        'grupo_id',
         'pregunta_id',
         'respuesta_id',
         'periodo_id',
