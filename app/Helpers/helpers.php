@@ -47,7 +47,7 @@ if (! function_exists('obtienePeriodoActual')) {
         $periodoId = obtieneIdPeriodoActual();
         if ($periodoId) {
             $periodo = Periodo::find($periodoId);
-            return $periodo ? $periodo->nombre : null;
+            return $periodo ? $periodo->clave : null;
         }
         return null;
     }
