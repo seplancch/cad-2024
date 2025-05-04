@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             GrupoSeeder::class,
             AlumnoSeeder::class,
             InscripcionSeeder::class,
+            ConfiguracionSeeder::class,
 
         ]);
     }
