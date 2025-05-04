@@ -22,11 +22,11 @@ class CuestionarioController extends Controller
 
         $inscripcion = Inscripcion::where('id', $id)->first();
 
-        if($inscripcion->estado == '1'){
+        if ($inscripcion->estado == '1') {
 
             return redirect()->route('dashboard')
-            ->with('error','¡Este profesor ya ha sido evaluado!.');
-        }else{
+            ->with('error', '¡Este profesor ya ha sido evaluado!.');
+        } else {
 
             $periodo = Periodo::where('id', obtieneIdPeriodoActual())->first();
             $preguntas = Cuestionario::find($periodo->cuestionario_id)->preguntas;

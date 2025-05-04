@@ -81,7 +81,7 @@
                                             <select id="" name="respuesta_{{ $pregunta->id }}" class="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm @if($errors->has('respuesta_'.$pregunta->id)) border-red-500 @endif">
                                                 <option value="">Seleccione una respuesta</option>
                                                 @foreach ($pregunta->respuestas as $respuesta)
-                                                <option value="{{$respuesta->puntos}}" {{ old('respuesta_' . $pregunta->id) == $respuesta->puntos ? 'selected' : '' }}>{{ $respuesta->respuesta }}</option>
+                                                <option value="{{$respuesta->id}}" {{ old('respuesta_' . $pregunta->id) == $respuesta->id ? 'selected' : '' }}>{{ $respuesta->respuesta }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
