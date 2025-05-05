@@ -10,10 +10,8 @@ class Resultado extends Model
     use HasFactory;
 
     protected $fillable = [
-        'alumno_id',
-        'grupo_id',
+        'inscripcion_id',
         'pregunta_id',
         'respuesta_id',
-        'periodo_id',
     ];
 }
