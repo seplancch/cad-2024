@@ -153,9 +153,7 @@ class ImportProfesoresController extends Controller
                 'numero_trabajador' => $record['ntrabajador'],
                 'rfc' => $record['rfc'],
                 'plantel_id' => $record['plantel'],
-                'turno' => $record['turno'],
                 'fecha_nacimiento' => '1990-01-01',
-                'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
                 'sexo' => !empty($record['sexo']) ? $record['sexo'] : 'M',
             ]
         );
@@ -175,6 +173,8 @@ class ImportProfesoresController extends Controller
             [
                 'plantel_id' => $record['plantel'],
                 'periodo_id' => obtieneIdPeriodoActual(),
+                'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
+                'turno' => $record['turno'],
                 'fecha_asignacion' => Carbon::now(),
             ]
         );

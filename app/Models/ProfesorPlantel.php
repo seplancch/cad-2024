@@ -12,6 +12,8 @@ class ProfesorPlantel extends Model
         'profesor_id',
         'plantel_id',
         'periodo_id',
+        'antiguedad',
+        'turno',
         'fecha_asignacion',
     ];
 

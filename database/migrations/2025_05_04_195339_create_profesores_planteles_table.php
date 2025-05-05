@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('profesor_id'); // Referencia a la tabla 'profesores'
             $table->unsignedBigInteger('plantel_id'); // Referencia a la tabla 'plantel'
             $table->unsignedBigInteger('periodo_id'); // Referencia a la tabla 'periodo'
+            $table->unsignedSmallInteger('antiguedad');
+            $table->enum('turno', ['M', 'V']);
             $table->date('fecha_asignacion')->default(DB::raw('CURRENT_DATE')); // Fecha de asignación con valor predeterminado actual
             $table->timestamps(); // Agrega columnas 'created_at' y 'updated_at'
 

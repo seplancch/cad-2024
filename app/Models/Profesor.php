@@ -16,10 +16,7 @@ class Profesor extends Model
     protected $fillable = [
         'numero_trabajador',
         'rfc',
-        'plantel_id',
-        'turno',
         'fecha_nacimiento',
-        'antiguedad',
         'sexo'
     ];
 
@@ -42,7 +39,7 @@ class Profesor extends Model
         return $this->belongsTo(Plantel::class);
     }
 
-    public function ProfesorPlantel(): HasMany
+    public function profesorPlantel(): HasMany
     {
         return $this->hasMany(ProfesorPlantel::class);
     }
