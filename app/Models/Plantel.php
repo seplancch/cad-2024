@@ -28,6 +28,11 @@ class Plantel extends Model
         return $this->hasMany(Grupo::class);
     }
 
+    public function profesorPlantel(): hasMany
+    {
+        return $this->hasMany(ProfesorPlantel::class);
+    }
+
     public static function getIdPlantel($clave)
     {
         return Plantel::where('clave', $clave)->first()->id;

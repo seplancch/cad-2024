@@ -41,4 +41,9 @@ class Profesor extends Model
     {
         return $this->belongsTo(Plantel::class);
     }
+
+    public function ProfesorPlantel(): HasMany
+    {
+        return $this->hasMany(ProfesorPlantel::class);
+    }
 }
