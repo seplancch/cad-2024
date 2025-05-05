@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profesor_plantel', function (Blueprint $table) {
+        Schema::create('profesores_planteles', function (Blueprint $table) {
             $table->id(); // Crea una columna 'id' autoincremental como clave primaria
             $table->unsignedBigInteger('profesor_id'); // Referencia a la tabla 'profesores'
             $table->unsignedBigInteger('plantel_id'); // Referencia a la tabla 'plantel'
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profesor_plantel');
+        Schema::dropIfExists('profesores_planteles');
     }
 };
