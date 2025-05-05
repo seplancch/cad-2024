@@ -22,13 +22,5 @@ class GrupoSeeder extends Seeder
             'periodo_id' => '1',
         ]);
 
-        Grupo::create([
-            'nombre' => '604',
-            'seccion' => 'A',
-            'asignatura_id' => '1504',
-            'profesor_id' => '2',
-            'plantel_id' => '47205',
-            'periodo_id' => '1',
-        ]);
     }
 }

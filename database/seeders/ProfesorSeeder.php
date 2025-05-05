@@ -12,24 +12,22 @@ class ProfesorSeeder extends Seeder
      */
     public function run(): void
     {
-        Profesor::create([
-            'user_id' => '2',
-            'numero_trabajador' => '885650',
-            'rfc' => 'we23',
-            'plantel_id' => '47205',
-            'fecha_nacimiento' => '19900101',
-            'antiguedad' => '5',
-            'sexo' => '1',
-        ]);
-        Profesor::create([
+        $profesor = Profesor::create([
             'user_id' => '1',
             'numero_trabajador' => '851788',
-            'rfc' => '23444',
-            'plantel_id' => '47205',
-            'fecha_nacimiento' => '19900101',
-            'antiguedad' => '15',
+            'rfc' => 'basj850331631',
+            'fecha_nacimiento' => '19850331',
             'sexo' => '2',
         ]);
+
+
+        $profesor->profesorPlantel()->create([
+            'plantel_id' => '47205',
+            'periodo_id' => '8',
+            'antiguedad' => '15',
+            'fecha_asignacion' => now(),
+        ]);
+
 
     }
 }

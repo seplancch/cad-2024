@@ -20,12 +20,5 @@ class InscripcionSeeder extends Seeder
             'autoinscripcion' => '0',
             'periodo_id' => '1',
         ]);
-        Inscripcion::create([
-            'alumno_id' => '1',
-            'grupo_id' => '2',
-            'activa' => '1',
-            'autoinscripcion' => '0',
-            'periodo_id' => '1',
-        ]);
     }
 }
