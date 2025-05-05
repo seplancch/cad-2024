@@ -105,10 +105,12 @@ class ImportProfesoresController extends Controller
         if (!User::where('username', $record['rfc'])->exists()) {
             $usuario = $this->createUser($record);
             $profesor = $this->createProfesor($usuario, $record);
+            $this->createProfesorPlantel($profesor, $record);
             $this->createGrupoIfNotExists($profesor, $record);
         } elseif (!$profesorExists) {
             $usuario = User::where('username', $record['rfc'])->first();
             $profesor = $this->createProfesor($usuario, $record);
+            $this->createProfesorPlantel($profesor, $record);
             $this->createGrupoIfNotExists($profesor, $record);
         } else {
             $profesor = Profesor::where('rfc', $record['rfc'])->first();
@@ -155,6 +157,25 @@ class ImportProfesoresController extends Controller
                 'fecha_nacimiento' => '1990-01-01',
                 'antiguedad' => !empty($record['antiguedad']) ? $record['antiguedad'] : 0,
                 'sexo' => !empty($record['sexo']) ? $record['sexo'] : 'M',
+            ]
+        );
+    }
+
+    /**
+     * Create a new profesor plantel if it does not exist.
+     *
+     * @param \App\Models\ProfesorPlantel $profesor The profesor model.
+     * @param array $record The record containing plantel information.
+     *
+     * @return void
+     */
+    private function createProfesorPlantel($profesor, $record)
+    {
+        $profesor->profesorPlantel()->create(
+            [
+                'plantel_id' => $record['plantel'],
+                'periodo_id' => obtieneIdPeriodoActual(),
+                'fecha_asignacion' => Carbon::now(),
             ]
         );
     }
