@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
 
     <title>Reporte CAD</title>
@@ -19,9 +19,9 @@
   <body>
 
     <div class="text-center">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Escudo-UNAM-escalable.svg" alt="UNAM" width="50" />&nbsp;&nbsp;
-        <img src="https://portalacademico.cch.unam.mx/themes/pacch/img/logo-cch-color.svg" alt="CCH" width="50" /> &nbsp;&nbsp;
-        <img src="https://cad.cch.unam.mx/seplan_logo.png" alt="CAD" width="50" />
+        <img src="{{ asset('img/unam.svg') }}" alt="UNAM" width="50" />&nbsp;&nbsp;
+        <img src="{{ asset('img/cch.svg') }}" alt="CCH" width="50" /> &nbsp;&nbsp;
+        <img src="{{ asset('img/seplan_logo.png') }}" alt="CAD" width="50" />
     </div>
     <div class="text-center">
                 <p>Universidad Nacional Autónoma de México <br/>
