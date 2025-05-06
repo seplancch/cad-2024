@@ -13,6 +13,8 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 use function App\Helpers\compruebaEstadoInscripciones;
 use function App\Helpers\obtieneIdPeriodoActual;
@@ -63,15 +65,18 @@ class PanelController extends Controller
             );
 
             $writer = new Writer($renderer);
-            $writer->writeFile($linkvalidacion, 'qrcode.png');
-            $qrImagen = 'qrcode.png';
+            $qrFileName = 'qr_' . $alumno->numero_cuenta . '_' . $periodo->clave . '.png';
+            $qrPath = 'public/qr/' . $qrFileName;
+            Storage::makeDirectory('public/qr');
+            $writer->writeFile($linkvalidacion, storage_path('app/' . $qrPath));
+            $qrImagen = storage_path('app/' . $qrPath);
 
+            $pdf = Pdf::loadView('panel.reporte', compact('inscripciones', 'semestre', 'alumno', 'qrImagen', 'periodo', 'linkvalidacion'));
+            $pdf->setEncryption('', 'CAD2024', ['modify', 'copy', 'add']);
 
-            $pdf = Pdf::loadView('panel.reporte',compact('inscripciones', 'semestre', 'alumno', 'qrImagen', 'periodo', 'linkvalidacion'));
-            $pdf->setEncryption('', 5678, ['modify', 'copy', 'add']);
-
-
-            return $pdf->stream('comprobante_cad_'.$alumno->numero_cuenta.'.pdf');
+            $response = $pdf->stream('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
+            File::delete($qrImagen);
+            return $response;
             //return $pdf->download('comprobante_cad_'.$alumno->numero_cuenta.'.pdf');
         }else{
             return redirect()->route('dashboard')->with('error', 'No se puede generar el reporte, por favor completa todas tus inscripciones');
