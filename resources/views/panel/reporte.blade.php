@@ -14,14 +14,117 @@
         body, blockquote {
             font-size: 12px !important;
         }
+        
+        /* Estilos de Bootstrap básicos */
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            background-color: #343a40;
+            color: white;
+        }
+        
+        .table tbody + tbody {
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .text-center {
+            text-align: center !important;
+        }
+        
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+        
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        
+        .badge-success {
+            color: #fff;
+            background-color: #28a745;
+        }
+        
+        .badge-danger {
+            color: #fff;
+            background-color: #dc3545;
+        }
+        
+        .mt-3 {
+            margin-top: 1rem !important;
+        }
+        
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+        
+        .text-primary {
+            color: #007bff !important;
+        }
+        
+        .text-right {
+            text-align: right !important;
+        }
+        
+        .mb-0 {
+            margin-bottom: 0 !important;
+        }
+        
+        .blockquote {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .blockquote-footer {
+            display: block;
+            font-size: 80%;
+            color: #6c757d;
+        }
     </style>
   </head>
   <body>
 
     <div class="text-center">
-        <img src="{{ asset('img/unam.svg') }}" alt="UNAM" width="50" />&nbsp;&nbsp;
-        <img src="{{ asset('img/cch.svg') }}" alt="CCH" width="50" /> &nbsp;&nbsp;
-        <img src="{{ asset('img/seplan_logo.png') }}" alt="CAD" width="50" />
+        <img src="{{ public_path('img/unam.svg') }}" alt="UNAM" width="50" />&nbsp;&nbsp;
+        <img src="{{ public_path('img/cch.svg') }}" alt="CCH" width="50" /> &nbsp;&nbsp;
+        <img src="{{ public_path('img/seplan_logo.png') }}" alt="CAD" width="50" />
     </div>
     <div class="text-center">
                 <p>Universidad Nacional Autónoma de México <br/>

@@ -74,7 +74,8 @@ class PanelController extends Controller
             $pdf = Pdf::loadView('panel.reporte', compact('inscripciones', 'semestre', 'alumno', 'qrImagen', 'periodo', 'linkvalidacion'));
             $pdf->setEncryption('', 'CAD2024', ['modify', 'copy', 'add']);
 
-            $response = $pdf->stream('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
+            //$response = $pdf->stream('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
+            $response = $pdf->download('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
             File::delete($qrImagen);
             return $response;
             //return $pdf->download('comprobante_cad_'.$alumno->numero_cuenta.'.pdf');
