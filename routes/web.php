@@ -12,6 +12,7 @@ use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\Inicio\InicioController;
 use App\Models\Profesor;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +29,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::redirect('/', '/login');
+//Route::redirect('/', '/login');
+
+
+Route::get('/', [InicioController::class, 'index'])->name('home');
+Route::get('/contacto', [InicioController::class, 'contacto'])->name('contacto');
+Route::get('/creditos', [InicioController::class, 'creditos'])->name('creditos');
+Route::get('/preguntas-frecuentes', [InicioController::class, 'preguntasFrecuentes'])->name('preguntas-frecuentes');
+Route::get('/que-es', [InicioController::class, 'queEs'])->name('que-es');
+Route::get('/recursos', [InicioController::class, 'recursos'])->name('recursos');
 
 Route::middleware(
     [
