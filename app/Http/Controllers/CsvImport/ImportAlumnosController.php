@@ -154,6 +154,9 @@ class ImportAlumnosController extends Controller
             [
                 'username' => $record['id_alumno'],
                 'name' => $record['nombre'] . ' ' . $record['paterno'] . ' ' . $record['materno'],
+                'nombre' => $record['nombre'],
+                'apaterno' => $record['paterno'],
+                'amaterno' => $record['materno'],
                 'email' => $record['email'],
                 'password' => bcrypt($record['fecha_nacimiento']), // O puedes usar 'password' => Hash::make($record['rfc']),
                 'tipo' => 'A'
@@ -210,13 +213,7 @@ class ImportAlumnosController extends Controller
 
             if (!$inscripcionExists) {
                 if (!$idGrupo) {
-                    Log::error(
-                        'Grupo: '. $record['grupo'] .'
-                        no encontrado para el alumno: ' . $alumno->numero_cuenta .'
-                        asignatura: ' . $record['asignatura'] .'
-                        plantel: ' . $record['plantel'] .'
-                        seccion: ' . $record['seccion'] .''
-                    );
+                    Log::error('Grupo: '. $record['grupo'] .' no encontrado para el alumno: ' . $alumno->numero_cuenta .' asignatura: ' . $record['asignatura'] .' plantel: ' . $record['plantel'] .'seccion: ' . $record['seccion'] .'');
                 } else {
                     $alumno->inscripcion()->create(
                         [

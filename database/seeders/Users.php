@@ -33,23 +33,12 @@ class Users extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        /*\App\Models\User::factory()->create([
-            'numero_cuenta' => '151788',
-            'name' => 'Jonathan Bailon',
-            'email' => 'jonathan.bailon@cch.unam.mx',
-            'password' => bcrypt('000000'),
-            'fnacimiento' => '19991212',
-            'plantel' => 5,
-            'semestre' => 6,
-            'sexo' => 1,
-        ]);*/
-
         $user = User::create([
-            'username' => '851788',
+            'username' => 'basj850331631',
             'name' => 'Jonathan Bailon',
             'email' => 'jonathan.bailon@cch.unam.mx',
-            'password' => bcrypt('000000'),
-            'tipo' => 'P'
+            'password' => bcrypt('851788'),
+            'tipo' => 'E'
         ]);
 
         //$role = Role::create(['name' => 'Admin', 'name' => 'Alumno', 'name' => 'Profesor']);
@@ -61,17 +50,8 @@ class Users extends Seeder
 
         $user->assignRole([$role->id]);
 
-
-        $user = User::create([
-            'username' => '885650',
-            'name' => 'Jesus Daniel Bobadilla Calva',
-            'email' => 'jesus.bobadilla@cch.unam.mx',
-            'password' => bcrypt('000000'),
-            'tipo' => 'P',
-        ]);
-
         $user->assignRole([$role->id]);
 
-        \App\Models\User::factory(2)->create();
+        //\App\Models\User::factory(2)->create();
     }
 }
