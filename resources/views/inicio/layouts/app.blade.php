@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Cuestionario de Actividad Docente') }}</title>
     <meta name="description" content="{{ config('app.description', 'El Cuestionario de Actividad Docente (CAD), es un instrumento que tiene como objetivo recoger la opinión de los alumnos sobre algunos indicadores de desempeño de los profesores en los cursos ordinarios') }}">
+    <link rel="icon" href="{{ asset('img/favicon.svg') }}" type="svg+xml">
+    <link rel="apple-touch-icon" href="{{ asset('img/favicon.svg') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('img/favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -14,108 +21,117 @@
 
     <style>
         :root {
-          --cad-red: 230 57 70;
-          --cad-blue: 28 110 140;
-          --cad-blue-light: rgb(199, 248, 255);
-          --cad-orange: 240 150 45;
-          --cad-brown: 142 114 88;
-          --cad-green: 0 161 137;
-          --cad-light: rgb(230, 244, 241);
-          --cad-dark: 0 28 53;
-          --css-red: rgb(230, 57, 70);
-          --css-blue: rgb(28, 110, 140);
-          --css-blue-light: rgb(199, 248, 255);
-          --css-orange: rgb(240, 150, 45);
-          --css-brown: rgb(142, 114, 88);
-          --css-green: rgb(0, 161, 137);
-          --css-light: rgb(230, 244, 241);
-          --css-dark: rgb(0, 28, 53);
-          --headings-xl: clamp(1.7rem, 2.1vw, 2.2rem);
-          --headings-lg: clamp(1.4rem, 1.7vw, 1.9rem);
+            --cad-red: 230 57 70;
+            --cad-blue: 28 110 140;
+            --cad-blue-light: rgb(199, 248, 255);
+            --cad-orange: 240 150 45;
+            --cad-brown: 142 114 88;
+            --cad-green: 0 161 137;
+            --cad-light: rgb(230, 244, 241);
+            --cad-dark: 0 28 53;
+            --css-red: rgb(230, 57, 70);
+            --css-blue: rgb(28, 110, 140);
+            --css-blue-light: rgb(199, 248, 255);
+            --css-orange: rgb(240, 150, 45);
+            --css-brown: rgb(142, 114, 88);
+            --css-green: rgb(0, 161, 137);
+            --css-light: rgb(230, 244, 241);
+            --css-dark: rgb(0, 28, 53);
+            --headings-xl: clamp(1.7rem, 2.1vw, 2.2rem);
+            --headings-lg: clamp(1.4rem, 1.7vw, 1.9rem);
         }
         html {
-          font-family: "Montserrat", sans-serif;
-          scroll-behavior: smooth;
+            font-family: "Montserrat", sans-serif;
+            scroll-behavior: smooth;
         }
         body {
-          background-color: var(--cad-light);
-          color: var(--cad-dark);
+            background-color: var(--cad-light);
+            color: var(--cad-dark);
         }
         h3 {
-          color: var(--css-blue);
-          font-weight: 900;
-          font-size: var(--headings-xl);
-          text-transform: uppercase;
-          text-wrap: pretty;
+            color: var(--css-blue);
+            font-weight: 900;
+            font-size: var(--headings-xl);
+            text-transform: uppercase;
+            text-wrap: pretty;
         }
         h4 {
-          color: var(--css-orange);
-          font-weight: 600;
-          font-size: var(--headings-lg);
-          text-wrap: pretty;
+            color: var(--css-orange);
+            font-weight: 600;
+            font-size: var(--headings-lg);
+            text-wrap: pretty;
         }
         p {
-          text-wrap: pretty;
+            text-wrap: pretty;
         }
         p:not(:last-child) {
-          margin-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         main {
-          min-height: 80vh;
+            min-height: 80vh;
         }
         .ol-number {
-          list-style: none;
-          counter-reset: item;
+            list-style: none;
+            counter-reset: item;
         }
         .ol-number li {
-          counter-increment: item;
-          margin-bottom: 2rem;
-          display: flex;
-          align-items: center;
+            counter-increment: item;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
         }
         .ol-number li:before {
-          margin-right: 1rem;
-          content: counter(item);
-          background: var(--css-blue);
-          color: var(--css-light);
-          border-radius: 100%;
-          min-width: 2rem;
-          min-height: 2rem;
-          text-align: center;
-          font-weight: 900;
-          line-height: 2rem;
-          display: inline-block;
+            margin-right: 1rem;
+            content: counter(item);
+            background: var(--css-blue);
+            color: var(--css-light);
+            border-radius: 100%;
+            min-width: 2rem;
+            min-height: 2rem;
+            text-align: center;
+            font-weight: 900;
+            line-height: 2rem;
+            display: inline-block;
         }
         .ul-disc {
-          list-style: none;
-          margin-left: 1rem;
+            list-style: none;
+            margin-left: 1rem;
         }
         .ul-disc li {
-          margin-bottom: 2rem;
-          display: flex;
-          align-items: flex-start;
-          justify-content: flex-start;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
         }
         .ul-disc li:before {
-          margin-right: 0.5rem;
-          content: "";
-          background: var(--css-blue);
-          border-radius: 100%;
-          min-width: 0.7rem;
-          min-height: 0.7rem;
-          max-width: 0.7rem;
-          max-height: 0.7rem;
-          margin-top: 0.3rem;
-          display: inline-block;
+            margin-right: 0.5rem;
+            content: "";
+            background: var(--css-blue);
+            border-radius: 100%;
+            min-width: 0.7rem;
+            min-height: 0.7rem;
+            max-width: 0.7rem;
+            max-height: 0.7rem;
+            margin-top: 0.3rem;
+            display: inline-block;
         }
-      </style>
-    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('img/favicon.png') }}">
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{ asset('img/favicon.png') }}">
+        .animate-ease-in-out {
+        animation-timing-function: cubic-bezier(.4,0,.2,1);
+
+        }
+        .animate-once {
+        animation-iteration-count: 1;
+
+        }
+        .animate-duration-1000, .animate-duration-\[1000ms\] {
+        animation-duration: 1s;
+
+        }
+        .animate-alternate-reverse {
+        animation-direction: alternate-reverse;
+
+        }
+    </style>
 </head>
 <body>
     <header class="bg-cyan-100 w-full py-4 z-50 top-0 hover:transition-all sticky">
@@ -141,17 +157,6 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-100 mt-8">
-        <div class="container mx-auto px-4 py-8">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p>&copy; {{ date('Y') }} {{ config('app.name', 'CAD') }}. Todos los derechos reservados.</p>
-                </div>
-                <div>
-                    <a href="{{ route('creditos') }}">Créditos</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    @include('inicio.partials.footer')
 </body>
 </html>

@@ -16,8 +16,8 @@
         </div>
         <div class="ms-3 text-sm font-normal">
             <span class="block font-bold uppercase">Fechas para completar el CAD</span>
-            <span class="block">Alumnos de 6to semestre 13 al 24 de Mayo</span>
-            <span class="block">Alumnos de 2do y 4to semestre 3 al 21 de Junio</span>
+            <span class="block">Alumnos de 6to semestre 12 al 16 de Mayo</span>
+            <span class="block">Alumnos de 2do y 4to semestre 2 al 13 de Junio</span>
         </div>
         <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red text-light hover:text-gray-900 rounded-lg p-1 hover:bg-blue inline-flex items-center justify-center size-5 transition-all self-start" data-dismiss-target="#toast-warning" aria-label="Close">
             <span class="sr-only">Cerrar</span>
@@ -34,7 +34,7 @@
     </div>
 
     <!--<div class="bg-dark backdrop-blur-sm h-dvh block min-w-full absolute z-20 animate-fade animate-once animate-duration-[1000ms] animate-ease-in-out animate-alternate-reverse pointer-events-none">
-    </div>-->
+    </div> -->
 
     <section class="text-pretty bg-light text-light h-dvh flex flex-col justify-center items-center lg:bg-cover lg:bg-center"
         style="{{'background-image: url(' . asset('img/bg-hero.webp') . '); background-size: cover;'}}">

@@ -14,26 +14,26 @@ class InicioController extends Controller
 
     public function contacto()
     {
-        return view('pages.contacto');
+        return view('inicio.contacto');
     }
 
     public function creditos()
     {
-        return view('pages.creditos');
+        return view('inicio.creditos');
     }
 
     public function preguntasFrecuentes()
     {
-        return view('pages.preguntas-frecuentes');
+        return view('inicio.preguntas-frecuentes');
     }
 
     public function queEs()
     {
-        return view('pages.que-es');
+        return view('inicio.que-es');
     }
 
     public function recursos()
     {
-        return view('pages.recursos');
+        return view('inicio.recursos');
     }
 }
