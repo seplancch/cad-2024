@@ -13,14 +13,6 @@ class GrupoSeeder extends Seeder
      */
     public function run(): void
     {
-        Grupo::create([
-            'nombre' => '404',
-            'seccion' => 'A',
-            'asignatura_id' => '1102',
-            'profesor_id' => '1',
-            'plantel_id' => '47205',
-            'periodo_id' => '1',
-        ]);
 
     }
 }

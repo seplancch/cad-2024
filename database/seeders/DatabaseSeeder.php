@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             Users::class,
-            Cuestionario::class,
+            CuestionarioSeeder::class,
             Rubros::class,
             PreguntasSeeder::class,
             PlantelSeeder::class,
