@@ -131,6 +131,9 @@ class ImportProfesoresController extends Controller
             [
                 'username' => $record['rfc'],
                 'name' => $record['nombre'] . ' ' . $record['paterno'] . ' ' . $record['materno'],
+                'nombre' => $record['nombre'],
+                'apaterno' => $record['paterno'],
+                'amaterno' => $record['materno'],
                 'email' => $record['rfc'] . '@example.com',
                 'password' => bcrypt($record['ntrabajador']), // O puedes usar 'password' => Hash::make($record['rfc']),
                 'tipo' => 'P'
