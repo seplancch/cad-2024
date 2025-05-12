@@ -28,30 +28,29 @@ class PanelController extends Controller
         $usuario = auth()->user();
         $roles = $usuario->getRoleNames();
 
-        // Obtener el semestre del alumno
-        $periodo = obtieneIdPeriodoActual();
-        $alm = new Alumno();
-        $alumno = $alm->getAlumnoId($usuario->id);
-        $semestre = $alm->getSemestre($alumno->id, $periodo);
-
-        // Obtener las fechas de configuración según el semestre
-        if ($semestre == 6) {
-            $inicio = Configuracion::where('nombre', 'INICIO_6')->first();
-            $cierre = Configuracion::where('nombre', 'CIERRE_6')->first();
-        } else {
-            $inicio = Configuracion::where('nombre', 'INICIO_24')->first();
-            $cierre = Configuracion::where('nombre', 'CIERRE_24')->first();
-        }
-        
-        $fechaActual = Carbon::now();
-        $fechaInicio = Carbon::createFromFormat('d-m-Y', $inicio->valor);
-        $fechaCierre = Carbon::createFromFormat('d-m-Y', $cierre->valor);
-        
-        $fueraDeRango = !$fechaActual->between($fechaInicio, $fechaCierre);
-
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         } else {
+            // Obtener el semestre del alumno
+            $periodo = obtieneIdPeriodoActual();
+            $alm = new Alumno();
+            $alumno = $alm->getAlumnoId($usuario->id);
+            $semestre = $alm->getSemestre($alumno->id, $periodo);
+
+            // Obtener las fechas de configuración según el semestre
+            if ($semestre == 6) {
+                $inicio = Configuracion::where('nombre', 'INICIO_6')->first();
+                $cierre = Configuracion::where('nombre', 'CIERRE_6')->first();
+            } else {
+                $inicio = Configuracion::where('nombre', 'INICIO_24')->first();
+                $cierre = Configuracion::where('nombre', 'CIERRE_24')->first();
+            }
+            
+            $fechaActual = Carbon::now();
+            $fechaInicio = Carbon::createFromFormat('d-m-Y', $inicio->valor);
+            $fechaCierre = Carbon::createFromFormat('d-m-Y', $cierre->valor);
+            
+            $fueraDeRango = !$fechaActual->between($fechaInicio, $fechaCierre);
             $periodoActual = obtienePeriodoActual();
             $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo);
 
