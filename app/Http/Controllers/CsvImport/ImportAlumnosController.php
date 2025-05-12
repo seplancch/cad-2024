@@ -61,7 +61,7 @@ class ImportAlumnosController extends Controller
         $csv = Reader::createFromPath($request->file('archivo_csv')->getRealPath(), 'r');
         $csv->setHeaderOffset(0);
 
-        //ini_set('max_execution_time', 18000);
+        ini_set('max_execution_time', 0);
 
         $startTime = time();
         $maxExecutionTime = ini_get('max_execution_time') - 5; // 5 segundos de margen
