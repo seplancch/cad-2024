@@ -497,6 +497,33 @@
         </div>
     </div>
 
+    <!-- Sección de Ayuda -->
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-4">
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="ml-3 text-lg font-medium text-gray-900">¿Necesitas ayuda?</h2>
+                </div>
+            </div>
+            <div class="px-6 py-4">
+                <div class="text-sm text-gray-600">
+                    <p class="mb-3">Si tienes algún problema con la evaluación, por favor envía un correo a <a href="mailto:cad@cch.unam.mx" class="text-blue-600 hover:text-blue-800">cad@cch.unam.mx</a> incluyendo:</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700">
+                        <li>Tu número de cuenta: <span class="font-medium text-gray-900">{{$usuario->alumno->numero_cuenta}}</span></li>
+                        <li>El nombre del profesor y grupo con el que tienes el problema</li>
+                        <li>Una descripción detallada del problema</li>
+                    </ul>
+                    <p class="mt-3 text-gray-500 italic">Te responderemos a la brevedad posible.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div>
         @if($fueraDeRango)
         <div id="modal-advertencia" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" x-data="{ show: true }" x-show="show">
