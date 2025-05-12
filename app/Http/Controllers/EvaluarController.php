@@ -2,18 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alumno;
-use App\Models\Grupo;
-use App\Models\Inscripcion;
-use App\Models\Resultado;
 use Illuminate\Http\Request;
+use App\Models\Cuestionario;
+use App\Models\Inscripcion;
+use App\Models\Periodo;
+use App\Models\Rubro;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Resultado;
 use Illuminate\Support\Facades\DB;
 
 use function App\Helpers\obtieneIdPeriodoActual;
 
-class ResultadoController extends Controller
+class EvaluarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function show($id)
+    {
+        // Verificar que la inscripción pertenece al usuario actual
+        $inscripcion = Inscripcion::where('id', $id)
+            ->whereHas('alumno', function($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->firstOrFail();
+
+        if ($inscripcion->estado == '1') {
+            return redirect()->route('dashboard')
+                ->with('error', '¡Este profesor ya ha sido evaluado!');
+        }
+
+        // Obtener el cuestionario del periodo actual
+        $periodo = Periodo::where('id', obtieneIdPeriodoActual())->first();
+        $preguntas = Cuestionario::find($periodo->cuestionario_id)->preguntas;
+        $rubros = Rubro::all();
+
+        return view('evaluar.show', compact('preguntas', 'rubros', 'id', 'inscripcion'));
+    }
+
     public function store(Request $request)
     {
         $request->validate(
@@ -72,12 +100,12 @@ class ResultadoController extends Controller
             DB::commit();
 
             return redirect()->route('dashboard')
-                ->with('success', '¡Evaluación completada con exito!.');
+                ->with('success', '¡Evaluación completada con éxito!');
         } catch (\Exception $e) {
             DB::rollBack();
-            log:error('Error al guardar la evaluación de: ' . $e->getMessage());
+            \Log::error('Error al guardar la evaluación: ' . $e->getMessage());
             return redirect()->route('dashboard')
-                ->with('error', '¡Error al guardar la evaluación!.:' . $e->getMessage());
+                ->with('error', '¡Error al guardar la evaluación!: ' . $e->getMessage());
         }
     }
-}
+} 

@@ -79,6 +79,7 @@ class ImportProfesoresController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                Log::error('Ocurrió un error al importar los datos: ' . $e->getMessage());
                 return back()->with('error', 'Ocurrió un error al importar los datos: ' . $e->getMessage());
             }
             $conteoCarga++;

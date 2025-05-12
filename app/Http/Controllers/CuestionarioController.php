@@ -12,28 +12,13 @@ use function App\Helpers\obtieneIdPeriodoActual;
 
 class CuestionarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('cuestionarios');
-    }
-
-    public function show($id)
-    {
-
-        $inscripcion = Inscripcion::where('id', $id)->first();
-
-        if ($inscripcion->estado == '1') {
-
-            return redirect()->route('dashboard')
-            ->with('error', '¡Este profesor ya ha sido evaluado!.');
-        } else {
-
-            $periodo = Periodo::where('id', obtieneIdPeriodoActual())->first();
-            $preguntas = Cuestionario::find($periodo->cuestionario_id)->preguntas;
-            $rubros = Rubro::all();
-
-            return view('show-cuestionario', compact('preguntas', 'rubros', 'id', 'inscripcion'));
-        }
-
     }
 }

@@ -15,6 +15,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 use function App\Helpers\compruebaEstadoInscripciones;
 use function App\Helpers\obtieneIdPeriodoActual;
@@ -24,28 +25,41 @@ class PanelController extends Controller
 {
     public function index()
     {
-
         $usuario = auth()->user();
+        $roles = $usuario->getRoleNames();
 
+        // Obtener el semestre del alumno
+        $periodo = obtieneIdPeriodoActual();
+        $alm = new Alumno();
+        $alumno = $alm->getAlumnoId($usuario->id);
+        $semestre = $alm->getSemestre($alumno->id, $periodo);
 
-        $roles = $usuario->getRoleNames(); // Returns a collection
+        // Obtener las fechas de configuración según el semestre
+        if ($semestre == 6) {
+            $inicio = Configuracion::where('nombre', 'INICIO_6')->first();
+            $cierre = Configuracion::where('nombre', 'CIERRE_6')->first();
+        } else {
+            $inicio = Configuracion::where('nombre', 'INICIO_24')->first();
+            $cierre = Configuracion::where('nombre', 'CIERRE_24')->first();
+        }
+        
+        $fechaActual = Carbon::now();
+        $fechaInicio = Carbon::createFromFormat('d-m-Y', $inicio->valor);
+        $fechaCierre = Carbon::createFromFormat('d-m-Y', $cierre->valor);
+        
+        $fueraDeRango = !$fechaActual->between($fechaInicio, $fechaCierre);
 
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         } else {
-            $periodo = obtieneIdPeriodoActual();
             $periodoActual = obtienePeriodoActual();
             $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo);
 
-            $alm = new Alumno();
-            $alumno = $alm->getAlumnoId($usuario->id);
-            $semestre = $alm->getSemestre($alumno->id, $periodo);
-
-            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodoActual'));
+            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodoActual', 'fueraDeRango', 'fechaInicio', 'fechaCierre'));
         }
     }
 
-    public function report()
+    public function reporte()
     {
         $usuario = auth()->user();
         $periodo = new \stdClass();
@@ -57,7 +71,7 @@ class PanelController extends Controller
             $alm = new Alumno();
             $alumno = $alm->getAlumnoId($usuario->id);
             $semestre = $alm->getSemestre($alumno->id, $periodo->id);
-            $linkvalidacion = 'https://cad.cch.unam.mx/validate/'.$alumno->numero_cuenta.'-'.$periodo->clave;
+            $linkvalidacion = 'https://cad.cch.unam.mx/validar/'.$alumno->numero_cuenta.'-'.$periodo->clave;
 
             $renderer = new ImageRenderer(
                 new RendererStyle(200),

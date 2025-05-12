@@ -14,6 +14,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\Inicio\InicioController;
 use App\Models\Profesor;
+use App\Http\Controllers\ValidacionController;
+use App\Http\Controllers\EvaluarController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,6 +41,11 @@ Route::get('/preguntas-frecuentes', [InicioController::class, 'preguntasFrecuent
 Route::get('/que-es', [InicioController::class, 'queEs'])->name('que-es');
 Route::get('/recursos', [InicioController::class, 'recursos'])->name('recursos');
 
+Route::get('/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index');
+
+// Ruta para validación de certificados CAD
+Route::get('/validar/{codigo}', [ValidacionController::class, 'validar'])->name('validacion.certificado');
+
 Route::middleware(
     [
         'auth:sanctum',
@@ -48,13 +55,11 @@ Route::middleware(
 )->group(
     function () {
         Route::get('/dashboard', [PanelController::class, 'index'])->name('dashboard');
-        Route::get('/dashboard/report', [PanelController::class, 'report'])->name('dashboard.report');
-        Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
-        Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionario');
-        Route::post('/cuestionarios/{id}', [ResultadoController::class, 'store'])->name('cuestionario.store');
+        Route::get('/dashboard/reporte', [PanelController::class, 'reporte'])->name('dashboard.reporte');
 
-
-
+        // Rutas de evaluación
+        Route::get('/evaluar/{id}', [EvaluarController::class, 'show'])->name('evaluar.show');
+        Route::post('/evaluar/{id}', [EvaluarController::class, 'store'])->name('evaluar.store');
 
         Route::middleware(['role:Admin'])->group(
             function () {
@@ -67,7 +72,8 @@ Route::middleware(
                 Route::get('/importar/alumnos', [ImportAlumnosController::class, 'index']);
                 Route::post('/importar/profesores', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
                 Route::post('/importar/alumnos', [ImportAlumnosController::class, 'import'])->name('importaAlumnos');
-
+                
+                Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
                 Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
                 Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
                 Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
