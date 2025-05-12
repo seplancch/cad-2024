@@ -121,7 +121,6 @@ class ImportAlumnosController extends Controller
             if (!User::where('username', $record['id_alumno'])->exists()) {
                 $usuario = $this->createUser($record);
                 if ($usuario) {
-                    Log::info('Usuario creado con éxito: ' . $usuario->username);
                     $alumno = $this->createAlumno($usuario, $record);
                     $this->createSemestre($alumno, $record);
                     $this->createInscripcionIfNotExists($alumno, $record);
