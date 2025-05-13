@@ -140,7 +140,7 @@
                             <span>{{ $porcentaje }}%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="h-2.5 rounded-full {{ $porcentaje == 100 ? 'bg-green-600' : ($porcentaje > 0 ? 'bg-yellow-500' : 'bg-gray-400') }}" 
+                            <div class="h-2.5 rounded-full {{ $porcentaje == 100 ? 'bg-green-600' : ($porcentaje > 0 ? 'bg-yellow-500' : 'bg-gray-400') }}"
                                  style="width: {{ $porcentaje }}%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-500 mt-1">
@@ -159,7 +159,7 @@
                             <div class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2">+100%</div>
                         </div>
                         <div class="text-sm font-medium text-gray-400">
-                            Para poder completar tu evaluacion del CAD deberas tambien completar la evaluacion de los servicios de la UNAM.
+                            Para poder completar tu evaluación del CAD deberás también completar tus opiniones sobre los servicios de la UNAM.
                         </div>
                     </div>
                 </div>
@@ -233,7 +233,7 @@
                                     ¡Evalúa a tus profesores y ayúdanos a mejorar la calidad de la enseñanza!
                                 </p>
                                 <p class="mt-1 text-sm text-blue-600">
-                                    Haz clic en el nombre del profesor para realizar tu evaluación.
+                                    Haz clic en el nombre del profesor para emitir tu opinión. Recuerda que tu opinión es anónima y confidencial.
                                 </p>
                             </div>
                         </div>
@@ -377,7 +377,7 @@
                                                     Completada
                                                 </span>
                                             @else
-                                                <a href="{{ route('evaluar.show', $inscripcion->id) }}" 
+                                                <a href="{{ route('evaluar.show', $inscripcion->id) }}"
                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                     <svg class="mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
@@ -469,14 +469,14 @@
                             </span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="h-2 rounded-full {{ $completados == $totalGrupos ? 'bg-green-500' : 'bg-yellow-500' }}" 
+                            <div class="h-2 rounded-full {{ $completados == $totalGrupos ? 'bg-green-500' : 'bg-yellow-500' }}"
                                  style="width: {{ ($completados / $totalGrupos) * 100 }}%"></div>
                         </div>
                     </div>
 
                     <!-- Botón de descarga -->
                     <div class="flex justify-center">
-                        <a href="{{ route('dashboard.reporte')}}" 
+                        <a href="{{ route('dashboard.reporte')}}"
                            class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all duration-200 ease-in-out transform bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-lg hover:shadow-xl">
                             <span class="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-40"></span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -512,7 +512,7 @@
             </div>
             <div class="px-6 py-4">
                 <div class="text-sm text-gray-600">
-                    <p class="mb-3">Si tienes algún problema con la evaluación, por favor envía un correo a <a href="mailto:cad@cch.unam.mx" class="text-blue-600 hover:text-blue-800">cad@cch.unam.mx</a> incluyendo:</p>
+                    <p class="mb-3">Si tienes algún problema con la evaluación, por favor envía un correo a <a href="mailto:cad@cch.unam.mx" class="text-blue-600 hover:text-blue-800">cad@cch.unam.mx</a>, incluye por favor:</p>
                     <ul class="list-disc list-inside space-y-1 text-gray-700">
                         <li>Tu número de cuenta: <span class="font-medium text-gray-900">{{$usuario->alumno->numero_cuenta}}</span></li>
                         <li>El nombre del profesor y grupo con el que tienes el problema</li>

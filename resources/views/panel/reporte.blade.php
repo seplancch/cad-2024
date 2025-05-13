@@ -14,37 +14,37 @@
         body, blockquote {
             font-size: 12px !important;
         }
-        
+
         /* Estilos adicionales para el header */
         .header-table {
             width: 100%;
             margin-bottom: 0.2rem;
             border-collapse: collapse;
         }
-        
+
         .header-table td {
             padding: 0.2rem;
             vertical-align: middle;
             border: none;
         }
-        
+
         .header-logos {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             justify-content: center;
         }
-        
+
         .header-text {
             text-align: right;
             line-height: 1;
             padding-right: 1rem;
         }
-        
+
         .header-text div {
             margin-bottom: 0.1rem;
         }
-        
+
         /* Estilos mejorados para la tabla principal */
         .table {
             width: 100%;
@@ -53,7 +53,7 @@
             border-collapse: collapse;
             font-size: 10px;
         }
-        
+
         .table th {
             background-color: #2c3e50;
             color: white;
@@ -63,26 +63,26 @@
             border: 1px solid #34495e;
             font-size: 10px;
         }
-        
+
         .table td {
             padding: 0.25rem 0.4rem;
             vertical-align: middle;
             border: 1px solid #dee2e6;
             line-height: 1.2;
         }
-        
+
         .table tr:nth-child(even) {
             background-color: #f8f9fa;
         }
-        
+
         .table tr:hover {
             background-color: #f1f3f5;
         }
-        
+
         .text-center {
             text-align: center !important;
         }
-        
+
         .alert {
             position: relative;
             padding: 0.75rem 1.25rem;
@@ -90,19 +90,19 @@
             border: 1px solid transparent;
             border-radius: 0.25rem;
         }
-        
+
         .alert-success {
             color: #155724;
             background-color: #d4edda;
             border-color: #c3e6cb;
         }
-        
+
         .alert-info {
             color: #0c5460;
             background-color: #d1ecf1;
             border-color: #bee5eb;
         }
-        
+
         .badge {
             padding: 0.2em 0.4em;
             font-size: 80%;
@@ -111,48 +111,48 @@
             text-transform: uppercase;
             line-height: 1;
         }
-        
+
         .badge-success {
             background-color: #28a745;
             color: white;
         }
-        
+
         .badge-danger {
             background-color: #dc3545;
             color: white;
         }
-        
+
         .mt-3 {
             margin-top: 1rem !important;
         }
-        
+
         .mt-4 {
             margin-top: 1.5rem !important;
         }
-        
+
         .text-primary {
             color: #007bff !important;
         }
-        
+
         .text-right {
             text-align: right !important;
         }
-        
+
         .mb-0 {
             margin-bottom: 0 !important;
         }
-        
+
         .blockquote {
             margin-bottom: 1rem;
             font-size: 1.25rem;
         }
-        
+
         .blockquote-footer {
             display: block;
             font-size: 80%;
             color: #6c757d;
         }
-        
+
         /* Estilos para la sección de agradecimiento */
         .agradecimiento {
             background-color: #f8f9fa;
@@ -163,12 +163,12 @@
             line-height: 1.4;
             color: #2c3e50;
         }
-        
+
         .agradecimiento strong {
             color: #1a252f;
             font-weight: 600;
         }
-        
+
         /* Estilos para el footer */
         .footer {
             margin-top: 1.5rem;
@@ -177,55 +177,55 @@
             font-size: 10px;
             color: #6c757d;
         }
-        
+
         .footer-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 1.5rem;
         }
-        
+
         .footer-qr {
             flex: 0 0 auto;
             text-align: center;
         }
-        
+
         .footer-qr img {
             width: 80px;
             height: 80px;
             margin-bottom: 0.3rem;
         }
-        
+
         .footer-qr i {
             font-size: 9px;
             color: #495057;
             display: block;
             margin: 0.2rem 0;
         }
-        
+
         .footer-info {
             flex: 1;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
         }
-        
+
         .footer-contact {
             flex: 1;
             padding-right: 1.5rem;
         }
-        
+
         .footer-contact div {
             margin-bottom: 0.2rem;
             line-height: 1.2;
         }
-        
+
         .footer-quote {
             flex: 0 0 auto;
             text-align: right;
             min-width: 200px;
         }
-        
+
         .footer-quote p {
             color: #2c3e50;
             font-size: 10px;
@@ -233,18 +233,18 @@
             margin: 0;
             line-height: 1.2;
         }
-        
+
         .footer-quote footer {
             font-size: 9px;
             color: #6c757d;
             margin-top: 0.1rem;
         }
-        
+
         /* Estilos para la sección de profesores */
         .seccion-profesores {
             margin: 1.5rem 0;
         }
-        
+
         .titulo-seccion {
             color: #2c3e50;
             font-size: 12px;
@@ -255,7 +255,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .info-alumno {
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -265,16 +265,16 @@
             font-size: 11px;
             line-height: 1.4;
         }
-        
+
         .info-alumno strong {
             color: #2c3e50;
             font-weight: 600;
         }
-        
+
         .info-alumno div {
             margin-bottom: 0.3rem;
         }
-        
+
         .info-alumno div:last-child {
             margin-bottom: 0;
         }
@@ -352,7 +352,7 @@
         </tbody>
     </table>
 
-    @if($semestre == 6)
+    @if($semestre != 6)
     <div class="text-center mt-3 alert alert-info" role="alert">
         <h5>CLAVE:</h5>
         <strong>{{ $alumno->numero_cuenta }}</strong>
@@ -361,7 +361,7 @@
 
     <div style="margin: 0.8rem 0; padding: 0.5rem 0;">
         <div style="text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 11px; color: #495057; line-height: 1.3;">
-            <strong style="color: #2c3e50;">La Secretaría de Planeación</strong> agradece su valiosa participación, 
+            <strong style="color: #2c3e50;">La Secretaría de Planeación</strong> agradece su valiosa participación,
             la cual contribuye al mejoramiento de la calidad educativa del Colegio.
         </div>
     </div>
@@ -380,7 +380,7 @@
                     <div>Soporte: <strong>cad@cch.unam.mx</strong></div>
                     <div>Fecha: {{ now()->format('d-m-Y H:i:s') }}</div>
                 </div>
-                
+
                 <div class="footer-quote">
                     <p>"Aprender a aprender, aprender a hacer y aprender a ser"</p>
                     <footer>Colegio de Ciencias y Humanidades</footer>
