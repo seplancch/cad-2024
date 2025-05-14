@@ -48,10 +48,21 @@
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
 
+            <div class="mt-4 mb-4">
+                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                @error('g-recaptcha-response')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <button type="submit" 
                     class="text-white bg-blue hover:bg-green focus:ring-4 focus:outline-none focus:ring-blue font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5">
                 Enviar
             </button>
         </form>
     </div>
+
+    @push('scripts')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endpush
 @endsection

@@ -158,5 +158,7 @@
     </main>
 
     @include('inicio.partials.footer')
+
+    @stack('scripts')
 </body>
 </html>

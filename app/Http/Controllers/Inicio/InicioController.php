@@ -8,6 +8,7 @@ use App\Models\Contacto;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactoMail;
+use Illuminate\Support\Facades\Http;
 
 class InicioController extends Controller
 {
@@ -45,18 +46,34 @@ class InicioController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|ends_with:@cch.unam.mx',
-            'mensaje' => 'required|min:10'
+            'mensaje' => 'required|min:10',
+            'g-recaptcha-response' => 'required'
         ], [
             'email.required' => 'El correo electrónico es obligatorio',
             'email.email' => 'El correo electrónico debe ser válido',
             'email.ends_with' => 'El correo electrónico debe ser del dominio @cch.unam.mx',
             'mensaje.required' => 'El mensaje es obligatorio',
-            'mensaje.min' => 'El mensaje debe tener al menos 10 caracteres'
+            'mensaje.min' => 'El mensaje debe tener al menos 10 caracteres',
+            'g-recaptcha-response.required' => 'Por favor, verifica que no eres un robot'
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Verificar reCAPTCHA
+        $recaptcha = $request->input('g-recaptcha-response');
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $recaptcha,
+            'remoteip' => $request->ip()
+        ]);
+
+        if (!$response->json('success')) {
+            return redirect()->back()
+                ->with('error', 'Error en la verificación de reCAPTCHA. Por favor, intenta nuevamente.')
                 ->withInput();
         }
 
