@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [InicioController::class, 'index'])->name('home');
 Route::get('/contacto', [InicioController::class, 'contacto'])->name('contacto');
+Route::post('/contacto', [InicioController::class, 'enviarContacto'])->name('contacto.enviar');
 Route::get('/creditos', [InicioController::class, 'creditos'])->name('creditos');
 Route::get('/preguntas-frecuentes', [InicioController::class, 'preguntasFrecuentes'])->name('preguntas-frecuentes');
 Route::get('/que-es', [InicioController::class, 'queEs'])->name('que-es');
