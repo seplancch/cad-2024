@@ -1,62 +1,243 @@
+@extends('layouts.app')
+
+@section('content')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit User') }}
+            {{ __('Editar Usuario') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>¡Ups!</strong> Hubo algunos problemas con tu entrada.<br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">Editar Usuario: {{ $user->name }}</h2>
+                        <a href="{{ route('users.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                            Volver a Usuarios
+                        </a>
                     </div>
-                @endif
-                <form action="{{ route('users.update', $user->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="row">
-                        <div class="mb-4">
-                                <x-label>Name:</x-label>
-                                <x-input type="text" value="{{ $user->name }}" name="name" class="form-control"
-                                    placeholder="Name" />
-                        </div>
-                        <div class="mb-4">
-                                <x-label>Email:</x-label>
-                                <x-input type="email" name="email" value="{{ $user->email }}" class="form-control"
-                                    placeholder="Email" />
-                        </div>
-                        <div class="mb-4">
-                                <x-label>Password:</x-label>
-                                <x-input type="password" name="password" class="form-control"
-                                    placeholder="Password" />
-                        </div>
-                        <div class="mb-4">
-                                <x-label>Confirm Password:</x-label>
-                                <x-input type="password" name="confirm-password" class="form-control"
-                                    placeholder="Confirm Password" />
-                        </div>
-                        <div class="mb-4">
-                                <x-label>Role:</x-label>
-                                <select class="form-control multiple" multiple name="roles[]">
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role }}">{{ $role }}</option>
-                                    @endforeach
-                                </select>
 
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong class="font-bold">¡Error!</strong>
+                            <ul class="mt-2">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <div class="mb-4">
-                            <x-button type="submit" class="btn btn-primary">{{__('Save')}}</x-button>
+                    @endif
+
+                    <form action="{{ route('users.update', $user->id) }}" method="POST" class="space-y-6">
+                        @csrf
+                        @method('PUT')
+                        
+                        <!-- Información básica del usuario -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Información Básica</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="username" class="block text-sm font-medium text-gray-700">Nombre de Usuario</label>
+                                    <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" 
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                                    <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                                    <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $user->nombre) }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="apaterno" class="block text-sm font-medium text-gray-700">Apellido Paterno</label>
+                                    <input type="text" name="apaterno" id="apaterno" value="{{ old('apaterno', $user->apaterno) }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="amaterno" class="block text-sm font-medium text-gray-700">Apellido Materno</label>
+                                    <input type="text" name="amaterno" id="amaterno" value="{{ old('amaterno', $user->amaterno) }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña (dejar en blanco para mantener la actual)</label>
+                                    <input type="password" name="password" id="password"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+                                    <input type="password" name="confirm-password" id="confirm-password"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                        <!-- Tipo de usuario y roles -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Tipo de Usuario y Roles</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Usuario</label>
+                                    <select name="tipo" id="tipo" onchange="toggleUserTypeFields()"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Seleccione un tipo</option>
+                                        <option value="A" {{ old('tipo', $user->tipo) == 'A' ? 'selected' : '' }}>Alumno</option>
+                                        <option value="P" {{ old('tipo', $user->tipo) == 'P' ? 'selected' : '' }}>Profesor</option>
+                                        <option value="E" {{ old('tipo', $user->tipo) == 'E' ? 'selected' : '' }}>Empleado</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="roles" class="block text-sm font-medium text-gray-700">Roles</label>
+                                    <select name="roles[]" id="roles" multiple
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role }}" {{ in_array($role, old('roles', $userRole)) ? 'selected' : '' }}>
+                                                {{ $role }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos para Alumno -->
+                        <div id="alumno-fields" class="bg-gray-50 p-4 rounded-lg {{ old('tipo', $user->tipo) == 'A' ? '' : 'hidden' }}">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Información del Alumno</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="numero_cuenta" class="block text-sm font-medium text-gray-700">Número de Cuenta</label>
+                                    <input type="text" name="numero_cuenta" id="numero_cuenta" 
+                                        value="{{ old('numero_cuenta', $user->alumno ? $user->alumno->numero_cuenta : '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="fecha_nacimiento_alumno" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+                                    <input type="date" name="fecha_nacimiento_alumno" id="fecha_nacimiento_alumno" 
+                                        value="{{ old('fecha_nacimiento_alumno', $user->alumno ? $user->alumno->fecha_nacimiento : '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="sexo_alumno" class="block text-sm font-medium text-gray-700">Sexo</label>
+                                    <select name="sexo_alumno" id="sexo_alumno"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Seleccione</option>
+                                        <option value="M" {{ old('sexo_alumno', $user->alumno ? $user->alumno->sexo : '') == 'M' ? 'selected' : '' }}>Masculino</option>
+                                        <option value="F" {{ old('sexo_alumno', $user->alumno ? $user->alumno->sexo : '') == 'F' ? 'selected' : '' }}>Femenino</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="plantel_id_alumno" class="block text-sm font-medium text-gray-700">Plantel</label>
+                                    <select name="plantel_id_alumno" id="plantel_id_alumno"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Seleccione un plantel</option>
+                                        @foreach($planteles as $plantel)
+                                            <option value="{{ $plantel->id }}" 
+                                                {{ old('plantel_id_alumno', $user->alumno ? $user->alumno->plantel_id : '') == $plantel->id ? 'selected' : '' }}>
+                                                {{ $plantel->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos para Profesor -->
+                        <div id="profesor-fields" class="bg-gray-50 p-4 rounded-lg {{ old('tipo', $user->tipo) == 'P' ? '' : 'hidden' }}">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Información del Profesor</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="numero_trabajador" class="block text-sm font-medium text-gray-700">Número de Trabajador</label>
+                                    <input type="text" name="numero_trabajador" id="numero_trabajador" 
+                                        value="{{ old('numero_trabajador', $user->profesor ? $user->profesor->numero_trabajador : '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="rfc" class="block text-sm font-medium text-gray-700">RFC</label>
+                                    <input type="text" name="rfc" id="rfc" 
+                                        value="{{ old('rfc', $user->profesor ? $user->profesor->rfc : '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="fecha_nacimiento_profesor" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+                                    <input type="date" name="fecha_nacimiento_profesor" id="fecha_nacimiento_profesor" 
+                                        value="{{ old('fecha_nacimiento_profesor', $user->profesor ? $user->profesor->fecha_nacimiento : '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="sexo_profesor" class="block text-sm font-medium text-gray-700">Sexo</label>
+                                    <select name="sexo_profesor" id="sexo_profesor"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Seleccione</option>
+                                        <option value="M" {{ old('sexo_profesor', $user->profesor ? $user->profesor->sexo : '') == 'M' ? 'selected' : '' }}>Masculino</option>
+                                        <option value="F" {{ old('sexo_profesor', $user->profesor ? $user->profesor->sexo : '') == 'F' ? 'selected' : '' }}>Femenino</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="plantel_id_profesor" class="block text-sm font-medium text-gray-700">Plantel</label>
+                                    <select name="plantel_id_profesor" id="plantel_id_profesor"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Seleccione un plantel</option>
+                                        @foreach($planteles as $plantel)
+                                            <option value="{{ $plantel->id }}" 
+                                                {{ old('plantel_id_profesor', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->plantel_id : '') == $plantel->id ? 'selected' : '' }}>
+                                                {{ $plantel->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="turno" class="block text-sm font-medium text-gray-700">Turno</label>
+                                    <select name="turno" id="turno"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="M" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->turno : 'M') == 'M' ? 'selected' : '' }}>Matutino</option>
+                                        <option value="V" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->turno : 'M') == 'V' ? 'selected' : '' }}>Vespertino</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-4">
+                            <a href="{{ route('users.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                                Cancelar
+                            </a>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Actualizar Usuario
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+@push('scripts')
+<script>
+function toggleUserTypeFields() {
+    const tipo = document.getElementById('tipo').value;
+    const alumnoFields = document.getElementById('alumno-fields');
+    const profesorFields = document.getElementById('profesor-fields');
+
+    // Ocultar todos los campos específicos
+    alumnoFields.classList.add('hidden');
+    profesorFields.classList.add('hidden');
+
+    // Mostrar los campos según el tipo seleccionado
+    if (tipo === 'A') {
+        alumnoFields.classList.remove('hidden');
+    } else if (tipo === 'P') {
+        profesorFields.classList.remove('hidden');
+    }
+}
+
+// Ejecutar al cargar la página para manejar el estado inicial
+document.addEventListener('DOMContentLoaded', function() {
+    toggleUserTypeFields();
+});
+</script>
+@endpush
+@endsection

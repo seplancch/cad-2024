@@ -41,16 +41,25 @@ class Users extends Seeder
             'tipo' => 'E'
         ]);
 
-        //$role = Role::create(['name' => 'Admin', 'name' => 'Alumno', 'name' => 'Profesor']);
-        $role = Role::create(['name' => 'Admin']);
+        // Crear roles
+        $roles = [
+            'Admin' => 'Administrador del sistema',
+            'Alumno' => 'Estudiante',
+            'Profesor' => 'Docente',
+            'Empleado' => 'Personal administrativo'
+        ];
 
+        foreach ($roles as $name => $description) {
+            Role::create(['name' => $name]);
+        }
+
+        // Asignar permisos al rol Admin
+        $adminRole = Role::findByName('Admin');
         $permissions = Permission::pluck('id', 'id')->all();
+        $adminRole->syncPermissions($permissions);
 
-        $role->syncPermissions($permissions);
-
-        $user->assignRole([$role->id]);
-
-        $user->assignRole([$role->id]);
+        // Asignar rol Admin al usuario
+        $user->assignRole('Admin');
 
         //\App\Models\User::factory(2)->create();
     }
