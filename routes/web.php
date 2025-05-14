@@ -41,6 +41,8 @@ Route::get('/preguntas-frecuentes', [InicioController::class, 'preguntasFrecuent
 Route::get('/que-es', [InicioController::class, 'queEs'])->name('que-es');
 Route::get('/recursos', [InicioController::class, 'recursos'])->name('recursos');
 
+Route::get('/contador', [App\Http\Controllers\ContadorController::class, 'index'])->name('contador.index');
+
 Route::get('/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index');
 
 // Ruta para validación de certificados CAD
