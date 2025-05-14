@@ -28,6 +28,7 @@ class PanelController extends Controller
         $usuario = auth()->user();
         $roles = $usuario->getRoleNames();
 
+        //dd($roles);
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         } else {
