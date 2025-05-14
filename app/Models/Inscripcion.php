@@ -13,6 +13,16 @@ class Inscripcion extends Model
     protected $table = 'inscripciones';
 
 
+    protected $fillable = [
+        'alumno_id',
+        'grupo_id',
+        'activa',
+        'estado',
+        'periodo_id',
+        'autoinscripcion',
+    ];
+
+
     public function alumno(): BelongsTo
     {
         return $this->belongsTo(Alumno::class);

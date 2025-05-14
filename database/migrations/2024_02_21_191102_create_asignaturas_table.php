@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('asignaturas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('clave')->unique();
             $table->unsignedTinyInteger('orden');
             $table->string('abreviatura', 200);
             $table->string('nombre', 200);

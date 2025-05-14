@@ -13,19 +13,6 @@ class InscripcionSeeder extends Seeder
      */
     public function run(): void
     {
-        Inscripcion::create([
-            'alumno_id' => '1',
-            'grupo_id' => '1',
-            'activa' => '1',
-            'autoinscripcion' => '0',
-            'periodo_id' => '1',
-        ]);
-        Inscripcion::create([
-            'alumno_id' => '1',
-            'grupo_id' => '2',
-            'activa' => '1',
-            'autoinscripcion' => '0',
-            'periodo_id' => '1',
-        ]);
+
     }
 }
