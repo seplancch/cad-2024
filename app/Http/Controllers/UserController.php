@@ -22,8 +22,40 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with(['alumno', 'profesor'])->orderBy('id','ASC')->paginate(10);
-        return view('users.index', compact('users'));
+        $query = User::with(['alumno', 'profesor', 'roles']);
+
+        // Filtros
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('username', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('nombre', 'like', "%{$search}%")
+                  ->orWhere('apaterno', 'like', "%{$search}%")
+                  ->orWhere('amaterno', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        if ($request->filled('role')) {
+            $query->whereHas('roles', function($q) use ($request) {
+                $q->where('name', $request->role);
+            });
+        }
+
+        // Ordenamiento
+        $sortField = $request->get('sort', 'id');
+        $sortDirection = $request->get('direction', 'asc');
+        $query->orderBy($sortField, $sortDirection);
+
+        $users = $query->paginate(10)->withQueryString();
+        $roles = Role::pluck('name', 'name')->all();
+
+        return view('users.index', compact('users', 'roles'));
     }
 
     public function create()

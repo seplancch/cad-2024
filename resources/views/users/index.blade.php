@@ -16,6 +16,48 @@
                         </a>
                     </div>
 
+                    <!-- Filtros -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <form action="{{ route('users.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="search" class="block text-sm font-medium text-gray-700">Buscar</label>
+                                <input type="text" name="search" id="search" value="{{ request('search') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    placeholder="Buscar por nombre, email...">
+                            </div>
+                            <div>
+                                <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Usuario</label>
+                                <select name="tipo" id="tipo"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="">Todos</option>
+                                    <option value="A" {{ request('tipo') == 'A' ? 'selected' : '' }}>Alumno</option>
+                                    <option value="P" {{ request('tipo') == 'P' ? 'selected' : '' }}>Profesor</option>
+                                    <option value="E" {{ request('tipo') == 'E' ? 'selected' : '' }}>Empleado</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+                                <select name="role" id="role"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="">Todos</option>
+                                    @foreach($roles as $name => $value)
+                                        <option value="{{ $name }}" {{ request('role') == $name ? 'selected' : '' }}>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                    Filtrar
+                                </button>
+                                <a href="{{ route('users.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                                    Limpiar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
                     @if(session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                             <span class="block sm:inline">{{ session('success') }}</span>
@@ -33,16 +75,64 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Nombre de Usuario
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'username', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}" 
+                                           class="group inline-flex items-center">
+                                            Nombre de Usuario
+                                            @if(request('sort') == 'username')
+                                                <span class="ml-1">
+                                                    @if(request('direction') == 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                </span>
+                                            @endif
+                                        </a>
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Nombre Completo
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'name', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}"
+                                           class="group inline-flex items-center">
+                                            Nombre Completo
+                                            @if(request('sort') == 'name')
+                                                <span class="ml-1">
+                                                    @if(request('direction') == 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                </span>
+                                            @endif
+                                        </a>
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'email', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}"
+                                           class="group inline-flex items-center">
+                                            Email
+                                            @if(request('sort') == 'email')
+                                                <span class="ml-1">
+                                                    @if(request('direction') == 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                </span>
+                                            @endif
+                                        </a>
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tipo
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'tipo', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}"
+                                           class="group inline-flex items-center">
+                                            Tipo
+                                            @if(request('sort') == 'tipo')
+                                                <span class="ml-1">
+                                                    @if(request('direction') == 'asc')
+                                                        ↑
+                                                    @else
+                                                        ↓
+                                                    @endif
+                                                </span>
+                                            @endif
+                                        </a>
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Roles
@@ -113,8 +203,13 @@
                         </table>
                     </div>
 
-                    <div class="mt-4">
-                        {{ $users->links() }}
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="text-sm text-gray-700">
+                            Mostrando {{ $users->firstItem() ?? 0 }} a {{ $users->lastItem() ?? 0 }} de {{ $users->total() }} resultados
+                        </div>
+                        <div>
+                            {{ $users->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
