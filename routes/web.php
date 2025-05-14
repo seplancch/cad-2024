@@ -16,6 +16,7 @@ use App\Http\Controllers\Inicio\InicioController;
 use App\Models\Profesor;
 use App\Http\Controllers\ValidacionController;
 use App\Http\Controllers\EvaluarController;
+use App\Http\Controllers\ConfiguracionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -82,6 +83,7 @@ Route::middleware(
                 Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
 
                 Route::get('profesores', [ProfesorController::class, 'index'])->name('profesores.index');
+                Route::resource('configuracion', ConfiguracionController::class);
             }
         );
     }
