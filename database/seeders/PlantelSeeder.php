@@ -15,31 +15,31 @@ class PlantelSeeder extends Seeder
     {
         DB::table('planteles')->insert([
             [
-                'clave' => '47202',
+                'id' => '47202',
                 'nombre' => 'Azcapotzalco',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'clave' => '47203',
+                'id' => '47203',
                 'nombre' => 'Naucalpan',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'clave' => '47204',
+                'id' => '47204',
                 'nombre' => 'Vallejo',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'clave' => '47205',
+                'id' => '47205',
                 'nombre' => 'Oriente',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
             ],
             [
-                'clave' => '47206',
+                'id' => '47206',
                 'nombre' => 'Sur',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()

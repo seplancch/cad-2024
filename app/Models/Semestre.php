@@ -10,6 +10,12 @@ class Semestre extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'alumno_id',
+        'periodo_id',
+        'numero_semestre',
+    ];
+
     public function alumno(): BelongsTo
     {
         return $this->belongsTo(Alumno::class);

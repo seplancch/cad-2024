@@ -16,13 +16,13 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-label for="user" value="{{ __('User') }}" />
+                <x-input id="user" class="block mt-1 w-full" type="text" name="email" :value="old('email')" required autofocus autocomplete="user"  placeholder="Numero de cuenta"/>
             </div>
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password"  placeholder="Fecha nacimiento (ddMMYYYY)"/>
             </div>
 
             <div class="block mt-4">

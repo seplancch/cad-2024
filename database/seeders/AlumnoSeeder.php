@@ -13,12 +13,6 @@ class AlumnoSeeder extends Seeder
      */
     public function run(): void
     {
-        Alumno::create([
-            'user_id' => '3',
-            'numero_cuenta' => '885650',
-            'fecha_nacimiento' => '19900101',
-            'plantel_id' => '1',
-            'sexo' => '1',
-        ]);
+
     }
 }

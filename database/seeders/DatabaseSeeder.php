@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             Users::class,
-            Cuestionario::class,
+            CuestionarioSeeder::class,
             Rubros::class,
             PreguntasSeeder::class,
             PlantelSeeder::class,
@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             GrupoSeeder::class,
             AlumnoSeeder::class,
             InscripcionSeeder::class,
+            ConfiguracionSeeder::class,
 
         ]);
     }

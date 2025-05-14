@@ -45,5 +45,17 @@ class Grupo extends Model
         return $this->belongsTo(Periodo::class);
     }
 
+
+    public static function getGrupoId($nombre, $seccion, $asignatura, $plantel): ?int
+    {
+        $grupo = Grupo::where('nombre', $nombre)
+            ->where('seccion', $seccion)
+            ->where('asignatura_id', $asignatura)
+            ->where('plantel_id', $plantel)
+            ->first();
+
+            //dd($grupo);
+        return $grupo ? $grupo->id : null;
+    }
 }
 

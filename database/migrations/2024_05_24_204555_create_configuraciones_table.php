@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('configuraciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('periodo_id')->constrained();
+            $table->string('nombre')->unique();
+            $table->string('valor');
+            $table->string('tipo');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }

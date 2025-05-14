@@ -1,0 +1,23 @@
+#fileupload .hasImage:hover section {
+	background-color: rgba(5, 5, 5, 0.4);
+}
+#fileupload .hasImage:hover button:hover {
+	background: rgba(5, 5, 5, 0.45);
+}
+
+#fileupload #overlay p,
+i {
+	opacity: 0;
+}
+
+#fileupload #overlay.draggedover {
+	background-color: rgba(255, 255, 255, 0.7);
+}
+#fileupload #overlay.draggedover p,
+#fileupload #overlay.draggedover i {
+	opacity: 1;
+}
+
+#fileupload .group:hover .group-hover\:text-blue-800 {
+	color: #2b6cb0;
+}
