@@ -21,54 +21,39 @@
         @include('livewire.cuestionarios.nueva')
 
     @endif
-    <table class="table-auto w-full divide-gray-200">
-        <caption>Listado de cuestionarios</caption>
-        <thead class="text-xs text-gray-800  bg-gray-200 dark:bg-gray-700 dark:text-gray-500">
-            <tr class="">
-                <th class="px-4 py-3 text-left rtl:text-right">No.</th>
-                <th class="px-4 py-3 text-left rtl:text-right">Titulo</th>
-                <th class="px-4 py-3 text-left rtl:text-right">Descripción</th>
-                <th class="px-4 py-3 text-left rtl:text-right">Versión</th>
-                <th class="px-4 py-3 text-left rtl:text-right">Acciones</th>
+    <table class="min-w-full divide-y divide-gray-200">
+        <caption class="sr-only">Listado de cuestionarios</caption>
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Versión</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
             @foreach($cuestionarios as $index => $cuestionario)
                 <tr>
-                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $cuestionario->id }}</td>
-                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $cuestionario->titulo }}</td>
-                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $cuestionario->descripcion}}</td>
-                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ $cuestionario->version}}</td>
-                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
-                        <button wire:click="edit({{ $cuestionario->id }})"
-                            class="relative align-right select-none font-sans font-medium text-center uppercase
-                                transition-all disabled:shadow-none disabled:pointer-events-none
-                                disabled:opacity-50 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs
-                                text-blue-gray-500 w-10 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30"
-                        type="button">
-                            <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
-                                    <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $cuestionario->id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $cuestionario->titulo }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $cuestionario->descripcion}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $cuestionario->version}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-2">
+                            <button wire:click="edit({{ $cuestionario->id }})"
+                                class="text-indigo-600 hover:text-indigo-900">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
-                            </span>
-                        </button>
-                        <button wire:click="delete({{ $cuestionario->id }})"
-                            class="relative align-right select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
-                            <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                            </button>
+                            <button wire:click="delete({{ $cuestionario->id }})"
+                                class="text-red-600 hover:text-red-900">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
-                            </span>
-                        </button>
-                        <button wire:click="view({{ $cuestionario->id }})"
-                        class="relative align-right select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30">
-                            <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                    <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                        </button>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach
