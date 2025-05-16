@@ -16,7 +16,16 @@
                 <div class="p-6">
                     <!-- Información del cuestionario -->
                     <div class="mb-6">
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Información del Cuestionario</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Información del Cuestionario</h3>
+                            <a href="{{ route('preguntas', ['cuestionario_id' => $cuestionario->id]) }}" 
+                               class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                Gestionar Preguntas
+                            </a>
+                        </div>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>

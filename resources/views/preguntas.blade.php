@@ -8,8 +8,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                @livewire('cuestionario-selector')
-                @livewire('preguntas')
+                @if(!$cuestionario_id)
+                    @livewire('cuestionario-selector')
+                @endif
+                @livewire('preguntas', ['cuestionario_id' => $cuestionario_id])
             </div>
         </div>
     </div>

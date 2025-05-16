@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 class PreguntaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('preguntas');
+        $cuestionario_id = $request->get('cuestionario_id', 0);
+        return view('preguntas', compact('cuestionario_id'));
     }
 }

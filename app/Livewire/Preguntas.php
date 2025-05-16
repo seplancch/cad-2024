@@ -37,9 +37,10 @@ class Preguntas extends Component
     public $numpreguntas = 10;
 
 
-    public function mount()
+    public function mount($cuestionario_id = 0)
     {
         $this->rubros = Rubro::all();
+        $this->cuestionario_id = $cuestionario_id;
     }
 
     #[On('cuestionario_id')]
