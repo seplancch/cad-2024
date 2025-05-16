@@ -19,6 +19,8 @@ class Rubros extends Component
     public $version;
     public $rubro_id;
     public $isModalOpen = 0;
+    public $isDeleteModalOpen = false;
+    public $rubroToDelete = null;
 
     public function render()
     {
@@ -71,9 +73,33 @@ class Rubros extends Component
         $this->openModalPopover();
     }
 
+    public function confirmDelete($id)
+    {
+        $this->rubroToDelete = Rubro::findOrFail($id);
+        $this->isDeleteModalOpen = true;
+    }
+
+    public function cancelDelete()
+    {
+        $this->isDeleteModalOpen = false;
+        $this->rubroToDelete = null;
+    }
+
     public function delete($id)
     {
-        Rubro::find($id)->delete();
-        session()->flash('message', 'Rubro borrada.');
+        $rubro = Rubro::findOrFail($id);
+        
+        // Verificar si el rubro está en uso
+        if ($rubro->preguntas()->exists()) {
+            session()->flash('error', 'Este rubro no puede ser eliminado porque tiene preguntas asociadas.');
+            $this->isDeleteModalOpen = false;
+            $this->rubroToDelete = null;
+            return;
+        }
+
+        $rubro->delete();
+        session()->flash('message', 'Rubro eliminado correctamente.');
+        $this->isDeleteModalOpen = false;
+        $this->rubroToDelete = null;
     }
 }

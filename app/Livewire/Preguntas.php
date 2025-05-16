@@ -46,7 +46,10 @@ class Preguntas extends Component
     public $cuestionario_id = 0;
     public $rubros;
     public $numpreguntas = 10;
-
+    public $preguntas;
+    public $descripcion;
+    public $isDeleteModalOpen = false;
+    public $preguntaToDelete = null;
 
     public function mount($cuestionario_id = 0)
     {
@@ -256,20 +259,35 @@ class Preguntas extends Component
         $this->openModalPopover();
     }
 
+    public function confirmDelete($id)
+    {
+        $this->preguntaToDelete = Pregunta::findOrFail($id);
+        $this->isDeleteModalOpen = true;
+    }
+
+    public function cancelDelete()
+    {
+        $this->isDeleteModalOpen = false;
+        $this->preguntaToDelete = null;
+    }
+
     public function delete($id)
     {
         $pregunta = Pregunta::findOrFail($id);
         
         // Verificar si la pregunta está en uso
         if ($pregunta->estaEnUso()) {
-            session()->flash('error', 'Esta pregunta no puede ser eliminada porque ya está siendo utilizada en evaluaciones.');
+            session()->flash('error', 'Esta pregunta no puede ser eliminada porque está siendo utilizada en evaluaciones.');
+            $this->isDeleteModalOpen = false;
+            $this->preguntaToDelete = null;
             return;
         }
 
         $pregunta->delete();
-        session()->flash('message', 'Pregunta borrada.');
+        session()->flash('message', 'Pregunta eliminada correctamente.');
+        $this->isDeleteModalOpen = false;
+        $this->preguntaToDelete = null;
     }
-
 
     public function render()
     {

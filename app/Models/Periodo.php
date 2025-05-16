@@ -13,19 +13,22 @@ class Periodo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cuestionario_id',
         'clave',
         'descripcion',
-        'fecha_inicio',
-        'fecha_fin',
+        'cuestionario_id',
     ];
 
-    public function cuestionario(): BelongsTo
+    public function cuestionario()
     {
         return $this->belongsTo(Cuestionario::class);
     }
 
-    public function grupo(): HasMany
+    public function resultados()
+    {
+        return $this->hasMany(Resultado::class);
+    }
+
+    public function grupos()
     {
         return $this->hasMany(Grupo::class);
     }
@@ -38,5 +41,15 @@ class Periodo extends Model
     public function periodo(): HasOne
     {
         return $this->hasOne(Configuracion::class);
+    }
+
+    public function estaEnUso()
+    {
+        // Verificar si tiene grupos con inscripciones que tienen resultados
+        return $this->grupos()
+            ->whereHas('inscripciones', function($query) {
+                $query->whereHas('resultados');
+            })
+            ->exists();
     }
 }
