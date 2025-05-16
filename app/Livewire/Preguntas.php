@@ -51,6 +51,14 @@ class Preguntas extends Component
     public $isDeleteModalOpen = false;
     public $preguntaToDelete = null;
 
+    protected $rules = [
+        'titulo' => 'required|min:3',
+        'rubro_id' => 'required|exists:rubros,id',
+        'respuestas' => 'required|array|min:1',
+        'respuestas.*.texto' => 'required|min:1',
+        'respuestas.*.orden' => 'required|integer|min:1',
+    ];
+
     public function mount($cuestionario_id = 0)
     {
         $this->rubros = Rubro::all();
@@ -126,20 +134,30 @@ class Preguntas extends Component
     {
         $this->validate();
 
-        if (!$this->validateOrdenesUnicos()) {
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
-            $pregunta = Pregunta::updateOrCreate([
-                'id' => $this->pregunta_id
-            ], [
-                'cuestionario_id' => $this->cuestionario_id,
-                'rubro_id' => $this->rubro_id,
-                'titulo'   => $this->titulo,
-            ]);
+            // Verificar que no haya órdenes duplicados
+            $ordenes = collect($this->respuestas)->pluck('orden');
+            if ($ordenes->duplicates()->isNotEmpty()) {
+                throw new \Exception('No puede haber órdenes duplicados en las respuestas.');
+            }
+
+            if ($this->pregunta_id) {
+                // Actualizar pregunta existente
+                $pregunta = Pregunta::findOrFail($this->pregunta_id);
+                $pregunta->update([
+                    'titulo' => $this->titulo,
+                    'rubro_id' => $this->rubro_id,
+                ]);
+            } else {
+                // Crear nueva pregunta
+                $pregunta = Pregunta::create([
+                    'titulo' => $this->titulo,
+                    'rubro_id' => $this->rubro_id,
+                    'cuestionario_id' => $this->cuestionario_id,
+                ]);
+            }
 
             if ($this->pregunta_id) {
                 // Obtener respuestas actuales

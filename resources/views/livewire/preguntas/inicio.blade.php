@@ -91,9 +91,15 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($preguntas as $index => $pregunta)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $pregunta->id }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $pregunta->titulo }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $pregunta->rubro->titulo}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $pregunta->titulo }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $pregunta->rubro->nombre }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <button wire:key="p-{{ $pregunta->id }}" wire:click="edit({{ $pregunta->id }})"
