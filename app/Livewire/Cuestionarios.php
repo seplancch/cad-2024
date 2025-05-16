@@ -19,6 +19,8 @@ class Cuestionarios extends Component
     public $descripcion;
     public $cuestionario_id;
     public $isModalOpen = 0;
+    public $isDeleteModalOpen = false;
+    public $cuestionarioToDelete = null;
 
     public function render()
     {
@@ -72,10 +74,38 @@ class Cuestionarios extends Component
         $this->openModalPopover();
     }
 
+    public function confirmDelete($id)
+    {
+        $this->cuestionarioToDelete = Cuestionario::findOrFail($id);
+        $this->isDeleteModalOpen = true;
+    }
+
+    public function cancelDelete()
+    {
+        $this->isDeleteModalOpen = false;
+        $this->cuestionarioToDelete = null;
+    }
+
     public function delete($id)
     {
-        Cuestionario::find($id)->delete();
-        session()->flash('message', 'Cuestionario borrada.');
+        $cuestionario = Cuestionario::findOrFail($id);
+        
+        // Verificar si el cuestionario está en uso
+        if ($cuestionario->estaEnUso()) {
+            if ($cuestionario->periodos()->exists()) {
+                session()->flash('error', 'Este cuestionario no puede ser eliminado porque está siendo utilizado en períodos activos.');
+            } else {
+                session()->flash('error', 'Este cuestionario no puede ser eliminado porque tiene preguntas que están siendo utilizadas en evaluaciones.');
+            }
+            $this->isDeleteModalOpen = false;
+            $this->cuestionarioToDelete = null;
+            return;
+        }
+
+        $cuestionario->delete();
+        session()->flash('message', 'Cuestionario borrado.');
+        $this->isDeleteModalOpen = false;
+        $this->cuestionarioToDelete = null;
     }
 
     public function view($id){
