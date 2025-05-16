@@ -17,6 +17,20 @@
 
                     <div class="mb-4">
                         <x-label for="exampleFormControlInput1">Indiqué las respuestas de las preguntas</x-label>
+                        @error('respuestas')
+                            <div class="mt-2 bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-red-700">{{ $message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @enderror
                         <div>
                             <button wire:click="agregarRespuesta" type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mb-2" id="agregar-respuesta-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fill-current w-4 h-4 mr-2">
@@ -26,18 +40,36 @@
                             </button>
                         </div>
                         @foreach ($respuestas as $key => $input)
-                            <div wire:key="{{ $key }}" class="mb-2">
-                                <x-input type="text" wire:model="respuestas.{{ $key }}" />
+                            <div wire:key="{{ $key }}" class="mb-4 p-4 border border-gray-200 rounded-lg">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="col-span-2">
+                                        <x-label for="respuesta_{{ $key }}">Respuesta</x-label>
+                                        <x-input type="text" id="respuesta_{{ $key }}" wire:model="respuestas.{{ $key }}.respuesta" class="w-full" />
+                                        @error("respuestas.{$key}.respuesta") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                                    </div>
+                                    <div>
+                                        <x-label for="orden_{{ $key }}">Orden</x-label>
+                                        <x-input type="number" id="orden_{{ $key }}" wire:model="respuestas.{{ $key }}.orden" class="w-full" min="1" />
+                                        @error("respuestas.{$key}.orden") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                                    </div>
+                                    <div>
+                                        <x-label for="puntos_{{ $key }}">Puntos</x-label>
+                                        <x-input type="number" id="puntos_{{ $key }}" wire:model="respuestas.{{ $key }}.puntos" class="w-full" min="0" step="0.5" />
+                                        @error("respuestas.{$key}.puntos") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                                    </div>
+                                </div>
                                 @if ($key > 0)
-                                    <button wire:click="eliminarRespuesta({{ $key }})" type="button" class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" id="remover-respuesta-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fill-current w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                                        </svg>
-                                    </button>
+                                    <div class="mt-2">
+                                        <button wire:click="eliminarRespuesta({{ $key }})" type="button" class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fill-current w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                            </svg>
+                                            <span class="ml-2">Eliminar respuesta</span>
+                                        </button>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
-                        @error('respuestas.*') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="mb-4">
