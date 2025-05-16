@@ -8,6 +8,7 @@ use App\Models\Pregunta;
 use App\Models\Rubro;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Preguntas extends Component
 {
@@ -126,28 +127,95 @@ class Preguntas extends Component
             return;
         }
 
-        $pregunta = Pregunta::updateOrCreate([
-            'id' => $this->pregunta_id
-        ], [
-            'cuestionario_id' => $this->cuestionario_id,
-            'rubro_id' => $this->rubro_id,
-            'titulo'   => $this->titulo,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $pregunta->respuestas()->delete();
-
-        foreach ($this->respuestas as $respuesta) {
-            $pregunta->respuestas()->create([
-                'pregunta_id' => $pregunta->id,
-                'respuesta' => $respuesta['respuesta'],
-                'orden' => $respuesta['orden'],
-                'puntos' => $respuesta['puntos']
+            $pregunta = Pregunta::updateOrCreate([
+                'id' => $this->pregunta_id
+            ], [
+                'cuestionario_id' => $this->cuestionario_id,
+                'rubro_id' => $this->rubro_id,
+                'titulo'   => $this->titulo,
             ]);
-        }
 
-        session()->flash('message', $this->pregunta_id ? 'Pregunta actualizada.' : 'Pregunta creada.');
-        $this->closeModalPopover();
-        $this->resetCreateForm();
+            if ($this->pregunta_id) {
+                // Obtener respuestas actuales
+                $respuestasActuales = $pregunta->respuestas()->get();
+                $respuestasNuevas = collect($this->respuestas);
+                
+                // Preparar arrays para actualización
+                $idsAMantener = [];
+
+                // Primero procesamos las respuestas existentes
+                foreach ($respuestasNuevas as $respuesta) {
+                    if (isset($respuesta['id'])) {
+                        // Es una respuesta existente
+                        $respuestaExistente = $respuestasActuales->firstWhere('id', $respuesta['id']);
+                        
+                        if ($respuestaExistente) {
+                            if ($respuestaExistente->estaEnUso()) {
+                                // Si está en uso, solo actualizamos orden y puntos
+                                $respuestaExistente->update([
+                                    'orden' => $respuesta['orden'],
+                                    'puntos' => $respuesta['puntos']
+                                ]);
+                            } else {
+                                // Si no está en uso, actualizamos todo
+                                $respuestaExistente->update([
+                                    'respuesta' => $respuesta['respuesta'],
+                                    'orden' => $respuesta['orden'],
+                                    'puntos' => $respuesta['puntos']
+                                ]);
+                            }
+                            $idsAMantener[] = $respuestaExistente->id;
+                        }
+                    }
+                }
+
+                // Luego procesamos las nuevas respuestas
+                foreach ($respuestasNuevas as $respuesta) {
+                    if (!isset($respuesta['id'])) {
+                        // Es una nueva respuesta
+                        $nuevaRespuesta = $pregunta->respuestas()->create([
+                            'respuesta' => $respuesta['respuesta'],
+                            'orden' => $respuesta['orden'],
+                            'puntos' => $respuesta['puntos']
+                        ]);
+                        $idsAMantener[] = $nuevaRespuesta->id;
+                    }
+                }
+
+                // Eliminar respuestas que ya no existen y no están en uso
+                $pregunta->respuestas()
+                    ->whereNotIn('id', $idsAMantener)
+                    ->whereDoesntHave('resultados')
+                    ->delete();
+
+            } else {
+                // Para nuevas preguntas, crear todas las respuestas
+                foreach ($this->respuestas as $respuesta) {
+                    $pregunta->respuestas()->create([
+                        'respuesta' => $respuesta['respuesta'],
+                        'orden' => $respuesta['orden'],
+                        'puntos' => $respuesta['puntos']
+                    ]);
+                }
+            }
+
+            DB::commit();
+            session()->flash('message', $this->pregunta_id ? 'Pregunta actualizada.' : 'Pregunta creada.');
+            $this->closeModalPopover();
+            $this->resetCreateForm();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error al guardar pregunta: ' . $e->getMessage(), [
+                'pregunta_id' => $this->pregunta_id,
+                'respuestas' => $this->respuestas,
+                'error' => $e->getMessage()
+            ]);
+            session()->flash('error', 'Error al guardar la pregunta: ' . $e->getMessage());
+        }
     }
 
     public function updated($propertyName)
@@ -159,26 +227,46 @@ class Preguntas extends Component
 
     public function edit($id)
     {
-        $pregunta = Pregunta::findOrFail($id);
+        $pregunta = Pregunta::with(['respuestas' => function($query) {
+            $query->orderBy('orden');
+        }])->findOrFail($id);
+        
         $this->pregunta_id = $id;
         $this->cuestionario_id = $pregunta->cuestionario_id;
         $this->rubro_id = $pregunta->rubro_id;
         $this->titulo = $pregunta->titulo;
         
-        $this->respuestas = $pregunta->respuestas->map(function($respuesta) {
-            return [
-                'respuesta' => $respuesta->respuesta,
-                'orden' => $respuesta->orden,
-                'puntos' => $respuesta->puntos
+        // Depurar los datos de las respuestas
+        $respuestasArray = [];
+        foreach ($pregunta->respuestas as $respuesta) {
+            $respuestasArray[] = [
+                'id' => $respuesta->id,
+                'respuesta' => trim($respuesta->respuesta), // Asegurar que no hay espacios extra
+                'orden' => (int)$respuesta->orden,
+                'puntos' => (float)$respuesta->puntos,
+                'en_uso' => $respuesta->estaEnUso()
             ];
-        })->toArray();
-
+        }
+        
+        $this->respuestas = $respuestasArray;
+        
+        // Depurar los datos cargados
+        \Log::info('Respuestas cargadas:', ['respuestas' => $this->respuestas]);
+        
         $this->openModalPopover();
     }
 
     public function delete($id)
     {
-        Pregunta::find($id)->delete();
+        $pregunta = Pregunta::findOrFail($id);
+        
+        // Verificar si la pregunta está en uso
+        if ($pregunta->estaEnUso()) {
+            session()->flash('error', 'Esta pregunta no puede ser eliminada porque ya está siendo utilizada en evaluaciones.');
+            return;
+        }
+
+        $pregunta->delete();
         session()->flash('message', 'Pregunta borrada.');
     }
 

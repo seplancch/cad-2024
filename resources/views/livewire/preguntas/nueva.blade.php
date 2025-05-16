@@ -40,25 +40,52 @@
                             </button>
                         </div>
                         @foreach ($respuestas as $key => $input)
-                            <div wire:key="{{ $key }}" class="mb-4 p-4 border border-gray-200 rounded-lg">
+                            <div wire:key="{{ $key }}" class="mb-4 p-4 border border-gray-200 rounded-lg {{ isset($input['en_uso']) && $input['en_uso'] ? 'bg-gray-50' : '' }}">
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div class="col-span-2">
-                                        <x-label for="respuesta_{{ $key }}">Respuesta</x-label>
-                                        <x-input type="text" id="respuesta_{{ $key }}" wire:model="respuestas.{{ $key }}.respuesta" class="w-full" />
-                                        @error("respuestas.{$key}.respuesta") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                                        <x-label for="respuesta_{{ $key }}">Respuesta {{ isset($input['en_uso']) && $input['en_uso'] ? '(En uso)' : '' }}</x-label>
+                                        <div class="mt-1">
+                                            <input 
+                                                type="text" 
+                                                id="respuesta_{{ $key }}" 
+                                                wire:model.live="respuestas.{{ $key }}.respuesta" 
+                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ isset($input['en_uso']) && $input['en_uso'] ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                                                {{ isset($input['en_uso']) && $input['en_uso'] ? 'disabled' : '' }}
+                                                placeholder="Ingrese el texto de la respuesta"
+                                            />
+                                        </div>
+                                        @error("respuestas.{$key}.respuesta") 
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
+                                        @if(isset($input['en_uso']) && $input['en_uso'])
+                                            <p class="text-sm text-gray-500 mt-1">Esta respuesta está siendo utilizada en evaluaciones y no puede ser modificada.</p>
+                                        @endif
                                     </div>
                                     <div>
                                         <x-label for="orden_{{ $key }}">Orden</x-label>
-                                        <x-input type="number" id="orden_{{ $key }}" wire:model="respuestas.{{ $key }}.orden" class="w-full" min="1" />
+                                        <x-input 
+                                            type="number" 
+                                            id="orden_{{ $key }}" 
+                                            wire:model="respuestas.{{ $key }}.orden" 
+                                            class="w-full" 
+                                            min="1" 
+                                        />
                                         @error("respuestas.{$key}.orden") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                                     </div>
                                     <div>
                                         <x-label for="puntos_{{ $key }}">Puntos</x-label>
-                                        <x-input type="number" id="puntos_{{ $key }}" wire:model="respuestas.{{ $key }}.puntos" class="w-full" min="0" step="0.5" />
+                                        <x-input 
+                                            type="number" 
+                                            id="puntos_{{ $key }}" 
+                                            wire:model="respuestas.{{ $key }}.puntos" 
+                                            class="w-full" 
+                                            min="0" 
+                                            step="0.5" 
+                                        />
                                         @error("respuestas.{$key}.puntos") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                @if ($key > 0)
+                                @if ($key > 0 && (!isset($input['en_uso']) || !$input['en_uso']))
                                     <div class="mt-2">
                                         <button wire:click="eliminarRespuesta({{ $key }})" type="button" class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fill-current w-4 h-4">

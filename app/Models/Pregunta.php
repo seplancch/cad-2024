@@ -36,4 +36,14 @@ class Pregunta extends Model
     {
         return $this->hasMany(Respuesta::class);
     }
+
+    public function resultados(): HasMany
+    {
+        return $this->hasMany(Resultado::class);
+    }
+
+    public function estaEnUso(): bool
+    {
+        return $this->resultados()->exists();
+    }
 }
