@@ -78,6 +78,7 @@ Route::middleware(
                 Route::post('/importar/alumnos', [ImportAlumnosController::class, 'import'])->name('importaAlumnos');
                 
                 Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
+                Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionarios.show');
                 Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
                 Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
                 Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');

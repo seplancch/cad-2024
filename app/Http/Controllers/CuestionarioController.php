@@ -21,4 +21,10 @@ class CuestionarioController extends Controller
     {
         return view('cuestionarios');
     }
+
+    public function show($id)
+    {
+        $cuestionario = Cuestionario::with('preguntas.rubro')->findOrFail($id);
+        return view('cuestionarios.show', compact('cuestionario'));
+    }
 }
