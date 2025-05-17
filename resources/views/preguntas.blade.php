@@ -25,11 +25,11 @@
                                 @foreach($cuestionario->preguntas as $index => $pregunta)
                                     <div class="bg-gray-50 p-4 rounded-lg">
                                         <p class="text-sm font-medium text-gray-900">
-                                            {{ $index + 1 }}. {{ $pregunta->pregunta }}
+                                            {{ $index + 1 }}. {{ $pregunta->titulo }}
                                         </p>
                                         @if($pregunta->rubro)
                                             <p class="text-xs text-gray-500 mt-1">
-                                                Rubro: {{ $pregunta->rubro->nombre }}
+                                                Rubro: {{ $pregunta->rubro->titulo }}
                                             </p>
                                         @endif
                                     </div>
