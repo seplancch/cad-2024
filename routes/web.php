@@ -82,6 +82,8 @@ Route::middleware(
                 Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
                 Route::get('/rubros', [RubroController::class, 'index'])->name('rubros');
                 Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas');
+                Route::get('/inscripciones', [App\Http\Controllers\InscripcionController::class, 'index'])->name('inscripciones');
+                Route::get('/grupos', [App\Http\Controllers\GrupoController::class, 'index'])->name('grupos');
 
                 Route::get('profesores', [ProfesorController::class, 'index'])->name('profesores.index');
                 Route::resource('configuracion', ConfiguracionController::class);
