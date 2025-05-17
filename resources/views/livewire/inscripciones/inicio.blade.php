@@ -29,6 +29,38 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div>
+            <label for="filtroGrupo" class="block text-sm font-medium text-gray-700">Filtrar por Grupo</label>
+            <select wire:model.live="filtroGrupo" id="filtroGrupo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todos los grupos</option>
+                @foreach($grupos as $grupo)
+                    <option value="{{ $grupo->id }}">{{ $grupo->nombre }} - {{ $grupo->seccion }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="filtroAsignatura" class="block text-sm font-medium text-gray-700">Filtrar por Asignatura</label>
+            <select wire:model.live="filtroAsignatura" id="filtroAsignatura" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todas las asignaturas</option>
+                @foreach($asignaturas as $asignatura)
+                    <option value="{{ $asignatura->id }}">{{ $asignatura->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="filtroPlantel" class="block text-sm font-medium text-gray-700">Filtrar por Plantel</label>
+            <select wire:model.live="filtroPlantel" id="filtroPlantel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todos los planteles</option>
+                @foreach($planteles as $plantel)
+                    <option value="{{ $plantel->id }}">{{ $plantel->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
     <!-- Modal de Creación/Edición -->
     @if($isModalOpen)
         <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">

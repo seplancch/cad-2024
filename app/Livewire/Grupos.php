@@ -30,6 +30,9 @@ class Grupos extends Component
     public $perPage = 10;
     public $sortField = 'id';
     public $sortDirection = 'asc';
+    public $filtroProfesor = '';
+    public $filtroAsignatura = '';
+    public $filtroPlantel = '';
 
     protected $rules = [
         'nombre' => 'required|string|max:255',
@@ -61,6 +64,15 @@ class Grupos extends Component
                           $q->where('nombre', 'like', '%' . $this->search . '%');
                       });
                 });
+            })
+            ->when($this->filtroProfesor, function($query) {
+                $query->where('profesor_id', $this->filtroProfesor);
+            })
+            ->when($this->filtroAsignatura, function($query) {
+                $query->where('asignatura_id', $this->filtroAsignatura);
+            })
+            ->when($this->filtroPlantel, function($query) {
+                $query->where('plantel_id', $this->filtroPlantel);
             })
             ->where('periodo_id', $this->periodo_id)
             ->orderBy($this->sortField, $this->sortDirection)

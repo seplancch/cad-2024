@@ -6,6 +6,8 @@ use App\Models\Inscripcion;
 use App\Models\Grupo;
 use App\Models\Alumno;
 use App\Models\Periodo;
+use App\Models\Asignatura;
+use App\Models\Plantel;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +31,9 @@ class Inscripciones extends Component
     public $perPage = 10;
     public $sortField = 'id';
     public $sortDirection = 'asc';
+    public $filtroGrupo = '';
+    public $filtroAsignatura = '';
+    public $filtroPlantel = '';
 
     protected $rules = [
         'alumno_id' => 'required|exists:alumnos,id',
@@ -60,6 +65,19 @@ class Inscripciones extends Component
                     });
                 });
             })
+            ->when($this->filtroGrupo, function($query) {
+                $query->where('grupo_id', $this->filtroGrupo);
+            })
+            ->when($this->filtroAsignatura, function($query) {
+                $query->whereHas('grupo', function($q) {
+                    $q->where('asignatura_id', $this->filtroAsignatura);
+                });
+            })
+            ->when($this->filtroPlantel, function($query) {
+                $query->whereHas('grupo', function($q) {
+                    $q->where('plantel_id', $this->filtroPlantel);
+                });
+            })
             ->where('periodo_id', $this->periodo_id)
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
@@ -69,6 +87,8 @@ class Inscripciones extends Component
             'periodos' => Periodo::all(),
             'grupos' => Grupo::where('periodo_id', $this->periodo_id)->get(),
             'alumnos' => Alumno::all(),
+            'asignaturas' => Asignatura::all(),
+            'planteles' => Plantel::all(),
         ]);
     }
 
