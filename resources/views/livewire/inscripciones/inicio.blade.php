@@ -72,34 +72,82 @@
                         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                             <div class="mb-4">
                                 <label for="alumno_id" class="block text-sm font-medium text-gray-700">Alumno</label>
-                                <select wire:model="alumno_id" id="alumno_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">Seleccione un alumno</option>
-                                    @foreach($alumnos as $alumno)
-                                        <option value="{{ $alumno->id }}">{{ $alumno->user->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="relative">
+                                    <input type="text" 
+                                           wire:model.live="searchAlumno" 
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                           placeholder="Buscar alumno...">
+                                    @if(count($alumnosFiltrados) > 0)
+                                        <div class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-200">
+                                            <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                @foreach($alumnosFiltrados as $alumno)
+                                                    <li class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-50" 
+                                                        wire:key="alumno-{{ $alumno->id }}">
+                                                        <button type="button" 
+                                                                wire:click="selectAlumno({{ $alumno->id }})" 
+                                                                class="w-full text-left">
+                                                            <span class="block truncate">{{ $alumno->user->name }}</span>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                                 @error('alumno_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="grupo_id" class="block text-sm font-medium text-gray-700">Grupo</label>
-                                <select wire:model="grupo_id" id="grupo_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">Seleccione un grupo</option>
-                                    @foreach($grupos as $grupo)
-                                        <option value="{{ $grupo->id }}">{{ $grupo->nombre }} - {{ $grupo->seccion }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="relative">
+                                    <input type="text" 
+                                           wire:model.live="searchGrupo" 
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                           placeholder="Buscar grupo...">
+                                    @if(count($gruposFiltrados) > 0)
+                                        <div class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-200">
+                                            <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                @foreach($gruposFiltrados as $grupo)
+                                                    <li class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-50" 
+                                                        wire:key="grupo-{{ $grupo->id }}">
+                                                        <button type="button" 
+                                                                wire:click="selectGrupo({{ $grupo->id }})" 
+                                                                class="w-full text-left">
+                                                            <span class="block truncate">{{ $grupo->nombre }} - {{ $grupo->seccion }} ({{ $grupo->asignatura->nombre }})</span>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                                 @error('grupo_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="periodo_id" class="block text-sm font-medium text-gray-700">Período</label>
-                                <select wire:model="periodo_id" id="periodo_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">Seleccione un período</option>
-                                    @foreach($periodos as $periodo)
-                                        <option value="{{ $periodo->id }}">{{ $periodo->nombre }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="relative">
+                                    <input type="text" 
+                                           wire:model.live="searchPeriodo" 
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                           placeholder="Buscar período...">
+                                    @if(count($periodosFiltrados) > 0)
+                                        <div class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-200">
+                                            <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                @foreach($periodosFiltrados as $periodo)
+                                                    <li class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-50" 
+                                                        wire:key="periodo-{{ $periodo->id }}">
+                                                        <button type="button" 
+                                                                wire:click="selectPeriodo({{ $periodo->id }})" 
+                                                                class="w-full text-left">
+                                                            <span class="block truncate">{{ $periodo->nombre }}</span>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                                 @error('periodo_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             </div>
 
