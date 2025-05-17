@@ -77,65 +77,84 @@
         </x-dialog-modal>
     @endif
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-            <caption class="sr-only">Listado de preguntas</caption>
-            <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pregunta</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rubro</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($preguntas as $index => $pregunta)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $loop->iteration }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $pregunta->titulo }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $pregunta->rubro->nombre }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex space-x-2">
-                                <button wire:key="p-{{ $pregunta->id }}" wire:click="edit({{ $pregunta->id }})"
-                                    class="text-indigo-600 hover:text-indigo-900">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </button>
-                                <button wire:click="confirmDelete({{ $pregunta->id }})"
-                                    class="text-red-600 hover:text-red-900">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div class="mt-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 px-4 py-3 bg-white border-t border-gray-200">
-        <div class="flex items-center space-x-4">
-            <span class="text-sm text-gray-700">Mostrar</span>
-            <select wire:model.live="perPage" class="rounded-md border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <span class="text-sm text-gray-700">por página</span>
+    @php
+        $tienePreguntas = isset($preguntas) && $preguntas instanceof \Illuminate\Support\Collection && $preguntas->count() > 0;
+        \Log::info('En la vista preguntas:', [
+            'isset_preguntas' => isset($preguntas),
+            'tipo_preguntas' => isset($preguntas) ? get_class($preguntas) : 'no definido',
+            'count' => isset($preguntas) ? $preguntas->count() : 'no count',
+            'tienePreguntas' => $tienePreguntas,
+            'primer_pregunta' => isset($preguntas) && $preguntas->count() > 0 ? $preguntas->first()->toArray() : null
+        ]);
+    @endphp
+
+    @if($tienePreguntas)
+        <div class="overflow-x-auto rounded-lg border border-gray-200">
+            <div class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <caption class="sr-only">Listado de preguntas</caption>
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="w-16 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pregunta</th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rubro</th>
+                            <th scope="col" class="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($preguntas as $pregunta)
+                            <tr>
+                                <td class="w-16 px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="px-3 py-4 text-sm text-gray-500">
+                                    <div class="max-w-xl break-words">
+                                        {{ $pregunta->titulo }}
+                                    </div>
+                                </td>
+                                <td class="px-3 py-4 text-sm text-gray-500">
+                                    <div class="max-w-xl break-words">
+                                        {{ $pregunta->rubro->titulo }}
+                                    </div>
+                                </td>
+                                <td class="w-24 px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <button wire:key="p-{{ $pregunta->id }}" wire:click="edit({{ $pregunta->id }})"
+                                            class="text-indigo-600 hover:text-indigo-900">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </button>
+                                        <button wire:click="confirmDelete({{ $pregunta->id }})"
+                                            class="text-red-600 hover:text-red-900">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="flex items-center space-x-2">
-            {{ $preguntas->links() }}
+    @else
+        <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        No hay preguntas asociadas a este cuestionario.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 
 @push('styles')

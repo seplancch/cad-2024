@@ -42,7 +42,7 @@ class Preguntas extends Component
 
     public $version;
     public $pregunta_id;
-    public $isModalOpen = 0;
+    public $isModalOpen = false;
     public $cuestionario_id = 0;
     public $rubros;
     public $numpreguntas = 10;
@@ -50,6 +50,7 @@ class Preguntas extends Component
     public $descripcion;
     public $isDeleteModalOpen = false;
     public $preguntaToDelete = null;
+    public $perPage = 10;
 
     protected $rules = [
         'titulo' => 'required|min:3',
@@ -64,6 +65,10 @@ class Preguntas extends Component
         $this->rubros = Rubro::all();
         $this->cuestionario_id = $cuestionario_id;
         $this->respuestas = [['respuesta' => '', 'orden' => 1, 'puntos' => 1]];
+        $this->isModalOpen = false;
+        $this->isDeleteModalOpen = false;
+        $this->preguntaToDelete = null;
+        $this->preguntas = collect([]); // Inicializar preguntas como una colección vacía
     }
 
     #[On('cuestionario_id')]
@@ -309,8 +314,39 @@ class Preguntas extends Component
 
     public function render()
     {
-        return view('livewire.preguntas.inicio', [
-            'preguntas' => Pregunta::where('cuestionario_id', $this->cuestionario_id)->paginate($this->numpreguntas),
+        \Log::info('Iniciando render con cuestionario_id: ' . $this->cuestionario_id);
+        
+        if ($this->cuestionario_id <= 0) {
+            \Log::warning('cuestionario_id no válido: ' . $this->cuestionario_id);
+            return view('livewire.preguntas.inicio', [
+                'preguntas' => collect([]),
+                'cuestionario_id' => $this->cuestionario_id
+            ]);
+        }
+
+        $preguntas = Pregunta::where('cuestionario_id', $this->cuestionario_id)
+            ->with('rubro')
+            ->orderBy('id')
+            ->get();
+
+        \Log::info('Preguntas cargadas en render:', [
+            'cuestionario_id' => $this->cuestionario_id,
+            'total_preguntas' => $preguntas->count(),
+            'tipo' => get_class($preguntas),
+            'primer_pregunta' => $preguntas->first() ? $preguntas->first()->toArray() : null
         ]);
+
+        // Asignar la colección a la propiedad del componente
+        $this->preguntas = $preguntas;
+
+        return view('livewire.preguntas.inicio', [
+            'preguntas' => $this->preguntas,
+            'cuestionario_id' => $this->cuestionario_id
+        ]);
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
     }
 }
