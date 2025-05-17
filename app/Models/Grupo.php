@@ -20,7 +20,7 @@ class Grupo extends Model
         'periodo_id',
     ];
 
-    public function inscripcion(): HasMany
+    public function inscripciones(): HasMany
     {
         return $this->hasMany(Inscripcion::class);
     }
