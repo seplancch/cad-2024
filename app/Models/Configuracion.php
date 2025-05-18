@@ -13,6 +13,10 @@ class Configuracion extends Model
     protected $table = 'configuraciones';
 
     protected $fillable = [
+        'nombre',
+        'valor',
+        'tipo',
+        'descripcion',
         'periodo_id'
     ];
 
