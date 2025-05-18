@@ -19,6 +19,7 @@ class Inscripciones extends Component
 
     public $isModalOpen = false;
     public $isDeleteModalOpen = false;
+    public $isVerInscripcionesModalOpen = false;
     public $inscripcion_id;
     public $alumno_id;
     public $grupo_id;
@@ -27,6 +28,7 @@ class Inscripciones extends Component
     public $periodo_id;
     public $autoinscripcion = 0;
     public $inscripcionToDelete;
+    public $inscripcionSeleccionada;
     public $search = '';
     public $perPage = 10;
     public $sortField = 'id';
@@ -40,6 +42,8 @@ class Inscripciones extends Component
     public $alumnosFiltrados = [];
     public $gruposFiltrados = [];
     public $periodosFiltrados = [];
+    public $inscripcionesAlumno = [];
+    public $alumnoSeleccionado = null;
     public $selectedAlumnoIndex = -1;
     public $selectedGrupoIndex = -1;
     public $selectedPeriodoIndex = -1;
@@ -62,7 +66,14 @@ class Inscripciones extends Component
 
     public function render()
     {
-        $inscripciones = Inscripcion::query()
+        $inscripciones = Inscripcion::with([
+            'alumno.user',
+            'grupo.asignatura',
+            'grupo.profesor.user',
+            'grupo.plantel',
+            'grupo.periodo',
+            'resultados.pregunta'
+        ])
             ->when($this->search, function($query) {
                 $query->where(function($q) {
                     $q->whereHas('alumno', function($q) {
@@ -337,5 +348,50 @@ class Inscripciones extends Component
             $this->searchPeriodo = $periodo->nombre;
             $this->periodosFiltrados = [];
         }
+    }
+
+    public function verInscripcionesAlumno($inscripcionId)
+    {
+        try {
+            $this->inscripcionSeleccionada = Inscripcion::with([
+                'alumno.user',
+                'grupo.asignatura',
+                'grupo.profesor.user',
+                'resultados.pregunta',
+                'resultados.respuesta'
+            ])->findOrFail($inscripcionId);
+
+            // Debug logging
+            Log::info('Inscripción seleccionada:', [
+                'id' => $this->inscripcionSeleccionada->id,
+                'alumno' => $this->inscripcionSeleccionada->alumno,
+                'grupo' => $this->inscripcionSeleccionada->grupo,
+                'resultados' => $this->inscripcionSeleccionada->resultados
+            ]);
+
+            if (!$this->inscripcionSeleccionada->alumno) {
+                session()->flash('error', 'No se encontró el alumno asociado a esta inscripción.');
+                return;
+            }
+
+            if (!$this->inscripcionSeleccionada->alumno->user) {
+                session()->flash('error', 'No se encontró el usuario asociado al alumno.');
+                return;
+            }
+
+            $this->alumnoSeleccionado = $this->inscripcionSeleccionada->alumno;
+            
+            $this->isVerInscripcionesModalOpen = true;
+        } catch (\Exception $e) {
+            Log::error('Error en verInscripcionesAlumno: ' . $e->getMessage());
+            session()->flash('error', 'Error al cargar la inscripción: ' . $e->getMessage());
+        }
+    }
+
+    public function closeVerInscripcionesModal()
+    {
+        $this->isVerInscripcionesModalOpen = false;
+        $this->inscripcionSeleccionada = null;
+        $this->alumnoSeleccionado = null;
     }
 } 

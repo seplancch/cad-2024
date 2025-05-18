@@ -70,10 +70,10 @@
                 <!-- Gestión de Cuestionarios -->
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900">Gestión de Cuestionarios</h3>
-                        <p class="mt-1 text-sm text-gray-600">
+                                <h3 class="text-lg font-medium text-gray-900">Gestión de Cuestionarios</h3>
+                                <p class="mt-1 text-sm text-gray-600">
                             Administra los cuestionarios, rubros y preguntas del sistema.
-                        </p>
+                                </p>
                         <div class="mt-6 grid grid-cols-1 gap-4">
                             <a href="{{ route('cuestionarios') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                                 <svg class="mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

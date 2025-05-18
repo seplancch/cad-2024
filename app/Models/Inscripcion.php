@@ -38,4 +38,9 @@ class Inscripcion extends Model
     {
         return $this->hasMany(Resultado::class);
     }
+
+    public function respuestas(): HasMany
+    {
+        return $this->hasMany(Respuesta::class);
+    }
 }
