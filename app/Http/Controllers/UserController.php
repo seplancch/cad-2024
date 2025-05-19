@@ -274,6 +274,20 @@ class UserController extends Controller
                         'fecha_nacimiento' => $request->fecha_nacimiento_profesor,
                         'sexo' => $request->sexo_profesor
                     ]);
+
+                    // Actualizar o crear la relación con el plantel
+                    if ($user->profesor->profesorPlantel->first()) {
+                        $user->profesor->profesorPlantel->first()->update([
+                            'plantel_id' => $request->plantel_id_profesor
+                        ]);
+                    } else {
+                        $user->profesor->profesorPlantel()->create([
+                            'plantel_id' => $request->plantel_id_profesor,
+                            'periodo_id' => 1, // Ajustar según el periodo actual
+                            'antiguedad' => 0,
+                            'fecha_asignacion' => now()
+                        ]);
+                    }
                 } else {
                     $profesor = $user->profesor()->create([
                         'numero_trabajador' => $request->numero_trabajador,
@@ -286,7 +300,6 @@ class UserController extends Controller
                         'plantel_id' => $request->plantel_id_profesor,
                         'periodo_id' => 1, // Ajustar según el periodo actual
                         'antiguedad' => 0,
-                        'turno' => $request->turno ?? 'M',
                         'fecha_asignacion' => now()
                     ]);
                 }

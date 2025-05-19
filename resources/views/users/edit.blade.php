@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -183,7 +180,7 @@
                                         <option value="">Seleccione un plantel</option>
                                         @foreach($planteles as $plantel)
                                             <option value="{{ $plantel->id }}" 
-                                                {{ old('plantel_id_profesor', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->plantel_id : '') == $plantel->id ? 'selected' : '' }}>
+                                                {{ old('plantel_id_profesor', $user->profesor && $user->profesor->profesorPlantel->first() ? $user->profesor->profesorPlantel->first()->plantel_id : '') == $plantel->id ? 'selected' : '' }}>
                                                 {{ $plantel->nombre }}
                                             </option>
                                         @endforeach
@@ -193,8 +190,8 @@
                                     <label for="turno" class="block text-sm font-medium text-gray-700">Turno</label>
                                     <select name="turno" id="turno"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                        <option value="M" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->turno : 'M') == 'M' ? 'selected' : '' }}>Matutino</option>
-                                        <option value="V" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel ? $user->profesor->profesorPlantel->turno : 'M') == 'V' ? 'selected' : '' }}>Vespertino</option>
+                                        <option value="M" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel->first() ? $user->profesor->profesorPlantel->first()->turno : 'M') == 'M' ? 'selected' : '' }}>Matutino</option>
+                                        <option value="V" {{ old('turno', $user->profesor && $user->profesor->profesorPlantel->first() ? $user->profesor->profesorPlantel->first()->turno : 'M') == 'V' ? 'selected' : '' }}>Vespertino</option>
                                     </select>
                                 </div>
                             </div>
@@ -240,4 +237,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endpush
-@endsection
