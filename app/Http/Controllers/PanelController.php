@@ -46,11 +46,12 @@ class PanelController extends Controller
                 $inicio = Configuracion::where('nombre', 'INICIO_24')->first();
                 $cierre = Configuracion::where('nombre', 'CIERRE_24')->first();
             }
-            
+
             $fechaActual = Carbon::now();
             $fechaInicio = Carbon::createFromFormat('d-m-Y', $inicio->valor);
             $fechaCierre = Carbon::createFromFormat('d-m-Y', $cierre->valor);
-            
+            $fechaCierre->setTime(23, 59, 59);
+
             $fueraDeRango = !$fechaActual->between($fechaInicio, $fechaCierre);
             $periodoActual = obtienePeriodoActual();
             $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo);
