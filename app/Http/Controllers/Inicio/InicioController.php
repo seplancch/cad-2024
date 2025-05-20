@@ -9,12 +9,46 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactoMail;
 use Illuminate\Support\Facades\Http;
+use App\Models\Configuracion;
+use Carbon\Carbon;
 
 class InicioController extends Controller
 {
     public function index()
     {
-        return view('inicio.inicio');
+        $inicio6 = Configuracion::where('nombre', 'INICIO_6')->first();
+        $cierre6 = Configuracion::where('nombre', 'CIERRE_6')->first();
+        $inicio24 = Configuracion::where('nombre', 'INICIO_24')->first();
+        $cierre24 = Configuracion::where('nombre', 'CIERRE_24')->first();
+
+        // Array de meses en español
+        $meses = [
+            'January' => 'Enero',
+            'February' => 'Febrero',
+            'March' => 'Marzo',
+            'April' => 'Abril',
+            'May' => 'Mayo',
+            'June' => 'Junio',
+            'July' => 'Julio',
+            'August' => 'Agosto',
+            'September' => 'Septiembre',
+            'October' => 'Octubre',
+            'November' => 'Noviembre',
+            'December' => 'Diciembre'
+        ];
+
+        $fechas = [
+            'inicio6' => $inicio6 ? Carbon::createFromFormat('d-m-Y', $inicio6->valor)->format('d') : '',
+            'cierre6' => $cierre6 ? Carbon::createFromFormat('d-m-Y', $cierre6->valor)->format('d') : '',
+            'inicio24' => $inicio24 ? Carbon::createFromFormat('d-m-Y', $inicio24->valor)->format('d') : '',
+            'cierre24' => $cierre24 ? Carbon::createFromFormat('d-m-Y', $cierre24->valor)->format('d') : '',
+            'mesInicio6' => $inicio6 ? $meses[Carbon::createFromFormat('d-m-Y', $inicio6->valor)->format('F')] : '',
+            'mesCierre6' => $cierre6 ? $meses[Carbon::createFromFormat('d-m-Y', $cierre6->valor)->format('F')] : '',
+            'mesInicio24' => $inicio24 ? $meses[Carbon::createFromFormat('d-m-Y', $inicio24->valor)->format('F')] : '',
+            'mesCierre24' => $cierre24 ? $meses[Carbon::createFromFormat('d-m-Y', $cierre24->valor)->format('F')] : '',
+        ];
+
+        return view('inicio.inicio', compact('fechas'));
     }
 
     public function contacto()

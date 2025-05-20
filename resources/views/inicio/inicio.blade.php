@@ -1,9 +1,9 @@
 @extends('inicio.layouts.app')
 
 @section('content')
-    <div id="toast-warning" class="fixed right-4 mt-5 z-50 flex items-center w-1/2 max-w-lg p-4 text-gray-500 bg-white/[.8] backdrop-blur-sm rounded-lg shadow" role="alert">
-        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" data-icon="bi:patch-exclamation">
+    <div id="toast-warning" class="w-full max-w-xs md:max-w-lg md:fixed md:right-4 md:mt-5 md:z-50 md:shadow-lg flex items-start md:items-center md:w-1/2 p-6 text-gray-500 bg-white/[.9] backdrop-blur-sm rounded-lg border-l-4 border-orange-500" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" data-icon="bi:patch-exclamation">
                 <symbol id="ai:bi:patch-exclamation">
                     <g fill="currentColor">
                         <path d="M7.001 11a1 1 0 1 1 2 0a1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0z"></path>
@@ -14,29 +14,42 @@
             </svg>
             <span class="sr-only">Alerta</span>
         </div>
-        <div class="ms-3 text-sm font-normal">
-            <span class="block font-bold uppercase">Fechas para completar el CAD</span>
-            <span class="block">Alumnos de 6to semestre 12 al 16 de Mayo</span>
-            <span class="block">Alumnos de 2do y 4to semestre 2 al 13 de Junio</span>
+        <div class="ms-4 text-sm font-normal">
+            <span class="block font-bold text-lg text-orange-600 uppercase mb-2">Fechas para completar el CAD</span>
+            <div class="space-y-2">
+                <div class="flex items-center bg-orange-50 p-3 rounded-lg">
+                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-gray-700">Alumnos de 6to semestre: <span class="font-semibold text-orange-600">{{ $fechas['inicio6'] }} de {{ $fechas['mesInicio6'] }} al {{ $fechas['cierre6'] }} de {{ $fechas['mesCierre6'] }}</span></span>
+                </div>
+                <div class="flex items-center bg-orange-50 p-3 rounded-lg">
+                    <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-gray-700">Alumnos de 2do y 4to semestre: <span class="font-semibold text-orange-600">{{ $fechas['inicio24'] }} de {{ $fechas['mesInicio24'] }} al {{ $fechas['cierre24'] }} de {{ $fechas['mesCierre24'] }}</span></span>
+                </div>
+            </div>
         </div>
-        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red text-light hover:text-gray-900 rounded-lg p-1 hover:bg-blue inline-flex items-center justify-center size-5 transition-all self-start" data-dismiss-target="#toast-warning" aria-label="Close">
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 transition-all" onclick="cerrarToast()" aria-label="Close">
             <span class="sr-only">Cerrar</span>
-            <svg width="1em" height="1em" viewBox="0 0 16 16" data-icon="bi:x-circle">
-                <symbol id="ai:bi:x-circle">
-                    <g fill="currentColor">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"></path>
-                    </g>
-                </symbol>
-                <use xlink:href="#ai:bi:x-circle"></use>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
             </svg>
         </button>
     </div>
 
+    <script>
+        function cerrarToast() {
+            const toast = document.getElementById('toast-warning');
+            toast.classList.add('hidden');
+        }
+    </script>
+
     <!--<div class="bg-dark backdrop-blur-sm h-dvh block min-w-full absolute z-20 animate-fade animate-once animate-duration-[1000ms] animate-ease-in-out animate-alternate-reverse pointer-events-none">
     </div> -->
 
-    <section class="text-pretty bg-light text-light h-dvh flex flex-col justify-center items-center lg:bg-cover lg:bg-center"
+    <section class="md:pt-32 text-pretty bg-light text-light h-dvh flex flex-col justify-center items-center lg:bg-cover lg:bg-center"
         style="{{'background-image: url(' . asset('img/bg-hero.webp') . '); background-size: cover;'}}">
 
         <div class="lg:h-dvh absolute z-10 min-w-full bg-gradient-to-b from-transparent from-10% via-dark/10 to-dark pointer-events-none">
@@ -49,7 +62,7 @@
                 CAD
             </h2>
             <p class="text-pretty max-w-5xl mt-6 text-sm text-dark">
-                Es un instrumento que tiene como objetivo “recoger la opinión de los alumnos sobre algunos indicadores de desempeño de los profesores en los cursos ordinarios”, como son: la asistencia y cumplimiento del horario asignado a cada clase; la planeación de los propósitos, aprendizajes y formas de evaluación de la asignatura.
+                Es un instrumento que tiene como objetivo "recoger la opinión de los alumnos sobre algunos indicadores de desempeño de los profesores en los cursos ordinarios", como son: la asistencia y cumplimiento del horario asignado a cada clase; la planeación de los propósitos, aprendizajes y formas de evaluación de la asignatura.
             </p>
         </div>
         <div class="md:flex uppercase font-bold w-full md:w-1/2 text-center gap-x-10 mt-5">
