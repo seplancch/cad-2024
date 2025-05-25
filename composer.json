@@ -9,7 +9,7 @@
         "bacon/bacon-qr-code": "^3.0.1",
         "barryvdh/laravel-dompdf": "^3.1.1",
         "guzzlehttp/guzzle": "^7.9.3",
-        "laravel/framework": "^12.12.0",
+        "laravel/framework": "^12.15.0",
         "laravel/jetstream": "^5.3.6",
         "laravel/sanctum": "^4.1.1",
         "laravel/tinker": "^2.10.1",
@@ -17,18 +17,18 @@
         "livewire/livewire": "^3.6.3",
         "openspout/openspout": "^4.28.5",
         "rappasoft/laravel-livewire-tables": "^3.7.3",
-        "spatie/laravel-permission": "^6.17.0",
+        "spatie/laravel-permission": "^6.18.0",
         "yajra/laravel-datatables": "^12.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.15",
+        "barryvdh/laravel-debugbar": "^3.15.4",
         "fakerphp/faker": "^1.24.1",
         "laravel-lang/common": "^6.7",
-        "laravel/pint": "^1.22.0",
-        "laravel/sail": "^1.42.0",
+        "laravel/pint": "^1.22.1",
+        "laravel/sail": "^1.43.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.0",
-        "phpunit/phpunit": "^11.5.19",
+        "phpunit/phpunit": "^11.5.21",
         "spatie/laravel-ignition": "^2.9.1"
     },
     "autoload": {
