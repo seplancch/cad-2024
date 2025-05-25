@@ -1,12 +1,22 @@
 <div>
-    @if (session()->has('message'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('message') }}</span>
-        </div>
-    @endif
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session()->has('message'))
+                <div class="flex items-center bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-4 shadow-md animate-fade-in" role="alert">
+                    <svg class="w-6 h-6 mr-2 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="font-semibold">{{ session('message') }}</span>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="flex items-center bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-4 shadow-md animate-fade-in" role="alert">
+                    <svg class="w-6 h-6 mr-2 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <span class="font-semibold">{{ session('error') }}</span>
+                </div>
+            @endif
             <!-- Mensaje de bienvenida -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-6">
                 <div class="p-6">
@@ -251,4 +261,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
