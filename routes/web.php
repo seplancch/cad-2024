@@ -76,7 +76,7 @@ Route::middleware(
                 Route::get('/importar/alumnos', [ImportAlumnosController::class, 'index']);
                 Route::post('/importar/profesores', [ImportProfesoresController::class, 'import'])->name('importaProfesores');
                 Route::post('/importar/alumnos', [ImportAlumnosController::class, 'import'])->name('importaAlumnos');
-                
+
                 Route::get('/cuestionarios', [CuestionarioController::class, 'index'])->name('cuestionarios');
                 Route::get('/cuestionarios/{id}', [CuestionarioController::class, 'show'])->name('cuestionarios.show');
                 Route::get('/periodos', [PeriodoController::class, 'index'])->name('periodos');
@@ -89,6 +89,11 @@ Route::middleware(
                 Route::resource('configuracion', ConfiguracionController::class);
             }
         );
+
+        // Reportes Panel (Livewire)
+        Route::middleware(['auth', 'role:Admin'])->group(function () {
+            Route::get('/reportes', App\Livewire\Reportes::class)->name('reportes');
+        });
     }
 );
 

@@ -64,7 +64,7 @@ class Panel extends Component
         }
 
         if ($activo6 || $activo24) {
-            session()->flash('error', 'No es posible modificar el periodo actual porque existen procesos activos de inscripción. Espere a que concluyan las fechas de inicio y cierre para realizar cambios en el periodo.');
+            session()->flash('error', 'No es posible modificar el periodo actual porque existen procesos activos del CAD. Espere a que concluyan las fechas de inicio y cierre para realizar cambios en el periodo.');
             return;
         }
 

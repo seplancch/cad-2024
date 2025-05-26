@@ -258,6 +258,33 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Nueva sección de Reportes -->
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-6">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-cyan-100 rounded-md p-3">
+                                <svg class="h-6 w-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h4m0 0V7a4 4 0 00-4-4H7a4 4 0 00-4 4v10a4 4 0 004 4h4" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Reportes</h3>
+                                <p class="mt-1 text-sm text-gray-600">
+                                    Consulta estadísticas, tablas y gráficas de desempeño, inscripciones y resultados.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="{{ route('reportes') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-cyan-700 uppercase tracking-widest shadow-sm hover:bg-cyan-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                                <svg class="mr-2 h-4 w-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h4m0 0V7a4 4 0 00-4-4H7a4 4 0 00-4 4v10a4 4 0 004 4h4" />
+                                </svg>
+                                Ir a Reportes
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
