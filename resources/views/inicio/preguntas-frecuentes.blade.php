@@ -13,7 +13,7 @@
           </svg>
         </button>
       </h2>
-      <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+      <div id="accordion-flush-body-1" class="" aria-labelledby="accordion-flush-heading-1">
         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
           <p>Este instrumento, aplicado a los alumnos, permite obtener información valiosa sobre diversos aspectos del desempeño del profesor en el aula, tales como:</p>
           <ul class="ul-disc">
@@ -63,3 +63,30 @@
     </div>
   </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('[data-accordion-target]');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const targetId = btn.getAttribute('data-accordion-target');
+            const target = document.querySelector(targetId);
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            // Cerrar todos
+            document.querySelectorAll('[id^="accordion-flush-body-"]').forEach(div => {
+                div.classList.add('hidden');
+            });
+            document.querySelectorAll('[data-accordion-target]').forEach(b => {
+                b.setAttribute('aria-expanded', 'false');
+            });
+            // Abrir el seleccionado si estaba cerrado
+            if (!expanded) {
+                target.classList.remove('hidden');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+});
+</script>
+@endpush
