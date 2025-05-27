@@ -79,13 +79,12 @@ class InicioController extends Controller
     public function enviarContacto(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|ends_with:@cch.unam.mx',
+            'email' => 'required|email',
             'mensaje' => 'required|min:10',
             'g-recaptcha-response' => 'required'
         ], [
             'email.required' => 'El correo electrónico es obligatorio',
             'email.email' => 'El correo electrónico debe ser válido',
-            'email.ends_with' => 'El correo electrónico debe ser del dominio @cch.unam.mx',
             'mensaje.required' => 'El mensaje es obligatorio',
             'mensaje.min' => 'El mensaje debe tener al menos 10 caracteres',
             'g-recaptcha-response.required' => 'Por favor, verifica que no eres un robot'
@@ -112,8 +111,8 @@ class InicioController extends Controller
         }
 
         try {
-            Mail::to('contacto@cch.unam.mx')->send(new ContactoMail($request->email, $request->mensaje));
-            
+            Mail::to('cad@cch.unam.mx')->send(new ContactoMail($request->email, $request->mensaje));
+
             return redirect()->back()
                 ->with('success', '¡Gracias por tu mensaje! Te responderemos a la brevedad.');
         } catch (\Exception $e) {
