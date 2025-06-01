@@ -11,11 +11,11 @@
                 <div class="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
                     <span class="text-red-500">
                         <svg fill="currentColor"
-                             viewBox="0 0 20 20"
-                             class="h-6 w-6">
+                            viewBox="0 0 20 20"
+                            class="h-6 w-6">
                             <path fill-rule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"></path>
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
                         </svg>
                     </span>
                 </div>
@@ -35,11 +35,11 @@
                 <div class="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
                     <span class="text-green-500">
                         <svg fill="currentColor"
-                             viewBox="0 0 20 20"
-                             class="h-6 w-6">
+                            viewBox="0 0 20 20"
+                            class="h-6 w-6">
                             <path fill-rule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clip-rule="evenodd"></path>
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd"></path>
                         </svg>
                     </span>
                 </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2.5">
                             <div class="h-2.5 rounded-full {{ $porcentaje == 100 ? 'bg-green-600' : ($porcentaje > 0 ? 'bg-yellow-500' : 'bg-gray-400') }}"
-                                 style="width: {{ $porcentaje }}%"></div>
+                                style="width: {{ $porcentaje }}%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-500 mt-1">
                             <span>{{ $completados }} completadas</span>
@@ -151,33 +151,58 @@
                 </div>
             </div>
             @if($semestre != 6)
-            <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
-                <div class="flex justify-between mb-4">
-                    <div>
-                        <div class="flex items-center mb-1">
-                            <div class="text-2xl font-semibold">Cuestionario de opinión sobre los Servicios de la UNAM</div>
-                            <div class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2">+100%</div>
-                        </div>
-                        <div class="text-sm font-medium text-gray-400">
-                            Para poder completar tu evaluación del CAD deberás también completar tus opiniones sobre los servicios de la UNAM.
+                <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+                    <div class="flex justify-between mb-4">
+                        <div>
+                            <div class="flex items-center mb-1">
+                                <div class="text-2xl font-semibold">Cuestionario de opinión sobre los Servicios de la UNAM</div>
+                                <div class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2">
+                                    @if($serviciosUnamCompleto == 1)
+                                        100%
+                                    @else
+                                        0%
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium text-gray-400">
+                                <span>Para poder contestar este cuestionario, <span class="font-bold text-blue-700">primero debes evaluar a todos tus profesores en el CAD</span>. Una vez que hayas completado todas tus evaluaciones, podrás acceder al cuestionario de opinión sobre los servicios de la UNAM.</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex items-center text-sm font-medium text-red-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="ml-2">Incompleto</span>
-                </div>
+                    @php
+                        $evaluacionesCompletas = ($completados == $totalGrupos && $totalGrupos > 0);
+                    @endphp
+                    <div class="flex items-center mt-4">
+                        @if($serviciosUnamCompleto == 1)
+                            <div class="flex items-center px-4 py-2 rounded-lg bg-green-100 border border-green-300 text-green-800 font-bold text-lg shadow">
+                                <svg class="w-7 h-7 mr-2 text-green-500 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                ¡Completado! Has contestado el cuestionario de servicios de la UNAM.
+                            </div>
+                        @else
+                            <div class="flex items-center px-4 py-2 rounded-lg bg-red-100 border border-red-300 text-red-800 font-bold text-lg shadow">
+                                <svg class="w-7 h-7 mr-2 text-red-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                Incompleto: Aún no has contestado el cuestionario de servicios de la UNAM.
+                            </div>
+                        @endif
+                    </div>
 
-                <a href="http://localhost/dashboard/report" type="button" class="w-full px-3 py-1.5 mt-4 text-base font-medium text-white flex items-center justify-center bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M21.721 12.752a9.711 9.711 0 0 0-.945-5.003 12.754 12.754 0 0 1-4.339 2.708 18.991 18.991 0 0 1-.214 4.772 17.165 17.165 0 0 0 5.498-2.477ZM14.634 15.55a17.324 17.324 0 0 0 .332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 0 0 .332 4.647 17.385 17.385 0 0 0 5.268 0ZM9.772 17.119a18.963 18.963 0 0 0 4.456 0A17.182 17.182 0 0 1 12 21.724a17.18 17.18 0 0 1-2.228-4.605ZM7.777 15.23a18.87 18.87 0 0 1-.214-4.774 12.753 12.753 0 0 1-4.34-2.708 9.711 9.711 0 0 0-.944 5.004 17.165 17.165 0 0 0 5.498 2.477ZM21.356 14.752a9.765 9.765 0 0 1-7.478 6.817 18.64 18.64 0 0 0 1.988-4.718 18.627 18.627 0 0 0 5.49-2.098ZM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 0 0 1.988 4.718 9.765 9.765 0 0 1-7.478-6.816ZM13.878 2.43a9.755 9.755 0 0 1 6.116 3.986 11.267 11.267 0 0 1-3.746 2.504 18.63 18.63 0 0 0-2.37-6.49ZM12 2.276a17.152 17.152 0 0 1 2.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0 1 12 2.276ZM10.122 2.43a18.629 18.629 0 0 0-2.37 6.49 11.266 11.266 0 0 1-3.746-2.504 9.754 9.754 0 0 1 6.116-3.985Z" />
-                    </svg>
-                    <span class="ml-2">Contestar servicios de la UNAM</span>
-                </a>
-            </div>
+                    @if($serviciosUnamCompleto != 1)
+                        <a href="https://cad.cch.unam.mx/servicios-unam"
+                            type="button"
+                            class="w-full px-3 py-1.5 mt-6 text-base font-medium text-white flex items-center justify-center {{ $evaluacionesCompletas ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 cursor-not-allowed opacity-60 pointer-events-none' }} focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            @if(!$evaluacionesCompletas) tabindex="-1" aria-disabled="true" @endif>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path d="M21.721 12.752a9.711 9.711 0 0 0-.945-5.003 12.754 12.754 0 0 1-4.339 2.708 18.991 18.991 0 0 1-.214 4.772 17.165 17.165 0 0 0 5.498-2.477ZM14.634 15.55a17.324 17.324 0 0 0 .332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 0 0 .332 4.647 17.385 17.385 0 0 0 5.268 0ZM9.772 17.119a18.963 18.963 0 0 0 4.456 0A17.182 17.182 0 0 1 12 21.724a17.18 17.18 0 0 1-2.228-4.605ZM7.777 15.23a18.87 18.87 0 0 1-.214-4.774 12.753 12.753 0 0 1-4.34-2.708 9.711 9.711 0 0 0-.944 5.004 17.165 17.165 0 0 0 5.498 2.477ZM21.356 14.752a9.765 9.765 0 0 1-7.478 6.817 18.64 18.64 0 0 0 1.988-4.718 18.627 18.627 0 0 0 5.49-2.098ZM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 0 0 1.988 4.718 9.765 9.765 0 0 1-7.478-6.816ZM13.878 2.43a9.755 9.755 0 0 1 6.116 3.986 11.267 11.267 0 0 1-3.746 2.504 18.63 18.63 0 0 0-2.37-6.49ZM12 2.276a17.152 17.152 0 0 1 2.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0 1 12 2.276ZM10.122 2.43a18.629 18.629 0 0 0-2.37 6.49 11.266 11.266 0 0 1-3.746-2.504 9.754 9.754 0 0 1 6.116-3.985Z" />
+                            </svg>
+                            <span class="ml-2">Contestar servicios de la UNAM</span>
+                        </a>
+                    @endif
+                </div>
             @endif
         </div>
     </div>
@@ -225,7 +250,7 @@
                         <div class="flex items-center p-3 bg-blue-50 rounded-lg border border-blue-100">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-3 3a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-3 flex-1">
@@ -298,14 +323,6 @@
                                         </svg>
                                     </div>
                                 </th>
-                                <th scope="col" class="group px-6 py-3 text-center">
-                                    <div class="flex items-center justify-center space-x-2">
-                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</span>
-                                        <svg class="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </th>
                                 <th scope="col" class="px-6 py-3 text-center">
                                     <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</span>
                                 </th>
@@ -342,30 +359,6 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         <div class="text-sm text-gray-900">{{ $inscripcion->grupo->seccion ?: '-' }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        @if($inscripcion->estado == 1)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                <svg class="mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
-                                                    <circle cx="4" cy="4" r="3" />
-                                                </svg>
-                                                Completado
-                                            </span>
-                                        @elseif($inscripcion->updated_at != null && $inscripcion->estado == 0)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                <svg class="mr-1.5 h-2 w-2 text-yellow-400" fill="currentColor" viewBox="0 0 8 8">
-                                                    <circle cx="4" cy="4" r="3" />
-                                                </svg>
-                                                En Proceso
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                <svg class="mr-1.5 h-2 w-2 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
-                                                    <circle cx="4" cy="4" r="3" />
-                                                </svg>
-                                                Sin Iniciar
-                                            </span>
-                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         @if(!$fueraDeRango)
@@ -449,7 +442,7 @@
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-3 3a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-3">
@@ -531,7 +524,7 @@
                 <div class="mt-3 text-center">
                     <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
                         <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L2.34 16.126c-.77 1.333.192 3 1.732 3z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                     <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">¡Advertencia!</h3>

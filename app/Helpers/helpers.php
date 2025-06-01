@@ -5,6 +5,8 @@ namespace App\Helpers;
 use App\Models\Configuracion;
 use App\Models\User;
 use App\Models\Periodo;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 if (! function_exists('compruebaEstadoInscripciones')) {
     function compruebaEstadoInscripciones($userid)
@@ -50,5 +52,25 @@ if (! function_exists('obtienePeriodoActual')) {
             return $periodo ? $periodo->clave : null;
         }
         return null;
+    }
+}
+
+if (!function_exists('verificaCuestionarioServiciosUnam')) {
+    function verificaCuestionarioServiciosUnam($numeroCuenta)
+    {
+        try {
+            $response = Http::timeout(5)->get('https://cad.cch.unam.mx/servicios-unam/consulta_completo.php', [
+                'cuenta' => $numeroCuenta
+            ]);
+            if ($response->successful()) {
+                $json = $response->json();
+                if (isset($json['completo'])) {
+                    return (int)$json['completo'];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Error al consultar servicios UNAM: ' . $e->getMessage());
+        }
+        return 0;
     }
 }

@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use function App\Helpers\compruebaEstadoInscripciones;
 use function App\Helpers\obtieneIdPeriodoActual;
 use function App\Helpers\obtienePeriodoActual;
+use function App\Helpers\verificaCuestionarioServiciosUnam;
 
 class PanelController extends Controller
 {
@@ -28,17 +29,14 @@ class PanelController extends Controller
         $usuario = auth()->user();
         $roles = $usuario->getRoleNames();
 
-        //dd($roles);
         if ($roles->contains('Admin')) {
             return view('panel.admin');
         } else {
-            // Obtener el semestre del alumno
             $periodo = obtieneIdPeriodoActual();
             $alm = new Alumno();
             $alumno = $alm->getAlumnoId($usuario->id);
             $semestre = $alm->getSemestre($alumno->id, $periodo);
 
-            // Obtener las fechas de configuración según el semestre
             if ($semestre == 6) {
                 $inicio = Configuracion::where('nombre', 'INICIO_6')->first();
                 $cierre = Configuracion::where('nombre', 'CIERRE_6')->first();
@@ -56,7 +54,19 @@ class PanelController extends Controller
             $periodoActual = obtienePeriodoActual();
             $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo);
 
-            return view('panel.index', compact('inscripciones', 'usuario', 'semestre', 'periodoActual', 'fueraDeRango', 'fechaInicio', 'fechaCierre'));
+            // Validar cuestionario de servicios UNAM
+            $serviciosUnamCompleto = verificaCuestionarioServiciosUnam($alumno->numero_cuenta);
+
+            return view('panel.index', compact(
+                'inscripciones',
+                'usuario',
+                'semestre',
+                'periodoActual',
+                'fueraDeRango',
+                'fechaInicio',
+                'fechaCierre',
+                'serviciosUnamCompleto'
+            ));
         }
     }
 
@@ -73,6 +83,13 @@ class PanelController extends Controller
             $alumno = $alm->getAlumnoId($usuario->id);
             $semestre = $alm->getSemestre($alumno->id, $periodo->id);
             $linkvalidacion = 'https://cad.cch.unam.mx/validar/' . $alumno->numero_cuenta . '-' . $periodo->clave;
+
+            // Validar cuestionario de servicios UNAM
+            $serviciosUnamCompleto = verificaCuestionarioServiciosUnam($alumno->numero_cuenta);
+            if ($serviciosUnamCompleto !== 1) {
+                return redirect()->route('dashboard')
+                    ->with('error', 'No puedes descargar el comprobante porque no has completado el Cuestionario de Opinión de los Servicios de la UNAM.');
+            }
 
             // Obtener la clave_comprobante del usuario
             $claveComprobante = $usuario->comprobanteCad ?
