@@ -86,7 +86,7 @@ class PanelController extends Controller
 
             // Validar cuestionario de servicios UNAM
             $serviciosUnamCompleto = verificaCuestionarioServiciosUnam($alumno->numero_cuenta);
-            if ($serviciosUnamCompleto !== 1) {
+            if ($semestre != 6 && $serviciosUnamCompleto !== 1) {
                 return redirect()->route('dashboard')
                     ->with('error', 'No puedes descargar el comprobante porque no has completado el Cuestionario de Opinión de los Servicios de la UNAM.');
             }
