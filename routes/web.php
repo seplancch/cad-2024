@@ -17,7 +17,10 @@ use App\Models\Profesor;
 use App\Http\Controllers\ValidacionController;
 use App\Http\Controllers\EvaluarController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\SatisfaccionEncuestaController;
 use Illuminate\Support\Facades\Route;
+use App\Models\SatisfaccionEncuesta;
+use Illuminate\Http\Request;
 
 
 /*
@@ -64,6 +67,9 @@ Route::middleware(
         // Rutas de evaluación
         Route::get('/evaluar/{id}', [EvaluarController::class, 'show'])->name('evaluar.show');
         Route::post('/evaluar/{id}', [EvaluarController::class, 'store'])->name('evaluar.store');
+
+        // Encuesta de satisfacción del sistema
+        Route::post('/encuesta-satisfaccion', [SatisfaccionEncuestaController::class, 'store']);
 
         Route::middleware(['role:Admin'])->group(
             function () {
