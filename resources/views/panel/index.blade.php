@@ -565,21 +565,28 @@
     </div>
 
     <!-- Encuesta de Satisfacción flotante -->
-    <div id="encuesta-flotante" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999;">
-        <button id="btn-abrir-encuesta" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg p-4 flex items-center focus:outline-none">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764A2.236 2.236 0 0121 12.236v5.528A2.236 2.236 0 0118.764 20H5.236A2.236 2.236 0 013 17.764v-5.528A2.236 2.236 0 015.236 10H10m4-6v6m0 0l-2-2m2 2l2-2" />
+    <div id="encuesta-flotante" class="fixed z-[9999] bottom-4 right-4 sm:bottom-6 sm:right-6">
+        <button id="btn-abrir-encuesta" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg p-3 sm:p-4 flex items-center focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
             </svg>
-            Satisfacción
         </button>
-        <div id="form-encuesta" class="hidden bg-white rounded-lg shadow-xl p-6 mt-2 w-80 border border-gray-200">
-            <div class="flex justify-between items-center mb-2">
+        <div id="form-encuesta" class="hidden bg-white fixed bottom-0 left-0 right-0 w-full rounded-t-lg shadow-2xl z-[10000] flex flex-col max-h-[80vh] sm:max-h-none sm:absolute sm:left-auto sm:bottom-full sm:mb-2 sm:w-80 sm:rounded-lg sm:p-6 sm:border sm:shadow-xl sm:z-auto">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 sm:p-0 sm:border-b-0 sm:mb-4">
                 <h3 class="text-lg font-semibold text-gray-800">Encuesta de Satisfacción</h3>
-                <button id="btn-cerrar-encuesta" class="text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+                <button id="btn-cerrar-encuesta" class="p-2 rounded-full hover:bg-gray-200 sm:hover:bg-transparent">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-            <form id="satisfaccion-form">
-                <div id="preguntas-encuesta"></div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded mt-2">Enviar</button>
+            <form id="satisfaccion-form" class="flex flex-col flex-grow overflow-hidden p-4 sm:p-0">
+                <div id="preguntas-encuesta" class="flex-grow overflow-y-auto mb-4">
+                    <!-- Las preguntas se cargarán aquí -->
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Enviar Respuestas
+                </button>
                 <div id="encuesta-msg" class="text-center text-green-600 text-sm mt-2 hidden">¡Gracias por tu opinión!</div>
             </form>
         </div>
