@@ -119,6 +119,7 @@ class PanelController extends Controller
                     'claveComprobante'
                 )
             );
+            $pdf->setPaper('letter');
             $pdf->setEncryption('', 'CAD2024', ['modify', 'copy', 'add']);
 
             $response = $pdf->download(

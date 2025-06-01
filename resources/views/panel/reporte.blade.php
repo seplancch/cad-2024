@@ -302,8 +302,10 @@
         </tr>
     </table>
 
-    <div class="text-center" style="margin: 0.1rem 0;">
-        <h4 style="margin: 0;">Cuestionario de Actividad Docente (CAD) {{$periodo->clave}}</h4>
+    <div class="text-center" style="margin: 0.7rem 0 0.7rem 0;">
+        <h1 style="margin: 0; font-size: 1.45rem; font-weight: 700; color: #2c3e50; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Times New Roman', Times, serif; border-bottom: 2.5px solid #2c3e50; display: inline-block; padding-bottom: 0.2rem;">
+            CUESTIONARIO DE ACTIVIDAD DOCENTE (CAD) {{$periodo->clave}}
+        </h1>
     </div>
 
     <div style="margin: 0.4rem 0; padding: 0.4rem 0.6rem; background-color: #f8f9fa; border-left: 3px solid #2c3e50;">
@@ -342,9 +344,13 @@
                 <td class="text-center" style="font-size: 10px;">{{ $inscripcion->grupo->seccion ?: '-' }}</td>
                 <td class="text-center">
                     @if( $inscripcion->estado )
-                        <span class="badge badge-success">Completado</span>
+                        <span style="display: inline-block; min-width: 70px; padding: 0.18em 0.7em; font-size: 11px; font-weight: 600; border-radius: 4px; background: #f4f4f4; color: #222; border: 1px solid #b0b0b0; letter-spacing: 1px; text-transform: uppercase; font-family: 'Times New Roman', Times, serif;">
+                            Completado
+                        </span>
                     @else
-                        <span class="badge badge-danger">Pendiente</span>
+                        <span style="display: inline-block; min-width: 70px; padding: 0.18em 0.7em; font-size: 11px; font-weight: 600; border-radius: 4px; background: #f4f4f4; color: #222; border: 1px solid #b0b0b0; letter-spacing: 1px; text-transform: uppercase; font-family: 'Times New Roman', Times, serif;">
+                            Pendiente
+                        </span>
                     @endif
                 </td>
             </tr>
@@ -353,9 +359,16 @@
     </table>
 
     @if($semestre != 6)
-    <div class="text-center mt-3 alert alert-info" role="alert">
-        <h5>CLAVE DE COMPROBANTE:</h5>
-        <strong>{{ $claveComprobante ?? 'No asignada' }}</strong>
+    <div class="text-center mt-3" style="margin-bottom: 1.2rem;">
+        <div style="display: inline-block; background: #fff; border: 1.5px solid #2c3e50; border-radius: 6px; padding: 0.7rem 2.2rem 0.7rem 2.2rem; box-shadow: 0 1px 6px #e0e0e0;">
+            <div style="font-size: 12px; color: #2c3e50; font-weight: bold; letter-spacing: 1px; margin-bottom: 0.2rem; text-transform: uppercase;">
+                CLAVE DE COMPROBANTE
+            </div>
+            <div style="font-size: 17px; color: #212529; font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; background: #f8f9fa; border-radius: 4px; padding: 0.25rem 1.2rem; display: inline-block; border: 1px solid #b0b0b0; margin-bottom: 0.2rem;">
+                {{ $claveComprobante ?? 'No asignada' }}
+            </div>
+            <div style="font-size: 10px; color: #495057; margin-top: 0.3rem; font-style: italic;">Conserva esta clave para cualquier trámite.</div>
+        </div>
     </div>
     @endif
 
