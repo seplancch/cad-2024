@@ -68,11 +68,15 @@ class PanelController extends Controller
         $periodo->id = obtieneIdPeriodoActual();
         $inscripciones = $usuario->inscripcion->where('periodo_id', $periodo->id);
 
-        if(compruebaEstadoInscripciones($usuario->id)->estado == 1){
+        if (compruebaEstadoInscripciones($usuario->id)->estado == 1) {
             $alm = new Alumno();
             $alumno = $alm->getAlumnoId($usuario->id);
             $semestre = $alm->getSemestre($alumno->id, $periodo->id);
-            $linkvalidacion = 'https://cad.cch.unam.mx/validar/'.$alumno->numero_cuenta.'-'.$periodo->clave;
+            $linkvalidacion = 'https://cad.cch.unam.mx/validar/' . $alumno->numero_cuenta . '-' . $periodo->clave;
+
+            // Obtener la clave_comprobante del usuario
+            $claveComprobante = $usuario->comprobanteCad ?
+                $usuario->comprobanteCad->clave_comprobante : null;
 
             $renderer = new ImageRenderer(
                 new RendererStyle(200),
@@ -86,16 +90,28 @@ class PanelController extends Controller
             $writer->writeFile($linkvalidacion, storage_path('app/' . $qrPath));
             $qrImagen = storage_path('app/' . $qrPath);
 
-            $pdf = Pdf::loadView('panel.reporte', compact('inscripciones', 'semestre', 'alumno', 'qrImagen', 'periodo', 'linkvalidacion'));
+            $pdf = Pdf::loadView(
+                'panel.reporte',
+                compact(
+                    'inscripciones',
+                    'semestre',
+                    'alumno',
+                    'qrImagen',
+                    'periodo',
+                    'linkvalidacion',
+                    'claveComprobante'
+                )
+            );
             $pdf->setEncryption('', 'CAD2024', ['modify', 'copy', 'add']);
 
-            //$response = $pdf->stream('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
-            $response = $pdf->download('comprobante_cad_' . $alumno->numero_cuenta . '.pdf');
+            $response = $pdf->download(
+                'comprobante_cad_' . $alumno->numero_cuenta . '.pdf'
+            );
             File::delete($qrImagen);
             return $response;
-            //return $pdf->download('comprobante_cad_'.$alumno->numero_cuenta.'.pdf');
-        }else{
-            return redirect()->route('dashboard')->with('error', 'No se puede generar el reporte, por favor completa todas tus inscripciones');
+        } else {
+            return redirect()->route('dashboard')
+                ->with('error', 'No se puede generar el reporte, por favor completa todas tus inscripciones');
         }
     }
 }

@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(Inscripcion::class, Alumno::class);
     }
+
+    public function comprobanteCad()
+    {
+        return $this->hasOne(ComprobanteCad::class, 'user_id');
+    }
 }

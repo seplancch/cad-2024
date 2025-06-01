@@ -354,8 +354,8 @@
 
     @if($semestre != 6)
     <div class="text-center mt-3 alert alert-info" role="alert">
-        <h5>CLAVE:</h5>
-        <strong>{{ $alumno->numero_cuenta }}</strong>
+        <h5>CLAVE DE COMPROBANTE:</h5>
+        <strong>{{ $claveComprobante ?? 'No asignada' }}</strong>
     </div>
     @endif
 
