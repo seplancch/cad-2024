@@ -120,7 +120,7 @@ class PanelController extends Controller
                 )
             );
             $pdf->setPaper('letter');
-            $pdf->setEncryption('', 'CAD2024', ['modify', 'copy', 'add']);
+            $pdf->setEncryption('', 'CAD2024', ['print']); // Permite impresión, protege contra modificaciones
 
             $response = $pdf->download(
                 'comprobante_cad_' . $alumno->numero_cuenta . '.pdf'
