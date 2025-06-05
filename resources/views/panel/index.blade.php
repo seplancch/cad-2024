@@ -421,7 +421,6 @@
                         <div class="flex-shrink-0">
                             <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.667-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                            </svg>
                         </div>
                         <div class="ml-3">
                             <h3 class="text-sm font-medium text-yellow-800">
@@ -564,4 +563,97 @@
         </div>
         @endif
     </div>
+
+    <!-- Encuesta de Satisfacción flotante -->
+    <div id="encuesta-flotante" class="fixed z-[9999] bottom-4 right-4 sm:bottom-6 sm:right-6">
+        <button id="btn-abrir-encuesta" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg p-3 sm:p-4 flex items-center focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+        </button>
+        <div id="form-encuesta" class="hidden bg-white fixed bottom-0 left-0 right-0 w-full rounded-t-lg shadow-2xl z-[10000] flex flex-col max-h-[80vh] sm:max-h-none sm:absolute sm:left-auto sm:bottom-full sm:mb-2 sm:w-80 sm:rounded-lg sm:p-6 sm:border sm:shadow-xl sm:z-auto">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 sm:p-0 sm:border-b-0 sm:mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Encuesta de Satisfacción</h3>
+                <button id="btn-cerrar-encuesta" class="p-2 rounded-full hover:bg-gray-200 sm:hover:bg-transparent">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="satisfaccion-form" class="flex flex-col flex-grow overflow-hidden p-4 sm:p-0">
+                <div id="preguntas-encuesta" class="flex-grow overflow-y-auto mb-4">
+                    <!-- Las preguntas se cargarán aquí -->
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Enviar Respuestas
+                </button>
+                <div id="encuesta-msg" class="text-center text-green-600 text-sm mt-2 hidden">¡Gracias por tu opinión!</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnAbrir = document.getElementById('btn-abrir-encuesta');
+            const btnCerrar = document.getElementById('btn-cerrar-encuesta');
+            const form = document.getElementById('form-encuesta');
+            const encuestaForm = document.getElementById('satisfaccion-form');
+            const msg = document.getElementById('encuesta-msg');
+            const preguntasDiv = document.getElementById('preguntas-encuesta');
+            let preguntas = @json(config('satisfaccion_preguntas'));
+
+            // Render dinámico de preguntas
+            preguntasDiv.innerHTML = '';
+            preguntas.forEach((pregunta, idx) => {
+                let html = `<div class='mb-4'><label class='block mb-1 text-sm font-medium text-gray-700'>${pregunta.pregunta}</label>`;
+                if (pregunta.tipo === 'radio') {
+                    html += '<div class="space-y-1">';
+                    pregunta.opciones.forEach((op, opIdx) => {
+                        html += `<label class='inline-flex items-center mr-3'><input type='radio' name='pregunta_${idx}' value='${op.valor}' class='form-radio text-blue-600' required> <span class='ml-2'>${op.texto}</span></label>`;
+                    });
+                    html += '</div>';
+                } else if (pregunta.tipo === 'textarea') {
+                    html += `<textarea name='pregunta_${idx}' rows='2' maxlength='1000' class='w-full border rounded p-2 text-sm' placeholder='Tu comentario'></textarea>`;
+                }
+                html += '</div>';
+                preguntasDiv.innerHTML += html;
+            });
+
+            btnAbrir.addEventListener('click', () => form.classList.toggle('hidden'));
+            btnCerrar.addEventListener('click', () => form.classList.add('hidden'));
+
+            encuestaForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Validación simple
+                let valid = true;
+                preguntas.forEach((pregunta, idx) => {
+                    if (pregunta.tipo === 'radio') {
+                        if (!encuestaForm[`pregunta_${idx}`].value) valid = false;
+                    }
+                });
+                if (!valid) {
+                    alert('Por favor responde todas las preguntas obligatorias.');
+                    return;
+                }
+                const data = new FormData(encuestaForm);
+                fetch('/encuesta-satisfaccion', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                    body: data
+                })
+                .then(r => r.json())
+                .then(() => {
+                    msg.classList.remove('hidden');
+                    encuestaForm.reset();
+                    setTimeout(() => {
+                        msg.classList.add('hidden');
+                        form.classList.add('hidden');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
 </x-app-layout>
