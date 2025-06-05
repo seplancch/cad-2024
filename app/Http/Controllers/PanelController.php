@@ -29,8 +29,15 @@ class PanelController extends Controller
         $usuario = auth()->user();
         $roles = $usuario->getRoleNames();
 
+        // Si el usuario es profesor por columna tipo
+        if ($usuario->tipo === 'P') {
+            return view('panel.profesor');
+        }
         if ($roles->contains('Admin')) {
             return view('panel.admin');
+        } elseif ($roles->contains('Profesor')) {
+            // Redirigir a panel de profesor con Livewire
+            return view('panel.profesor');
         } else {
             $periodo = obtieneIdPeriodoActual();
             $alm = new Alumno();
@@ -106,6 +113,7 @@ class PanelController extends Controller
             Storage::makeDirectory('public/qr');
             $writer->writeFile($linkvalidacion, storage_path('app/' . $qrPath));
             $qrImagen = storage_path('app/' . $qrPath);
+            $qrImagenPublic = asset('storage/qr/' . $qrFileName); // Ruta accesible para DomPDF
 
             $pdf = Pdf::loadView(
                 'panel.reporte',
@@ -113,7 +121,7 @@ class PanelController extends Controller
                     'inscripciones',
                     'semestre',
                     'alumno',
-                    'qrImagen',
+                    'qrImagenPublic', // Usar esta variable en la vista
                     'periodo',
                     'linkvalidacion',
                     'claveComprobante'
@@ -125,7 +133,7 @@ class PanelController extends Controller
             $response = $pdf->download(
                 'comprobante_cad_' . $alumno->numero_cuenta . '.pdf'
             );
-            File::delete($qrImagen);
+            File::delete($qrImagen); // Eliminar después de enviar el PDF
             return $response;
         } else {
             return redirect()->route('dashboard')

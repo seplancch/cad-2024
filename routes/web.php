@@ -103,6 +103,11 @@ Route::middleware(
     }
 );
 
+// Login especial para profesores
+Route::get('/login-profesor', function() {
+    return view('auth.login-profesor');
+})->name('login.profesor');
+
 
 
 
