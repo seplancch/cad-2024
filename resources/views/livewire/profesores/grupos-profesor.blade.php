@@ -28,7 +28,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <a href="{{ route('profesor.promedios', ['grupo' => $grupo->id]) }}" class="text-blue-600 hover:text-blue-800">Ver Detalles</a>
-                            <button class="ml-4 text-blue-600 hover:text-blue-800" wire:click="showPieChart({{ $grupo->id }})">Ver Gráficos</button>
+                            <a href="{{ route('profesor.graficos', ['grupo' => $grupo->id]) }}" class="ml-4 text-blue-600 hover:text-blue-800">Ver Gráficos</a>
                         </td>
                     </tr>
                 @empty

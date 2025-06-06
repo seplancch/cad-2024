@@ -9,6 +9,7 @@ use function App\Helpers\obtieneIdPeriodoActual;
 use App\Models\Rubro;
 use App\Models\Resultado;
 use function App\Helpers\convertLikertTo1To10;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Componente Livewire para gestionar los grupos asignados a un profesor.
@@ -111,5 +112,59 @@ class GruposProfesor extends Component
             $this->sortField = $field;
             $this->sortDirection = 'asc';
         }
+    }
+
+    /**
+     * Muestra el gráfico de pastel para las respuestas de las preguntas de un grupo.
+     *
+     * @param int $grupoId ID del grupo
+     *
+     * @return void
+     */
+    public function showPieChart($grupoId)
+    {
+        $grupo = Grupo::find($grupoId);
+        $rubros = Rubro::with('preguntas')->get();
+        $chartData = [];
+
+        foreach ($rubros as $rubro) {
+            foreach ($rubro->preguntas as $pregunta) {
+                $respuestas = Resultado::whereHas(
+                    'inscripcion',
+                    function ($q) use ($grupo) {
+                        $q->where('grupo_id', $grupo->id);
+                    }
+                )
+                ->where('resultados.pregunta_id', $pregunta->id)
+                ->join(
+                    'respuestas',
+                    'resultados.respuesta_id',
+                    '=',
+                    'respuestas.id'
+                )
+                ->select(
+                    'respuestas.respuesta',
+                    DB::raw('count(*) as total')
+                )
+                ->groupBy('respuestas.respuesta')
+                ->get();
+
+                $chartData[$pregunta->id] = $respuestas->map(
+                    function ($respuesta) {
+                        return [
+                            'label' => $respuesta->respuesta,
+                            'value' => $respuesta->total,
+                        ];
+                    }
+                );
+            }
+        }
+
+        return view(
+            'livewire.profesores.graficos-preguntas',
+            [
+                'chartData' => $chartData
+            ]
+        );
     }
 }

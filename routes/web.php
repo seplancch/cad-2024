@@ -112,6 +112,11 @@ Route::get('/profesor/promedios/{grupo}', function ($grupo) {
     return view('panel.profesor-promedios', ['grupoId' => $grupo]);
 })->name('profesor.promedios');
 
+Route::get(
+    '/profesor/graficos/{grupo}',
+    [\App\Livewire\GruposProfesor::class, 'showPieChart']
+)->name('profesor.graficos');
+
 
 
 
