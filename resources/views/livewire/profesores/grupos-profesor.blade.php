@@ -1,13 +1,5 @@
 <div class="p-6">
     <h2 class="text-2xl font-bold mb-6 text-blue-700">Mis Grupos Asignados</h2>
-    <div class="mb-4 flex justify-between items-center">
-        <input type="text" wire:model.live="search" class="w-1/2 px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" placeholder="Buscar grupo o sección...">
-        <select wire:model.live="perPage" class="ml-4 px-2 py-1 border rounded">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-        </select>
-    </div>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -18,6 +10,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asignatura</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plantel</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periodo</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Promedio General</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -29,14 +22,35 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->asignatura->nombre ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->plantel->nombre ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->periodo->nombre ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-800 font-bold">
+                            @php
+                                $suma = 0;
+                                $cuenta = 0;
+                                $rubros = App\Models\Rubro::with('preguntas')->get();
+                                foreach($rubros as $rubro) {
+                                    foreach($rubro->preguntas as $pregunta) {
+                                        $query = App\Models\Resultado::whereHas('inscripcion', function($q) use ($grupo) {
+                                            $q->where('grupo_id', $grupo->id);
+                                        })
+                                        ->where('resultados.pregunta_id', $pregunta->id)
+                                        ->join('respuestas', 'resultados.respuesta_id', '=', 'respuestas.id');
+                                        $prom = $query->avg('respuestas.puntos');
+                                        if($prom !== null) {
+                                            $suma += $prom;
+                                            $cuenta++;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            {{ $cuenta > 0 ? number_format($suma / $cuenta, 2) : '-' }}
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No tienes grupos asignados en este periodo.</td>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">No tienes grupos asignados en este periodo.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
-        <div class="mt-4">{{ $grupos->links() }}</div>
     </div>
 </div>
