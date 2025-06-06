@@ -24,26 +24,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->plantel->nombre ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->periodo->nombre ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-800 font-bold">
-                            @php
-                                $suma = 0;
-                                $cuenta = 0;
-                                $rubros = App\Models\Rubro::with('preguntas')->get();
-                                foreach($rubros as $rubro) {
-                                    foreach($rubro->preguntas as $pregunta) {
-                                        $query = App\Models\Resultado::whereHas('inscripcion', function($q) use ($grupo) {
-                                            $q->where('grupo_id', $grupo->id);
-                                        })
-                                        ->where('resultados.pregunta_id', $pregunta->id)
-                                        ->join('respuestas', 'resultados.respuesta_id', '=', 'respuestas.id');
-                                        $prom = $query->avg('respuestas.puntos');
-                                        if($prom !== null) {
-                                            $suma += $prom;
-                                            $cuenta++;
-                                        }
-                                    }
-                                }
-                            @endphp
-                            {{ $cuenta > 0 ? number_format($suma / $cuenta, 2) : '-' }}
+                            {{ $grupo->promedio_general ?? '-' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <a href="{{ route('profesor.promedios', ['grupo' => $grupo->id]) }}" class="text-blue-600 hover:text-blue-800">Ver Detalles</a>

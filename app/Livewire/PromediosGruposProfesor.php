@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use function App\Helpers\obtieneIdPeriodoActual;
+use function App\Helpers\convertLikertTo1To10;
 
 class PromediosGruposProfesor extends Component
 {
@@ -49,13 +50,26 @@ class PromediosGruposProfesor extends Component
         foreach ($this->grupos as $grupo) {
             foreach ($this->rubros as $rubro) {
                 foreach ($rubro->preguntas as $pregunta) {
-                    $query = Resultado::whereHas('inscripcion', function($q) use ($grupo) {
-                        $q->where('grupo_id', $grupo->id);
-                    })
+                    $query = Resultado::whereHas(
+                        'inscripcion',
+                        function ($q) use ($grupo) {
+                            $q->where('grupo_id', $grupo->id);
+                        }
+                    )
                     ->where('resultados.pregunta_id', $pregunta->id)
-                    ->join('respuestas', 'resultados.respuesta_id', '=', 'respuestas.id');
+                    ->join(
+                        'respuestas',
+                        'resultados.respuesta_id',
+                        '=',
+                        'respuestas.id'
+                    );
 
-                    $promedio = $query->avg('respuestas.puntos');
+                    $promedio = $query->pluck('respuestas.puntos')->map(
+                        function ($punto) {
+                            return convertLikertTo1To10($punto);
+                        }
+                    )->avg();
+
                     $this->promedios[$grupo->id][$rubro->id][$pregunta->id] = $promedio;
                 }
             }
