@@ -15,8 +15,8 @@
         <form method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
             <div>
-                <label for="email" class="block text-gray-700 font-semibold mb-1">Correo electrónico</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition" placeholder="usuario@cch.unam.mx">
+                <label for="username" class="block text-gray-700 font-semibold mb-1">Usuario</label>
+                <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus class="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition" placeholder="Usuario o RFC">
             </div>
             <div>
                 <label for="password" class="block text-gray-700 font-semibold mb-1">Contraseña</label>
