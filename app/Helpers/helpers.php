@@ -74,3 +74,35 @@ if (!function_exists('verificaCuestionarioServiciosUnam')) {
         return 0;
     }
 }
+
+
+if (!function_exists('convertLikertTo1To10')) {
+    /**
+     * Convierte un valor de escala Likert de 1-5 a una escala de 1-10.
+     *
+     * @param float|int $likertValue Valor en la escala original de 1 a 5.
+     * @return float Valor convertido en la escala de 1 a 10.
+     */
+    function convertLikertTo1To10(float|int $likertValue): float {
+        // Definir los rangos de las escalas
+        $originalMin = 1;
+        $originalMax = 5;
+        $newMin = 1;
+        $newMax = 10;
+
+        // Asegurar que el valor de entrada esté dentro del rango esperado.
+        // Si está fuera de rango, se devuelve el valor más cercano en la nueva escala.
+        if ($likertValue < $originalMin) {
+            return (float)$newMin;
+        }
+        if ($likertValue > $originalMax) {
+            return (float)$newMax;
+        }
+
+        // Aplicar la fórmula de transformación lineal:
+        // Valor_nuevo = ((Valor_original - Min_original) / (Max_original - Min_original)) * (Max_nuevo - Min_nuevo) + Min_nuevo
+        $convertedValue = (($likertValue - $originalMin) / ($originalMax - $originalMin)) * ($newMax - $newMin) + $newMin;
+
+        return $convertedValue;
+    }
+}
