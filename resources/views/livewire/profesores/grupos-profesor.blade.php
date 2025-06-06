@@ -22,12 +22,13 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->seccion }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->asignatura->nombre ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->plantel->nombre ?? '-' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->periodo->nombre ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $grupo->periodo->clave ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-800 font-bold">
                             {{ $grupo->promedio_general ?? '-' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <a href="{{ route('profesor.promedios', ['grupo' => $grupo->id]) }}" class="text-blue-600 hover:text-blue-800">Ver Detalles</a>
+                            <button class="ml-4 text-blue-600 hover:text-blue-800" wire:click="showPieChart({{ $grupo->id }})">Ver Gráficos</button>
                         </td>
                     </tr>
                 @empty
