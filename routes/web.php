@@ -108,6 +108,10 @@ Route::get('/login-profesor', function() {
     return view('auth.login-profesor');
 })->name('login.profesor');
 
+Route::get('/profesor/promedios/{grupo}', function ($grupo) {
+    return view('panel.profesor-promedios', ['grupoId' => $grupo]);
+})->name('profesor.promedios');
+
 
 
 

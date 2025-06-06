@@ -19,11 +19,14 @@ class PromediosGruposProfesor extends Component
     public $rubros;
     public $promedios = [];
     public $grupoSeleccionado = '';
+    public $grupoId;
 
     protected $listeners = ['grupoSeleccionado' => 'setGrupoSeleccionado'];
 
-    public function mount()
+    public function mount($grupoId = null)
     {
+        $this->grupoId = $grupoId;
+        Log::info('PromediosGruposProfesor: mount() llamado.', ['grupoId' => $grupoId]);
         $this->periodo_id = obtieneIdPeriodoActual();
         $profesor = Auth::user()->profesor;
         $this->grupos = Grupo::where('profesor_id', $profesor->id)
@@ -31,11 +34,14 @@ class PromediosGruposProfesor extends Component
             ->get();
         $this->rubros = Rubro::with('preguntas')->get();
         $this->calcularPromedios();
+        Log::info('PromediosGruposProfesor: mount() completado.', ['initial_grupoSeleccionado' => $this->grupoSeleccionado]);
     }
 
     public function updatedGrupoSeleccionado()
     {
-        // No es necesario recalcular promedios, solo cambia la vista
+        // No es necesario recalcular promedios aquí si setGrupoSeleccionado lo maneja
+        // y el render se encarga de la lógica de visualización.
+        // Log::info('PromediosGruposProfesor: updatedGrupoSeleccionado HOOK.', ['valor' => $this->grupoSeleccionado]);
     }
 
     public function calcularPromedios()
@@ -58,28 +64,28 @@ class PromediosGruposProfesor extends Component
 
     public function setGrupoSeleccionado($grupoId)
     {
+        Log::info('PromediosGruposProfesor: setGrupoSeleccionado ANTES.', ['current_grupoSeleccionado' => $this->grupoSeleccionado, 'new_grupoId_received' => $grupoId]);
         $this->grupoSeleccionado = $grupoId;
+        Log::info('PromediosGruposProfesor: setGrupoSeleccionado DESPUÉS.', ['updated_grupoSeleccionado' => $this->grupoSeleccionado]);
     }
 
     public function render()
     {
-        Log::info('grupoSeleccionado', ['valor' => $this->grupoSeleccionado]);
+        Log::info('PromediosGruposProfesor: render() llamado.', ['grupoId' => $this->grupoId]);
         $gruposMostrar = collect();
-        if ($this->grupoSeleccionado === 'all') {
-            $gruposMostrar = $this->grupos;
-        } elseif ($this->grupoSeleccionado) {
-            $grupoId = (int)$this->grupoSeleccionado;
+        if ($this->grupoId) {
+            $grupoId = (int)$this->grupoId;
             $gruposMostrar = $this->grupos->filter(function ($g) use ($grupoId) {
-                return (string)$g->id === (string)$grupoId;
+                return $g->id === $grupoId;
             })->values();
         }
-        Log::info('gruposMostrar', ['ids' => $gruposMostrar->pluck('id')->all()]);
+
+        Log::info('PromediosGruposProfesor: render() - gruposMostrar count.', ['count' => $gruposMostrar->count(), 'ids' => $gruposMostrar->pluck('id')->all()]);
+        Log::info('PromediosGruposProfesor: render() - gruposMostrar contenido.', ['gruposMostrar' => $gruposMostrar->toArray()]);
         return view('livewire.profesores.promedios-grupos-profesor', [
             'grupos' => $gruposMostrar,
             'rubros' => $this->rubros,
             'promedios' => $this->promedios,
-            'grupoSeleccionado' => $this->grupoSeleccionado,
-            'gruposSelector' => $this->grupos,
         ]);
     }
 }

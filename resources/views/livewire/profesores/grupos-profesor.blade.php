@@ -11,6 +11,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plantel</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periodo</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Promedio General</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detalles</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -44,10 +45,13 @@
                             @endphp
                             {{ $cuenta > 0 ? number_format($suma / $cuenta, 2) : '-' }}
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <a href="{{ route('profesor.promedios', ['grupo' => $grupo->id]) }}" class="text-blue-600 hover:text-blue-800">Ver Detalles</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">No tienes grupos asignados en este periodo.</td>
+                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">No tienes grupos asignados en este periodo.</td>
                     </tr>
                 @endforelse
             </tbody>
