@@ -70,7 +70,11 @@ class PromediosGruposProfesor extends Component
                         }
                     )->avg();
 
-                    $this->promedios[$grupo->id][$rubro->id][$pregunta->id] = $promedio;
+                    $roundedPromedio = $promedio !== null
+                        ? number_format($promedio, 1)
+                        : null;
+
+                    $this->promedios[$grupo->id][$rubro->id][$pregunta->id] = $roundedPromedio;
                 }
             }
         }

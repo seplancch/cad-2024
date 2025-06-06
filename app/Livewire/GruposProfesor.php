@@ -85,7 +85,7 @@ class GruposProfesor extends Component
                 }
             }
             $grupo->promedio_general = $cuenta > 0
-                ? number_format($suma / $cuenta, 2)
+                ? number_format($suma / $cuenta, 1)
                 : '-';
         }
 
@@ -149,21 +149,26 @@ class GruposProfesor extends Component
                 ->groupBy('respuestas.respuesta')
                 ->get();
 
-                $chartData[$pregunta->id] = $respuestas->map(
-                    function ($respuesta) {
-                        return [
-                            'label' => $respuesta->respuesta,
-                            'value' => $respuesta->total,
-                        ];
-                    }
-                );
+                $chartData[$pregunta->id] = [
+                    'titulo' => $pregunta->titulo,
+                    'respuestas' => $respuestas->map(
+                        function ($respuesta) {
+                            return [
+                                'label' => $respuesta->respuesta,
+                                'value' => $respuesta->total,
+                            ];
+                        }
+                    )
+                ];
             }
         }
 
         return view(
             'livewire.profesores.graficos-preguntas',
             [
-                'chartData' => $chartData
+                'chartData' => $chartData,
+                'grupo' => $grupo,
+                'asignatura' => $grupo->asignatura->nombre ?? 'Sin asignatura'
             ]
         );
     }

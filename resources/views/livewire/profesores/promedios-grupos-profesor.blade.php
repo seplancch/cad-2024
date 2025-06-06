@@ -34,7 +34,7 @@
                                                     $prom = $promedios[$grupoSel->id][$rubro->id][$pregunta->id] ?? null;
                                                 @endphp
                                                 @if($prom !== null)
-                                                    {{ number_format($prom, 2) }}
+                                                    {{ round($prom, 1) }}
                                                 @else
                                                     <span class="text-gray-400">-</span>
                                                 @endif
