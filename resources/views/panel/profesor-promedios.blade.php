@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex flex-col justify-center items-center">
-    <div class="w-full max-w-7xl p-8 bg-white rounded shadow-md mt-10">
+<div class="min-h-screen flex flex-col justify-center items-center py-10">
+    <div class="w-full max-w-7xl p-8 bg-white rounded shadow-md">
+        <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800 font-semibold mb-4 inline-block">&larr; Regresar al Dashboard</a>
         <h2 class="text-2xl font-bold text-center text-green-700 mb-6">Promedios del Grupo</h2>
         <livewire:promedios-grupos-profesor :grupoId="$grupoId" />
     </div>
