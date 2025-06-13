@@ -106,3 +106,28 @@ if (!function_exists('convertLikertTo1To10')) {
         return $convertedValue;
     }
 }
+
+if (!function_exists('nivel_de_desempeno')) {
+    /**
+     * Determina el nivel de desempeño basado en la escala CAD.
+     *
+     * @param float $calificacion
+     * @return string
+     */
+    function nivel_de_desempeno(float $calificacion): string
+    {
+        if ($calificacion >= 0 && $calificacion <= 6.0) {
+            return 'Insatisfactorio';
+        } elseif ($calificacion > 6.0 && $calificacion <= 7.0) {
+            return 'Satisfactorio bajo';
+        } elseif ($calificacion > 7.0 && $calificacion <= 8.0) {
+            return 'Satisfactorio';
+        } elseif ($calificacion > 8.0 && $calificacion <= 9.0) {
+            return 'Satisfactorio alto';
+        } elseif ($calificacion > 9.0 && $calificacion <= 10.0) {
+            return 'Sobresaliente';
+        } else {
+            return 'Calificación fuera de rango';
+        }
+    }
+}
