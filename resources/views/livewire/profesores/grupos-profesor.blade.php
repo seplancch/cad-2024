@@ -1,5 +1,6 @@
 <div class="p-6">
     <h2 class="text-2xl font-bold mb-6 text-blue-700">Mis Grupos Asignados</h2>
+    <h3 class="text-lg font-semibold mb-4 text-gray-700">Profesor: {{ Auth::user()->name }}</h3>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">

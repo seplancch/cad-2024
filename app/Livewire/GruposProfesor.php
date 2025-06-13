@@ -36,24 +36,19 @@ class GruposProfesor extends Component
     }
 
     /**
-     * Renderiza la vista del componente.
+     * Calculate the general average for a group excluding 'Autoevaluación del estudiante'.
      *
-     * @return \Illuminate\View\View
+     * @param \App\Models\Grupo $grupo The group to calculate the average for.
+     *
+     * @return string The calculated average or '-' if no valid data.
      */
-    public function render()
+    private function calcularPromedioGeneral($grupo)
     {
-        $profesor = Auth::user()->profesor;
-        $grupos = Grupo::with(['asignatura', 'plantel', 'periodo'])
-            ->where('profesor_id', $profesor->id)
-            ->where('periodo_id', $this->periodoId)
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->get();
-
-        foreach ($grupos as $grupo) {
-            $suma = 0;
-            $cuenta = 0;
-            $rubros = Rubro::with('preguntas')->get();
-            foreach ($rubros as $rubro) {
+        $suma = 0;
+        $cuenta = 0;
+        $rubros = Rubro::with('preguntas')->get();
+        foreach ($rubros as $rubro) {
+            if ($rubro->titulo !== 'Autoevaluación del estudiante') {
                 foreach ($rubro->preguntas as $pregunta) {
                     $query = Resultado::whereHas(
                         'inscripcion',
@@ -84,15 +79,36 @@ class GruposProfesor extends Component
                     }
                 }
             }
-            $grupo->promedio_general = $cuenta > 0
-                ? number_format($suma / $cuenta, 1)
-                : '-';
+        }
+        return $cuenta > 0 ? number_format($suma / $cuenta, 1) : '-';
+    }
+
+    /**
+     * Render the view for the assigned groups.
+     *
+     * @return \Illuminate\View\View The rendered view.
+     */
+    public function render()
+    {
+        $profesor = Auth::user()->profesor;
+        $grupos = Grupo::with([
+            'asignatura',
+            'plantel',
+            'periodo',
+        ])
+        ->where('profesor_id', $profesor->id)
+        ->where('periodo_id', $this->periodoId)
+        ->orderBy($this->sortField, $this->sortDirection)
+        ->get();
+
+        foreach ($grupos as $grupo) {
+            $grupo->promedio_general = $this->calcularPromedioGeneral($grupo);
         }
 
         return view(
             'livewire.profesores.grupos-profesor',
             [
-                'grupos' => $grupos
+                'grupos' => $grupos,
             ]
         );
     }
