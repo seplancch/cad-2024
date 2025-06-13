@@ -117,6 +117,11 @@ Route::get(
     [\App\Livewire\GruposProfesor::class, 'showPieChart']
 )->name('profesor.graficos');
 
+Route::get(
+    '/profesor/comprobante/pdf',
+    [ProfesorController::class, 'generarComprobantePDF']
+)->name('profesor.comprobante.pdf');
+
 
 
 

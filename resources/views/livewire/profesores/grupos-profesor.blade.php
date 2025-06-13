@@ -1,6 +1,15 @@
 <div class="p-6">
     <h2 class="text-2xl font-bold mb-6 text-blue-700">Mis Grupos Asignados</h2>
     <h3 class="text-lg font-semibold mb-4 text-gray-700">Profesor: {{ Auth::user()->name }}</h3>
+    <div class="mb-4">
+        <a href="{{ route('profesor.comprobante.pdf') }}" class="inline-flex items-center text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 2v6h6" />
+            </svg>
+            Descargar Comprobante PDF
+        </a>
+    </div>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
