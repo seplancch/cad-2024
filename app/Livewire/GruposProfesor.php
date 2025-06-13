@@ -9,6 +9,8 @@ use function App\Helpers\obtieneIdPeriodoActual;
 use App\Models\Rubro;
 use App\Models\Resultado;
 use function App\Helpers\convertLikertTo1To10;
+use function App\Helpers\nivel_de_desempeno;
+
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -154,16 +156,36 @@ class GruposProfesor extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->get();
 
+        $totalPromedio = 0;
+        $totalGrupos = 0;
+
         foreach ($grupos as $grupo) {
-            $grupo->promedio_general = $this->calcularPromedioGeneral($grupo);
+            $grupo->promedio_general    = $this->calcularPromedioGeneral($grupo);
             $grupo->promedios_por_rubro = $this->calcularPromedioPorRubro($grupo);
+            $grupo->nivel_de_desempeno  = nivel_de_desempeno(
+                $grupo->promedio_general
+            );
+            $grupo->inscripciones_count = $grupo->inscripciones->count();
+
+            if (is_numeric($grupo->promedio_general)) {
+                $totalPromedio += $grupo->promedio_general;
+                $totalGrupos++;
+            }
         }
 
+        $promedioGlobal = $totalGrupos > 0
+            ? number_format($totalPromedio / $totalGrupos, 1)
+            : '-';
+        $nivelGlobal = $totalGrupos > 0
+            ? nivel_de_desempeno($promedioGlobal)
+            : 'N/A';
 
         return view(
             'livewire.profesores.grupos-profesor',
             [
                 'grupos' => $grupos,
+                'promedioGlobal' => $promedioGlobal,
+                'nivelGlobal' => $nivelGlobal,
             ]
         );
     }
