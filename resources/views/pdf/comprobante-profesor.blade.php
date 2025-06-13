@@ -26,17 +26,27 @@
         .details p {
             margin: 5px 0;
         }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
+        .groups {
+            margin-top: 20px;
         }
-        .table th, .table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        .group {
+            margin-bottom: 20px;
         }
-        .table th {
-            background-color: #f4f4f4;
+        .group h2 {
+            margin: 0 0 10px 0;
+        }
+        .rubros {
+            margin-top: 10px;
+        }
+        .rubros h3 {
+            margin: 0 0 5px 0;
+        }
+        .rubros ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .rubros li {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -50,24 +60,25 @@
             <p><strong>Nombre:</strong> {{ $nombre }}</p>
             <p><strong>Email:</strong> {{ $email }}</p>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre del Grupo</th>
-                    <th>Sección</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($grupos as $grupo)
-                    <tr>
-                        <td>{{ $grupo->id }}</td>
-                        <td>{{ $grupo->nombre }}</td>
-                        <td>{{ $grupo->seccion }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="groups">
+            @foreach ($grupos as $grupo)
+                <div class="group">
+                    <h2>Grupo: {{ $grupo->nombre }} (Sección: {{ $grupo->seccion }})</h2>
+                    <p><strong>Promedio General:</strong> {{ $grupo->promedio_general ?? '-' }}</p>
+                    <div class="rubros">
+                        <h3>Promedios por Rubro:</h3>
+                        <ul>
+                            @foreach ($grupo->rubros as $rubro)
+                                <li>
+                                    <strong>{{ $rubro->titulo }}:</strong> {{ $rubro->promedio ?? '-' }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            @endforeach
+        </div>
     </div>
 </body>
 </html>

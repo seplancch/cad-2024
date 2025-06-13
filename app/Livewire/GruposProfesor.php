@@ -48,7 +48,7 @@ class GruposProfesor extends Component
         $cuenta = 0;
         $rubros = Rubro::with('preguntas')->get();
         foreach ($rubros as $rubro) {
-            if ($rubro->titulo !== 'Autoevaluación del estudiante') {
+            if ($rubro->titulo !== 'Autoevaluación del estudiante.') {
                 foreach ($rubro->preguntas as $pregunta) {
                     $query = Resultado::whereHas(
                         'inscripcion',
@@ -56,13 +56,13 @@ class GruposProfesor extends Component
                             $q->where('grupo_id', $grupo->id);
                         }
                     )
-                    ->where('resultados.pregunta_id', $pregunta->id)
-                    ->join(
-                        'respuestas',
-                        'resultados.respuesta_id',
-                        '=',
-                        'respuestas.id'
-                    );
+                        ->where('resultados.pregunta_id', $pregunta->id)
+                        ->join(
+                            'respuestas',
+                            'resultados.respuesta_id',
+                            '=',
+                            'respuestas.id'
+                        );
 
                     $prom = $query
                         ->pluck('respuestas.puntos')
@@ -84,6 +84,59 @@ class GruposProfesor extends Component
     }
 
     /**
+     * Calculate the average by rubro for a group.
+     *
+     * @param \App\Models\Grupo $grupo The group to calculate the average for.
+     *
+     * @return array The calculated averages by rubro.
+     */
+    private function calcularPromedioPorRubro($grupo)
+    {
+        $promediosPorRubro = collect();
+        $rubros = Rubro::with('preguntas')->get();
+
+        foreach ($rubros as $rubro) {
+            $suma = 0;
+            $cuenta = 0;
+
+            foreach ($rubro->preguntas as $pregunta) {
+                $query = Resultado::whereHas(
+                    'inscripcion',
+                    function ($q) use ($grupo) {
+                        $q->where('grupo_id', $grupo->id);
+                    }
+                )
+                    ->where('resultados.pregunta_id', $pregunta->id)
+                    ->join(
+                        'respuestas',
+                        'resultados.respuesta_id',
+                        '=',
+                        'respuestas.id'
+                    );
+
+                $prom = $query
+                    ->pluck('respuestas.puntos')
+                    ->map(function ($punto) {
+                        return convertLikertTo1To10($punto);
+                    })
+                    ->avg();
+
+                if ($prom !== null) {
+                    $suma += $prom;
+                    $cuenta++;
+                }
+            }
+
+            $promediosPorRubro->push((object) [
+                'titulo' => $rubro->titulo,
+                'promedio' => $cuenta > 0 ? number_format($suma / $cuenta, 1) : '-',
+            ]);
+        }
+
+        return $promediosPorRubro;
+    }
+
+    /**
      * Render the view for the assigned groups.
      *
      * @return \Illuminate\View\View The rendered view.
@@ -96,14 +149,16 @@ class GruposProfesor extends Component
             'plantel',
             'periodo',
         ])
-        ->where('profesor_id', $profesor->id)
-        ->where('periodo_id', $this->periodoId)
-        ->orderBy($this->sortField, $this->sortDirection)
-        ->get();
+            ->where('profesor_id', $profesor->id)
+            ->where('periodo_id', $this->periodoId)
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->get();
 
         foreach ($grupos as $grupo) {
             $grupo->promedio_general = $this->calcularPromedioGeneral($grupo);
+            $grupo->promedios_por_rubro = $this->calcularPromedioPorRubro($grupo);
         }
+
 
         return view(
             'livewire.profesores.grupos-profesor',
@@ -151,19 +206,19 @@ class GruposProfesor extends Component
                         $q->where('grupo_id', $grupo->id);
                     }
                 )
-                ->where('resultados.pregunta_id', $pregunta->id)
-                ->join(
-                    'respuestas',
-                    'resultados.respuesta_id',
-                    '=',
-                    'respuestas.id'
-                )
-                ->select(
-                    'respuestas.respuesta',
-                    DB::raw('count(*) as total')
-                )
-                ->groupBy('respuestas.respuesta')
-                ->get();
+                    ->where('resultados.pregunta_id', $pregunta->id)
+                    ->join(
+                        'respuestas',
+                        'resultados.respuesta_id',
+                        '=',
+                        'respuestas.id'
+                    )
+                    ->select(
+                        'respuestas.respuesta',
+                        DB::raw('count(*) as total')
+                    )
+                    ->groupBy('respuestas.respuesta')
+                    ->get();
 
                 $chartData[$pregunta->id] = [
                     'titulo' => $pregunta->titulo,
